@@ -1,0 +1,122 @@
+---
+title: "R Package Development for Research"
+subtitle: "_An Introduction_"  
+author: 
+  - "Valentin Lucet"
+date: '`r Sys.Date()`'
+output:
+  xaringan::moon_reader:
+    css: xaringan-themer.css
+    nature:
+      slideNumberFormat: "%current%"
+      highlightStyle: github
+      highlightLines: true
+      ratio: 4:3
+      countIncrementalSlides: true
+---
+
+```{r setup, include=FALSE}
+options(htmltools.dir.version = FALSE)
+knitr::opts_chunk$set(
+  fig.width=9, fig.height=3.5, fig.retina=3,
+  out.width = "100%",
+  cache = FALSE,
+  echo = TRUE,
+  message = FALSE, 
+  warning = FALSE,
+  fig.show = TRUE,
+  hiline = TRUE
+)
+```
+
+```{r xaringan-themer, include=FALSE, warning=FALSE}
+library(xaringanthemer)
+style_mono_accent(
+  base_color = "#1c5253",
+  header_font_google = google_font("Josefin Sans"),
+  text_font_google   = google_font("Montserrat", "300", "300i"),
+  code_font_google   = google_font("Fira Mono"),
+  title_slide_background_image = "images/title_slide_background.jpeg",
+  text_font_size = "1.1em"
+)
+```
+
+```{r xaringanExtra-allextras, include=FALSE, warning=FALSE, echo=FALSE}
+xaringanExtra::use_tile_view()
+xaringanExtra::use_share_again()
+xaringanExtra::use_broadcast()
+xaringanExtra::use_scribble()
+xaringanExtra::use_animate_css()
+xaringanExtra::use_animate_all("fade")
+xaringanExtra::use_panelset()
+xaringanExtra::use_clipboard()
+xaringanExtra::use_fit_screen()
+xaringanExtra::use_webcam()
+```
+
+name: self-intro
+
+---
+name: plan 1
+## Workshop plan (until ~ 10:30)
+
+<!-- 9:30 - 9:35 : let people trickle in -->
+<!-- 9:35 - 9:40 : personnal introduction -->
+
+1. __Reseach software in Eco-Evo__ (__~ 10 minutes__) <!-- 9:40 - 9:50 -->
+  * What is research software?
+  * To Package or not to Package: what are the alternatives?
+    
+3. __Design patterns: the "tooling" vs "workflow" paradigms__ (__~ 10 minutes__) <!-- 9:50 - 10:00 -->
+  * General vs workflow oriented packaging.
+  * Object-oriented designs and functionnal programming.
+  
+4. __From "spagetthi code" to "packaged" code__ (__~ 20 minutes__) <!-- 10:00 - 10:20 -->
+  * Tips and tricks to modularize your research code.
+  
+(_Break: 10 minutes_) <!-- 10:20 - 10:30 -->
+
+---
+name: plan 2
+## Workshop plan (10:30 - 12:30)
+
+5. __Your personnal assistants: `usethis` and `devtools`__ (__~ 50 minutes__) <!-- 10:30 - 11:20 -->
+  * Let's create an example package step by step.
+  *(__Break: 10 minutes__) <!-- 11:20 - 11:30 -->
+6. __Package testing and maintenance: best practices__ (__~ 50 minutes__) <!-- 11:30 - 12:20 -->
+  * How to test, maintain, and distribute your package.
+
+__Q & A__: __~ 10 minutes__ (or on the conference app at any time) 
+
+![XKCD comic. Two characters. Character 1 says what they are trying to do on the computer shouldn't be too hard. Character 2 says that computers are just "organized sand" and that everything is hard untol someone makes it easy". Character 2 decides to turns the computer back to sand and character 2 says they'll get a blowtorch! ](https://imgs.xkcd.com/comics/shouldnt_be_hard.png)
+
+---
+
+# Big Topic or Inverse Slides `#`
+
+## Slide Headings `##`
+
+### Sub-slide Headings `###`
+
+#### Bold Call-Out `####`
+
+This is a normal paragraph text. Only use header levels 1-4.
+
+##### Possible, but not recommended `#####`
+
+###### Definitely don't use h6 `######`
+
+---
+class: inverse center middle
+
+# Topic Changing Interstitial
+
+---
+class: center, middle
+
+# Thanks!
+
+Slides created via the R packages:
+
+[**xaringan**](https://github.com/yihui/xaringan)<br>
+[gadenbuie/xaringanthemer](https://github.com/gadenbuie/xaringanthemer)
