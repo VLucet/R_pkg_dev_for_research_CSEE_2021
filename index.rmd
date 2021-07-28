@@ -48,11 +48,11 @@ xaringanExtra::use_share_again()
 xaringanExtra::use_broadcast()
 xaringanExtra::use_scribble()
 xaringanExtra::use_animate_css()
-xaringanExtra::use_animate_all("fade")
 xaringanExtra::use_panelset()
 xaringanExtra::use_clipboard()
 xaringanExtra::use_fit_screen()
 xaringanExtra::use_webcam()
+# xaringanExtra::use_animate_all("fade")
 ```
 
 name: self-intro
@@ -74,7 +74,7 @@ name: self-intro
 
 ---
 name: plan 1
-## Workshop plan (until ~ 10:30)
+## Workshop: Part 1 (now ~ 10:30)
 
 <!-- 9:30 - 9:35 : let people trickle in -->
 <!-- 9:35 - 9:40 : personal introduction -->
@@ -89,22 +89,43 @@ name: plan 1
   
 3. __From "spaghetti code" to "packaged" code__ (__~ 20 minutes__) <!-- 10:00 - 10:20 -->
   * Tips and tricks to modularize your research code.
+  * How to write clean code.
   
 (_Break: 10 minutes_) <!-- 10:20 - 10:30 -->
 
 ---
 name: plan 2
-## Workshop plan (10:30 - 12:30)
+## Workshop: Part 2 & 3 (10:30 ~ 12:30)
 
 4. __Your personal assistants: `usethis` and `devtools`__ (__~ 50 minutes__) <!-- 10:30 - 11:20 -->
   * Let's create an example package step by step.
   * (__Break: 10 minutes__) <!-- 11:20 - 11:30 -->
-5. __Package testing, maintenance amd distribution: best practices__ (__~ 50 minutes__) <!-- 11:30 - 12:20 -->
+5. __Package testing, maintenance and distribution: best practices__ (__~ 50 minutes__) <!-- 11:30 - 12:20 -->
   * How to test, maintain, and distribute your package.
 
 __Q & A__: __~ 10 minutes__ (or on the conference app at any time) 
 
 ![XKCD comic. Two characters. Character 1 says what they are trying to do on the computer shouldn't be too hard. Character 2 says that computers are just "organized sand" and that everything is hard untol someone makes it easy". Character 2 decides to turns the computer back to sand and character 2 says they'll get a blowtorch! ](https://imgs.xkcd.com/comics/shouldnt_be_hard.png)
+---
+name: prereqs
+
+# Before we get started...
+
+For today, it is recommended that you are already pretty well acquainted with __R__ and __Rstudio__. But, if at least you...
+  * Have written a few __functions with multiple arguments__ in R 
+  * Know about "__project oriented workflow__" (for instance you use RStudio projects) 
+  
+...then you have the bare minimum we need for today!
+
+Knowledge of Git/Github is also welcome as I won't have the time to explain version control software.
+
+```{r, eval = FALSE}
+# Run this in R before we start. 
+pkgs <- c("devtools", "roxygen2", "usethis")
+install.packages(pkgs)
+```
+
+_Note: the first part of the workshop is relevant to users of any level._
 
 ---
 class: inverse center middle
