@@ -180,7 +180,7 @@ class: inverse center middle
 # What should a package contain?
 <!-- re M.S. blogpost -->
 
---- 
+---
 # How to name your package
 <!-- Naming is hard ! small cases, check with {available} -->
 
