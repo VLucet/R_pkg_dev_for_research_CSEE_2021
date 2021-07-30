@@ -4,7 +4,7 @@
     <title>R Package Development for Research</title>
     <meta charset="utf-8" />
     <meta name="author" content="Valentin Lucet" />
-    <meta name="date" content="2021-07-28" />
+    <meta name="date" content="2021-07-30" />
     <script src="index_files/header-attrs/header-attrs.js"></script>
     <link href="index_files/tile-view/tile-view.css" rel="stylesheet" />
     <script src="index_files/tile-view/tile-view.js"></script>
@@ -40,18 +40,19 @@ class: center, middle, inverse, title-slide
 # R Package Development for Research
 ## <em>An Introduction</em>
 ### Valentin Lucet
-### 2021-07-28
+### 2021-07-30
 
 ---
 
 
+&lt;!-- --&gt;
 
 
 
 
 
 
-name: self-intro
+
 ## About me
 
 &lt;img align="right" width="210" height="210" alt="a picture of Val" src="images/val.jpeg"&gt;
@@ -70,7 +71,7 @@ name: self-intro
 
 ---
 name: plan 1
-## Workshop: Part 1 (now ~ 10:30)
+## Workshop: Part 1 (now -&gt; 10:30)
 
 &lt;!-- 9:30 - 9:35 : let people trickle in --&gt;
 &lt;!-- 9:35 - 9:40 : personal introduction --&gt;
@@ -91,7 +92,7 @@ name: plan 1
 
 ---
 name: plan 2
-## Workshop: Part 2 &amp; 3 (10:30 ~ 12:30)
+## Workshop: Parts 2 &amp; 3 (10:30 -&gt; 12:30)
 
 4. __Your personal assistants: `usethis` and `devtools`__ (__~ 50 minutes__) &lt;!-- 10:30 - 11:20 --&gt;
   * Let's create an example package step by step.
@@ -125,9 +126,60 @@ install.packages(pkgs)
 _Note: the first part of the workshop is relevant to users of any level._
 
 ---
+name: refs
+
+# On not reinventing the wheel...
+
+There exists a __plethora of great resources on R package making__, resources from which I have learned myself. 
+
+This workshop has been devised by attempting to __synthesize many freely available resources__ put together by a whole bunch of excellent people. 
+
+_A full list of resources is included at the end of this workshop._
+
+.center[
+![Comic, 2 characters. The first character shows a picture of a wheel to a befuddled second character and says "I have a great idea!"](https://miro.medium.com/max/240/0*FiszegEhSoYnfqO9.png)
+]
+
+---
 class: inverse center middle
 
 # Research software in Eco-Evo 
+
+---
+# What is research software?
+&lt;!-- All the programs that support research, from the code written to program a microscope, to the movement detection programs in camera traps, all code to generate analyses but also all code used to generate figures --&gt;
+
+---
+# Who writes research software?
+&lt;!-- Engineers, yes, but mostly scientists: they are all RSEs. Speak about how these skills are in higher demand and we dont necessarily have the skills to maintain code etc... --&gt;
+
+---
+# Open source vs proprietary software
+&lt;!-- Introduce OSS, use the xkcd "jenga" tower comic --&gt;
+
+---
+# Is software a scientific contribution?
+&lt;!-- YES! Should be recognized as one. JOSS, ROpenSci, maybe cite the talk by Richard McElreath --&gt;
+
+---
+# What forms does research software take?
+&lt;!-- Packages, yes BUT also research compendiums, code that is shared as scripts, zipped archive, etc... in increasing order of generated entropy... --&gt;
+
+---
+# To Package or not to Package?
+&lt;!-- Reuse Maelle Simon's work (make sure to cite properly): Should your package even exist?. Include comment on lab/personnal package --&gt;
+
+---
+# To Package or not to Package? (cont'd)
+&lt;!-- Discuss the effort at different stages of research. --&gt;
+
+---
+# What should a package contain?
+&lt;!-- re M.S. blogpost --&gt;
+
+--- 
+# How to name your package
+&lt;!-- Naming is hard ! small cases, check with {available} --&gt;
 
 ---
 class: inverse center middle
@@ -135,9 +187,45 @@ class: inverse center middle
 # Design patterns: "tooling" vs "workflow"
 
 ---
+# Reasons to make a package fall into 2 broad categories
+&lt;!-- One is to provide a general tool, the other to make a certain workflow replicable and adaptable. This is on a continuum from generality to specificity. In the end, two faces of the same coin --&gt;
+
+---
+# "tooling" packages
+&lt;!-- Characteristics: general, no object structure (or very light). One function does one thing. Lab package, personal package --&gt;
+
+---
+# "workflow" packages 
+&lt;!-- Makes a specific research workflow available, can have a strong object structure (but beware!). In the back, may be built with simpler "tooling" elements --&gt;
+
+---
+# A research package decision chart
+&lt;!-- Make a decision chart that sums up all we talked about and if we have time ask if there are any questions --&gt;
+
+---
 class: inverse center middle
 
 # From "spaghetti code" to "packaged" code 
+
+---
+# Messy code is ubiquitous in research
+&lt;!-- Messy code is not necessarily bad code, but one could argue that it is "unfinished code", no one took the time to clean it up. Why? talk about how this part of the research process might not be valorized as much. --&gt;
+
+---
+# How to write clean code (in general)
+&lt;!-- Style guide, clear names, small functions, useful comments, see the clean code lectures on youtube maybe --&gt;
+
+---
+# Packaging messy research code
+&lt;!-- [mention that these principles are even better to implement as one *writes* the code] identify steps (for workflow) or manipulations and "re-factor" the code into functions, =&gt; then work on modularizing the code, i.e. placing functions in different scripts that can be sourced. etc... --&gt;
+
+---
+# Packaging messy research code (cont'd)
+&lt;!-- continue the discussion =&gt; think about object oriented design, write a class diagram maybe, and think about attributes that need to be kept track of --&gt;
+
+---
+# OOP in R
+&lt;!-- use hadley's book in thi section to write an intro to the different OOP systems in R --&gt;
 
 ---
 class: inverse center middle
@@ -158,6 +246,13 @@ Slides created via the R packages:
 
 [**xaringan**](https://github.com/yihui/xaringan)&lt;br&gt;
 [gadenbuie/xaringanthemer](https://github.com/gadenbuie/xaringanthemer)
+
+---
+name: sources
+
+# Sources
+
+* Maelle Simon's [How to develop good R packages (for open science)](https://masalmon.eu/2017/12/11/goodrpackages/)
     </textarea>
 <style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
 <script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
