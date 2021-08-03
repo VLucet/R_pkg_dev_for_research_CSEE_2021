@@ -1,9 +1,9 @@
 ---
-title: .left[R Package Development for Research]
-subtitle: .left[_An Introduction_]
+title: "R Package Development for Research"
+subtitle: "_An Introduction_"
 author: 
-  - .left[Valentin Lucet]
-date: .left[`r Sys.Date()`]
+  - "Valentin Lucet"
+date: "`r Sys.Date()`"
 output:
   xaringan::moon_reader:
     css: xaringan-themer.css
