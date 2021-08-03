@@ -406,16 +406,53 @@ Two aspects of code "cleanliness":
 - Engage in code review: the best way to know if your code is clean to have someone else take a look at it. Consider setting up code review sessions between students and/or collaborators. GitHub makes it easy to get started with reviewing code.
 
 ---
-## Packaging messy research code
-&lt;!-- [mention that these principles are even better to implement as one *writes* the code] identify steps (for workflow) or manipulations and "re-factor" the code into functions, =&gt; then work on modularizing the code, i.e. placing functions in different scripts that can be sourced. etc... --&gt;
+## Packaging your messy code
+
+A simple (recursive) recipe for packaging research scripts into a __proto-package__: 
+
+1. Identify __modules__. Modules are pieces of codes that stands on their own and that either:
+ - Achieve a specific task. 
+ - Represent a discrete step in the workflow.
+
+2. "Refactor" modules into __functions__
+
+3. __Rewrite__ your script to employ these functions. 
+
+4. Repeat the process __within__ each function.
+
+5. Consider your code _modularized_ when each function Only Does One Thing (yes, this is subjective).
 
 ---
-## Packaging messy research code
-&lt;!-- continue the discussion =&gt; think about object oriented design, write a class diagram maybe, and think about attributes that need to be kept track of --&gt;
+## Object-Oriented Programming
+
+Once you have a working proto-package, you can start thinking about whether your package is suited to an object-oriented design.
+
+There a several key principles in object oriented programming&lt;sup&gt;1&lt;/sup&gt; : 
+
+1. The first are the ideas of a __class__ and an __object__. 
+ - An object is a way to represent data with some constraints (for example, a `data.frame` object organises vectors into columns). 
+ - A class is a blueprint for an object: it describes the parts of an object, how to make an object, and what the object is able to do.
+
+2. Functions that operates onto an object of a given class is called a __method__ of this class.
+
+If your package requires you to organize and manipulate information with specific constraints, it might be rekevant to use OOP design.
+
+.footnote[[1] [Mastering Software Development in R](https://bookdown.org/rdpeng/RProgDA/object-oriented-programming.html)]
 
 ---
 ## OOP in R
-&lt;!-- use hadley's book in this section to write an intro to the different OOP systems in R --&gt;
+
+The 3 most pupular types of OOP frameworks in R&lt;sup&gt;1&lt;/sup&gt; :
+
+1. __S3__ is R’s first OOP system, and is a rather informal implementation, relying on relies on conventions rather than "ironclad guarantees". __Easiest to start with, low cost way to solve many simple problems__.
+
+2. __S4__ is a formal and rigorous rewrite of S3, with more guarantees and greater encapsulation.
+
+3. __R6__ is provided by a package and implements __mutable__ S4 objects.
+
+Which one to choose? Many trade-offs excists. In a nutshell: __choose S3 for simplicity, S4 for rigor and R6 if you need mutability__.
+
+.footnote[[1] [Advanced R Book](https://adv-r.hadley.nz/oo.html)]
 
 ---
 class: inverse center middle
