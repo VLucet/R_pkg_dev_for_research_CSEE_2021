@@ -145,7 +145,6 @@ class: inverse center middle
 
 ---
 ## What is research software?
-&lt;!-- All the programs that support research, from the code written to program a microscope, to the movement detection programs in camera traps, all code to generate analyses but also all code used to generate figures --&gt;
 
 __Research software__ can be defined as any computer-based application that directly or indirectly supports users in a research task&lt;sup&gt;1&lt;/sup&gt;.
 
@@ -165,7 +164,6 @@ Can also include:
 
 ---
 ## Who writes research software?
-&lt;!-- Engineers, yes, but mostly scientists: they are all RSEs. Speak about how these skills are in higher demand and we dont necessarily have the skills to maintain code etc... --&gt;
 
 __Research software__ is written by __Research software engineers__
 
@@ -181,7 +179,6 @@ The RSE hat is often shared and worn by different people in a lab, and increasin
 
 ---
 ## RSE &amp; code "openness"
-&lt;!-- Reproducibility crisis in Science --&gt;
 
 &lt;a href="https://journals.plos.org/plosbiology/article?id=10.1371/journal.pbio.3000763"&gt; &lt;img src="images/low_avail.png" align="left" width="400" alt='Low availability of code in ecology: A call for urgent action (screenshot of a research paper)'/&gt; &lt;/a&gt;
 
@@ -193,7 +190,6 @@ __Software &amp; Code literacy__, i.e. the ability to write, test and deliver re
 
 ---
 ## Open source software
-&lt;!-- Introduce OSS, use the xkcd "jenga" tower comic --&gt;
 
 &lt;img src="https://imgs.xkcd.com/comics/dependency_2x.png" align="right" width="350" alt='XKCD comic, where "all modern digital infrastructure" is represented as a jenga tower whose stability completely relies on "a project some rabdom person has been thanklessly maintaining since 2003"'/&gt;
 
@@ -225,8 +221,6 @@ Good RSE is therefore guided by OSS principles, paradigms, and tools, the width 
 
 ---
 ## Is software a scientific contribution?
-&lt;!-- YES! Should be recognized as one. JOSS, ROpenSci, maybe cite the talk by Richard McElreath --&gt;
-&lt;!-- not just a vanity =&gt; software peer review is crucial --&gt;
 
 Research software is often __not recognized__ as a scientific contribution in its own right. Yet, research code:
 - Represents a very significant part of a researcher's time.
@@ -243,7 +237,6 @@ Who is reviewing code?
 class: inverse center middle
 
 # To Package or not to Package?
-&lt;!-- Reuse Maelle Simon's work (make sure to cite properly): Should your package even exist?. Include comment on lab/personnal package --&gt;
 
 ---
 ## Should your package exists?
@@ -278,7 +271,6 @@ Consider starting a __lab package project__ where students are encourage to cont
 
 ---
 ## What other forms does research software take?
-&lt;!-- Packages, yes BUT also research compendiums, code that is shared as scripts, zipped archive, etc... in increasing order of generated entropy... --&gt;
 
 A __Package__ is only one way to distribute research code. I want to mention __research compendiums__ as the best alternative to writing and releasing a package.
 
@@ -297,7 +289,6 @@ Note: sometimes compendiums are actually R packages bundled in a specific way.
 
 ---
 ## What should a package contain?
-&lt;!-- re M.S. blogpost --&gt;
 
 Two principles&lt;sup&gt;1&lt;/sup&gt; :
 
@@ -315,7 +306,6 @@ I would add, consider principles of the [Unix philosophy](https://en.wikipedia.o
 
 ---
 ## How to name your package
-&lt;!-- Naming is hard ! small cases, check with {available} --&gt;
 
 __Naming things is hard__. but here are a few advice&lt;sup&gt;1&lt;/sup&gt; :
 
@@ -333,20 +323,34 @@ class: inverse center middle
 ## Design patterns: "tooling" vs "workflow"
 
 ---
-## Reasons to make a package fall into 2 broad categories
-&lt;!-- One is to provide a general tool, the other to make a certain workflow replicable and adaptable. This is on a continuum from generality to specificity. In the end, two faces of the same coin --&gt;
+## Research packages fall into 3 broad categories
 
----
+From the widest to the narrowest user base, on a continuum from generality to specificity:
+
+1. To provide a __general research tool__ in R.
+
+2. To implement a __method__.
+
+2. To make a certain __workflow__ reproducible and adaptable.
+
+The first 2 are exampless of __tooling__ packages: general purpose, no object structure (or very light). One function does one thing.
+
+The last is an example of a __workflow__ package: can have a strong object structure (but beware!). In the back, may be built with simpler "tooling" elements.
+
+&lt;!--
 ## "tooling" packages
-&lt;!-- Characteristics: general, no object structure (or very light). One function does one thing. Lab package, personal package --&gt;
-
----
+&lt;!-- Characteristics: general, no object structure (or very light). One function does one thing. Lab package, personal package 
+--&gt;
+ 
+&lt;!--
 ## "workflow" packages 
-&lt;!-- Makes a specific research workflow available, can have a strong object structure (but beware!). In the back, may be built with simpler "tooling" elements --&gt;
+&lt;!-- Makes a specific research workflow available, can have a strong object structure (but beware!). In the back, may be built with simpler "tooling" elements 
+--&gt;
 
----
+&lt;!--
 ## A research package decision chart
-&lt;!-- Make a decision chart that sums up all we talked about and if we have time ask if there are any questions --&gt;
+&lt;!-- Make a decision chart that sums up all we talked about and if we have time ask if there are any questions 
+--&gt;
 
 ---
 class: inverse center middle
