@@ -305,7 +305,7 @@ I would add, consider principles of the [Unix philosophy](https://en.wikipedia.o
 
 2. "Do One Thing and Do It Well"
 
-.footnote[[1] [From M. Simon's blog post](https://masalmon.eu/2017/12/11/goodrpackages/)]
+.footnote[[1] [M. Simon's blog post](https://masalmon.eu/2017/12/11/goodrpackages/)]
 
 ---
 ## How to name your package
@@ -361,24 +361,61 @@ class: inverse center middle
 ## From "spaghetti code" to "packaged" code 
 
 ---
-## Messy code is ubiquitous in research
+## Messy code
 <!-- Messy code is not necessarily bad code, but one could argue that it is "unfinished code", no one took the time to clean it up. Why? talk about how this part of the research process might not be valorized as much. -->
 
+Messy code is ubiquitous in research, BUT:
+
+.center[
+__Messy code ≠ Bad code__
+]
+
+In fact, this is closer to the truth: 
+
+.center[
+__Messy code = Unfinished code__
+]
+
+Cleaning up research code should be considered an integral part of the research process. It is often the first step in any packaging endeavor.
+
+Two aspects of code "cleanliness":
+
+1. The way __it looks__ (spaces, number of lines, etc.)
+
+2. The way __it reads__ (measured in "WTFs per minute"<sup>1</sup> as you read it)
+
+.footnote[[1] [Uncle Bob's Clean Code Lectures](https://www.youtube.com/watch?v=7EmboKQH8lM)]
+
 ---
-## How to write clean code (in general)
-<!-- Style guide, clear names, small functions, useful comments, see the clean code lectures on youtube maybe -->
+## How to write clean (R) code
+
+<a href="https://imgs.xkcd.com/comics/good_code.png"> <img src="https://imgs.xkcd.com/comics/good_code.png" align="right" width=200 alt="XKCD flow chart on how to write good code"/>  </a>
+
+1. Use an __IDE__ (RStudio, VSCode, etc.).
+
+2. Learn to follow a style guide, for example [the tidyverse](https://style.tidyverse.org/) or [Google's](https://google.github.io/styleguide/Rguide.html).
+
+3. Name things well (re: naming is hard). Don't be afraid to use long, informative function and variable names.
+
+4. Write __functional__ code, i.e. code made with functions, each function accomplishing one thing (recall the Unix's Do One Thing Well).
+
+5. Write useful comments: do not comment everything in the code, just the parts that actually need explaining.
+
+6. Use tools to identify and fix style issues in code. The packages `lintr` and `goodpractice` are a good way to start.
+
+7. Engage in code review.
 
 ---
 ## Packaging messy research code
 <!-- [mention that these principles are even better to implement as one *writes* the code] identify steps (for workflow) or manipulations and "re-factor" the code into functions, => then work on modularizing the code, i.e. placing functions in different scripts that can be sourced. etc... -->
 
 ---
-## Packaging messy research code (cont'd)
+## Packaging messy research code
 <!-- continue the discussion => think about object oriented design, write a class diagram maybe, and think about attributes that need to be kept track of -->
 
 ---
 ## OOP in R
-<!-- use hadley's book in thi section to write an intro to the different OOP systems in R -->
+<!-- use hadley's book in this section to write an intro to the different OOP systems in R -->
 
 ---
 class: inverse center middle
