@@ -140,7 +140,7 @@ a, a > code {
 }
 .title-slide {
   background-color: var(--title-slide-background-color);
-  background-image: url("images/title_slide_background.jpeg");
+  background-image: url("images/title_slide_background_edited.png");
   background-size: cover;
 }
 .title-slide .remark-slide-number {
