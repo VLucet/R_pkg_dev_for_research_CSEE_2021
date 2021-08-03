@@ -4,7 +4,7 @@
     <title>R Package Development for Research</title>
     <meta charset="utf-8" />
     <meta name="author" content="Valentin Lucet" />
-    <meta name="date" content="2021-07-30" />
+    <meta name="date" content="2021-08-03" />
     <script src="index_files/header-attrs/header-attrs.js"></script>
     <link href="index_files/tile-view/tile-view.css" rel="stylesheet" />
     <script src="index_files/tile-view/tile-view.js"></script>
@@ -40,7 +40,7 @@ class: center, middle, inverse, title-slide
 # R Package Development for Research
 ## <em>An Introduction</em>
 ### Valentin Lucet
-### 2021-07-30
+### 2021-08-03
 
 ---
 
@@ -87,8 +87,7 @@ name: plan 1
 3. __From "spaghetti code" to "packaged" code__ (__~ 20 minutes__) &lt;!-- 10:00 - 10:20 --&gt;
   * Tips and tricks to modularize your research code.
   * How to write clean code.
-  
-(_Break: 10 minutes_) &lt;!-- 10:20 - 10:30 --&gt;
+  * (__Break: 10 minutes__) &lt;!-- 10:20 - 10:30 --&gt;
 
 ---
 name: plan 2
@@ -97,16 +96,16 @@ name: plan 2
 4. __Your personal assistants: `usethis` and `devtools`__ (__~ 50 minutes__) &lt;!-- 10:30 - 11:20 --&gt;
   * Let's create an example package step by step.
   * (__Break: 10 minutes__) &lt;!-- 11:20 - 11:30 --&gt;
+  
 5. __Package testing, maintenance and distribution: best practices__ (__~ 50 minutes__) &lt;!-- 11:30 - 12:20 --&gt;
   * How to test, maintain, and distribute your package.
 
-__Q &amp; A__: __~ 10 minutes__ (or on the conference app at any time) 
+__Q &amp; A__: If time allows, __~ 10 minutes__ (or on the conference app at any time) 
 
-![XKCD comic. Two characters. Character 1 says what they are trying to do on the computer shouldn't be too hard. Character 2 says that computers are just "organized sand" and that everything is hard untol someone makes it easy". Character 2 decides to turns the computer back to sand and character 2 says they'll get a blowtorch! ](https://imgs.xkcd.com/comics/shouldnt_be_hard.png)
 ---
 name: prereqs
 
-# Before we get started...
+## Before we get started...
 
 For today, it is recommended that you are already pretty well acquainted with __R__ and __Rstudio__. But, if at least you...
   * Have written a few __functions with multiple arguments__ in R 
@@ -128,7 +127,7 @@ _Note: the first part of the workshop is relevant to users of any level._
 ---
 name: refs
 
-# On not reinventing the wheel...
+## On not reinventing the wheel...
 
 There exists a __plethora of great resources on R package making__, resources from which I have learned myself. 
 
@@ -137,105 +136,253 @@ This workshop has been devised by attempting to __synthesize many freely availab
 _A full list of resources is included at the end of this workshop._
 
 .center[
-![Comic, 2 characters. The first character shows a picture of a wheel to a befuddled second character and says "I have a great idea!"](https://miro.medium.com/max/240/0*FiszegEhSoYnfqO9.png)
-]
+![Comic, 2 characters. The first character shows a picture of a wheel to a befuddled second character and says "I have a great idea!"](https://miro.medium.com/max/240/0*FiszegEhSoYnfqO9.png)]
 
 ---
 class: inverse center middle
 
-# Research software in Eco-Evo 
+## Research software in Eco-Evo 
 
 ---
-# What is research software?
+## What is research software?
 &lt;!-- All the programs that support research, from the code written to program a microscope, to the movement detection programs in camera traps, all code to generate analyses but also all code used to generate figures --&gt;
 
+__Research software__ can be defined as any computer-based application that directly or indirectly supports users in a research task&lt;sup&gt;1&lt;/sup&gt;.
+
+For example: 
+- Any software packages used to conduct research, but also
+- Any script that employ these packages, and
+- Any code or program used to manage and process data
+
+Can also include:
+- Proprietary software (Matlab, ArcGIS, etc...)
+- Any program that runs on data collection hardware
+ - Camera traps
+ - Temperature sensors
+ - etc.
+
+.footnote[[1] [IGI Global](https://www.igi-global.com/dictionary/knowledge-visualization-for-research-design/69111)]
+
 ---
-# Who writes research software?
+## Who writes research software?
 &lt;!-- Engineers, yes, but mostly scientists: they are all RSEs. Speak about how these skills are in higher demand and we dont necessarily have the skills to maintain code etc... --&gt;
 
+__Research software__ is written by __Research software engineers__
+
+_A Research Software Engineer (RSE) combines professional software engineering expertise with an intimate understanding of research._&lt;sup&gt;1&lt;/sup&gt;
+
+A wider definition would also include, independently of whether they have received formal training in software engineering:
+- Any __HQP__ (Highly Trained Personnel) who writes code in a research context (grad student, post-doc, etc.)
+- Research assistant, lab managers, undergraduate students involved in producing code
+
+The RSE hat is often shared and worn by different people in a lab, and increasingly researchers are required to acquire RSE skills.
+
+.footnote[[1] [RSE Society](https://society-rse.org/about/)]
+
 ---
-# Open source vs proprietary software
+## RSE &amp; code "openness"
+&lt;!-- Reproducibility crisis in Science --&gt;
+
+&lt;a href="https://journals.plos.org/plosbiology/article?id=10.1371/journal.pbio.3000763"&gt; &lt;img src="images/low_avail.png" align="left" width="400" alt='Low availability of code in ecology: A call for urgent action (screenshot of a research paper)'/&gt; &lt;/a&gt;
+
+&lt;a href="https://www.cell.com/trends/ecology-evolution/fulltext/S0169-5347(15)00290-6?_returnURL=https%3A%2F%2Flinkinghub.elsevier.com%2Fretrieve%2Fpii%2FS0169534715002906%3Fshowall%3Dtrue"&gt; &lt;img src="images/elevating.png" width="250" alt='Elevating the status of code in ecology (screenshot of a research paper)'/&gt; &lt;/a&gt;
+
+&lt;a href="https://www.nature.com/articles/467753a"&gt; &lt;img src="images/publish_your_code.png" align="center" width="500" alt='Publish your computer code, it is good enough'/&gt;  &lt;/a&gt;
+
+__Software &amp; Code literacy__, i.e. the ability to write, test and deliver reproducible code, is an essential skill to solve the reproducibility crisis in Eco-Evo.
+
+---
+## Open source software
 &lt;!-- Introduce OSS, use the xkcd "jenga" tower comic --&gt;
 
+&lt;img src="https://imgs.xkcd.com/comics/dependency_2x.png" align="right" width="350" alt='XKCD comic, where "all modern digital infrastructure" is represented as a jenga tower whose stability completely relies on "a project some rabdom person has been thanklessly maintaining since 2003"'/&gt;
+
+_Open source software is software with source code that anyone can inspect, modify, and enhance._&lt;sup&gt;1&lt;/sup&gt;
+
+Like most research, research in eco-evo could not take place without OSS (think of the R language and the all the add-on packages).
+
+Good RSE is therefore guided by OSS principles, paradigms, and tools, the width of it being too large to cover today.
+
+.footnote[[1] [opensource.com](https://opensource.com/resources/what-open-source)]
+
 ---
-# Is software a scientific contribution?
+## FAIR Software&lt;sup&gt;1&lt;/sup&gt;
+
+1. __Findable__
+  - rich metadata + unique, persistent, identifier.
+
+2. __Accessible__
+  - metadata is both  machine AND human readable.
+  - deposited in trusted community approved repository.
+
+3. __Interoperable__
+  - uses community accepted standards and platforms.
+
+4. __Reusable__
+  - clear licence and documentation.
+  
+.footnote[[1] [library carpentry](https://librarycarpentry.org/Top-10-FAIR/2018/12/01/research-software/)]
+
+---
+## Is software a scientific contribution?
 &lt;!-- YES! Should be recognized as one. JOSS, ROpenSci, maybe cite the talk by Richard McElreath --&gt;
+&lt;!-- not just a vanity =&gt; software peer review is crucial --&gt;
+
+Research software is often __not recognized__ as a scientific contribution in its own right. Yet, research code:
+- Represents a very significant part of a researcher's time.
+- Advances our knowledge of the "how", just like research protocols.
+- Should be easily citable to improve methods tractability.
+
+Recognizing RS as a scientific contribution is not a vanity for RS developers: __code should under better scrutiny, and should be submitted to peer review__.
+
+Who is reviewing code?
+- [ROpenSci software peer review](https://ropensci.org/).
+- [JOSS](https://joss.theoj.org/) and other software journals.
 
 ---
-# What forms does research software take?
-&lt;!-- Packages, yes BUT also research compendiums, code that is shared as scripts, zipped archive, etc... in increasing order of generated entropy... --&gt;
+class: inverse center middle
 
----
 # To Package or not to Package?
 &lt;!-- Reuse Maelle Simon's work (make sure to cite properly): Should your package even exist?. Include comment on lab/personnal package --&gt;
 
 ---
-# To Package or not to Package? (cont'd)
-&lt;!-- Discuss the effort at different stages of research. --&gt;
+## Should your package exists?
+
+A few questions to ask yourself&lt;sup&gt;1&lt;/sup&gt; :
+
+1. Will this piece of software really be useful to someone else than you? 
+
+2. Is your idea really new, or is there already a package out there performing the exact same task?
+
+3. If there is one, would your implementation bring something to the market, e.g. an user-friendlier implementation? 
+
+4. If there is already a similar package, should you work on your own or collaborate with the author(s) of the original package?
+
+5. As a grad student or PI, is the time spent in development worth the effort?
+
+.footnote[[1] [M. Simon's blog post](https://masalmon.eu/2017/12/11/goodrpackages/)]
 
 ---
-# What should a package contain?
+## Private packages
+
+_"Packaging doesn't have to be about sharing the code, it can just be to save yourself time."_&lt;sup&gt;1&lt;/sup&gt;
+
+Packages do not have to be written for someone else than yourself. Consider writing a personal package. For example, consider packaging Scripts that:
+- You have re-used more than once
+- You have shared with students and/or collaborators
+- Produces this a specific analysis or figure that is often re-used within your lab
+
+Consider starting a __lab package project__ where students are encourage to contribute functions and document them, therefore ensuring that the coding knowledge accumulated through often tedious trial and error is curated and can serve you and your students in the future.
+
+.footnote[[1] [H. Parker's blog post](https://hilaryparker.com/2014/04/29/writing-an-r-package-from-scratch/)]
+
+---
+## What other forms does research software take?
+&lt;!-- Packages, yes BUT also research compendiums, code that is shared as scripts, zipped archive, etc... in increasing order of generated entropy... --&gt;
+
+A __Package__ is only one way to distribute research code. I want to mention __research compendiums__ as the best alternative to writing and releasing a package.
+
+_The goal of a research compendium is to provide a standard and easily recognizable way for organizing the digital materials of a project to enable others to inspect, reproduce, and extend the research._&lt;sup&gt;1&lt;/sup&gt;
+
+&lt;a href="https://github.com/benmarwick/rrtools"&gt; &lt;img src="images/rrtools.png" align="center" alt='rrtools: Tools for Writing Reproducible Research in R'/&gt;  &lt;/a&gt;
+
+Note: sometimes compendiums are actually R packages bundled in a specific way.
+
+.footnote[[1] [R for Reproducible Research course](https://annakrystalli.me/rrresearch/10_compendium.html)]
+
+&lt;!--
+## To Package or not to Package? (cont'd)
+&lt;!-- Discuss the effort at different stages of research. 
+--&gt;
+
+---
+## What should a package contain?
 &lt;!-- re M.S. blogpost --&gt;
 
+Two principles&lt;sup&gt;1&lt;/sup&gt; :
+
+1. Make your package compatible with the workflow of your users. 
+
+2. Do not get too ambitious. 
+
+I would add, consider principles of the [Unix philosophy](https://en.wikipedia.org/wiki/Unix_philosophy):
+
+1. Small building blocks (small functions for example)
+
+2. "Do One Thing and Do It Well"
+
+.footnote[[1] [From M. Simon's blog post](https://masalmon.eu/2017/12/11/goodrpackages/)]
+
 ---
-# How to name your package
+## How to name your package
 &lt;!-- Naming is hard ! small cases, check with {available} --&gt;
+
+__Naming things is hard__. but here are a few advice&lt;sup&gt;1&lt;/sup&gt; :
+
+1. Use __lower cases__, this way your user doesn’t need to remember where the capital letters are and  full capital letter name looks like screaming.
+
+2. Use the R package `available`, to check whether the name is valid (no special characters, etc.), whether CRAN already hosts a package with the same name and searches the web for unintended meanings of the name.
+
+3. If your package revolves around a __central function__ or interfaces with __another program__, consider using these as the name.
+
+.footnote[[1] [M. Simon's blog post](https://masalmon.eu/2017/12/11/goodrpackages/)]
 
 ---
 class: inverse center middle
 
-# Design patterns: "tooling" vs "workflow"
+## Design patterns: "tooling" vs "workflow"
 
 ---
-# Reasons to make a package fall into 2 broad categories
+## Reasons to make a package fall into 2 broad categories
 &lt;!-- One is to provide a general tool, the other to make a certain workflow replicable and adaptable. This is on a continuum from generality to specificity. In the end, two faces of the same coin --&gt;
 
 ---
-# "tooling" packages
+## "tooling" packages
 &lt;!-- Characteristics: general, no object structure (or very light). One function does one thing. Lab package, personal package --&gt;
 
 ---
-# "workflow" packages 
+## "workflow" packages 
 &lt;!-- Makes a specific research workflow available, can have a strong object structure (but beware!). In the back, may be built with simpler "tooling" elements --&gt;
 
 ---
-# A research package decision chart
+## A research package decision chart
 &lt;!-- Make a decision chart that sums up all we talked about and if we have time ask if there are any questions --&gt;
 
 ---
 class: inverse center middle
 
-# From "spaghetti code" to "packaged" code 
+## From "spaghetti code" to "packaged" code 
 
 ---
-# Messy code is ubiquitous in research
+## Messy code is ubiquitous in research
 &lt;!-- Messy code is not necessarily bad code, but one could argue that it is "unfinished code", no one took the time to clean it up. Why? talk about how this part of the research process might not be valorized as much. --&gt;
 
 ---
-# How to write clean code (in general)
+## How to write clean code (in general)
 &lt;!-- Style guide, clear names, small functions, useful comments, see the clean code lectures on youtube maybe --&gt;
 
 ---
-# Packaging messy research code
+## Packaging messy research code
 &lt;!-- [mention that these principles are even better to implement as one *writes* the code] identify steps (for workflow) or manipulations and "re-factor" the code into functions, =&gt; then work on modularizing the code, i.e. placing functions in different scripts that can be sourced. etc... --&gt;
 
 ---
-# Packaging messy research code (cont'd)
+## Packaging messy research code (cont'd)
 &lt;!-- continue the discussion =&gt; think about object oriented design, write a class diagram maybe, and think about attributes that need to be kept track of --&gt;
 
 ---
-# OOP in R
+## OOP in R
 &lt;!-- use hadley's book in thi section to write an intro to the different OOP systems in R --&gt;
 
 ---
 class: inverse center middle
 
-# A package step by step with {usethis} and {devtools}
+## A package step by step with {usethis} and {devtools}
 
 ---
 class: inverse center middle
 
-# Package testing, maintenance and distribution: best practices
+## Package testing, maintenance and distribution: best practices
+&lt;!-- Include licensing in there --&gt;
 
 ---
 class: center, middle
