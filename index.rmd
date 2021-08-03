@@ -389,21 +389,24 @@ Two aspects of code "cleanliness":
 ---
 ## How to write clean (R) code
 
-<a href="https://imgs.xkcd.com/comics/good_code.png"> <img src="https://imgs.xkcd.com/comics/good_code.png" align="right" width=200 alt="XKCD flow chart on how to write good code"/>  </a>
+<a href="https://imgs.xkcd.com/comics/good_code.png"> <img src="https://imgs.xkcd.com/comics/good_code.png" align="right" width=300 alt="XKCD flow chart on how to write good code"/>  </a>
 
-1. Use an __IDE__ (RStudio, VSCode, etc.).
+- Use an __IDE__ (RStudio, VSCode, etc.).
 
-2. Learn to follow a style guide, for example [the tidyverse](https://style.tidyverse.org/) or [Google's](https://google.github.io/styleguide/Rguide.html).
+- Learn to follow a style guide, for example [the tidyverse](https://style.tidyverse.org/) or [Google's](https://google.github.io/styleguide/Rguide.html).
 
-3. Name things well (re: naming is hard). Don't be afraid to use long, informative function and variable names.
+- Name things well (re: naming is hard). Don't be afraid to use long, informative function and variable names.
 
-4. Write __functional__ code, i.e. code made with functions, each function accomplishing one thing (recall the Unix's Do One Thing Well).
+- Write __functional__ code, i.e. code made with functions, each function accomplishing one thing (recall the Unix's Do One Thing Well).
 
-5. Write useful comments: do not comment everything in the code, just the parts that actually need explaining.
+---
+## How to write clean (R) code
 
-6. Use tools to identify and fix style issues in code. The packages `lintr` and `goodpractice` are a good way to start.
+- Write useful comments: do not comment everything in the code, just the parts that actually need explaining.
 
-7. Engage in code review.
+- Use tools to identify and fix style issues in code. The packages [`lintr`](https://github.com/jimhester/lintr) and [`goodpractice`](https://github.com/MangoTheCat/goodpractice) are a good way to start.
+
+- Engage in code review: the best way to know if your code is clean to have someone else take a look at it. Consider setting up code review sessions between students and/or collaborators. GitHub makes it easy to get started with reviewing code.
 
 ---
 ## Packaging messy research code
