@@ -417,6 +417,8 @@ A simple (recursive) recipe for packaging research scripts into a __proto-packag
 1. Identify __modules__. Modules are pieces of codes that stands on their own and that either:
  - Achieve a specific task. 
  - Represent a discrete step in the workflow.
+ 
+2. Establish the __expected behavior__ of each module (e.g. write tests)
 
 2. "Refactor" modules into __functions__
 
@@ -446,7 +448,7 @@ If your package requires you to organize and manipulate information with specifi
 ---
 ## OOP in R
 
-The 3 most pupular types of OOP frameworks in R<sup>1</sup> :
+The 3 most popular types of OOP frameworks in R<sup>1</sup> :
 
 1. __S3__ is R’s first OOP system, and is a rather informal implementation, relying on relies on conventions rather than "ironclad guarantees". __Easiest to start with, low cost way to solve many simple problems__.
 
@@ -454,7 +456,9 @@ The 3 most pupular types of OOP frameworks in R<sup>1</sup> :
 
 3. __R6__ is provided by a package and implements __mutable__ S4 objects.
 
-Which one to choose? Many trade-offs excists. In a nutshell: __choose S3 for simplicity, S4 for rigor and R6 if you need mutability__.
+Which one to choose? Many trade-offs exists. 
+
+In a nutshell: __choose S3 for simplicity, S4 for rigor and R6 if you need mutability__.
 
 .footnote[[1] [Advanced R Book](https://adv-r.hadley.nz/oo.html)]
 
