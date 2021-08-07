@@ -20,7 +20,7 @@ aggregate_ebird_data <- function(ebird_data){
   ebird_data_ag <- ebird_data %>%
     dplyr::group_by(submission_id, latitude, longitude, location,
                     date, duration_min, distance_traveled_km) %>%
-    dplyr::summarise(num_species = n(), .groups = "drop")
+    dplyr::summarise(num_species = dplyr::n(), .groups = "drop")
   
   return(ebird_data_ag)
 }
@@ -85,9 +85,9 @@ my_ebird_map <- function(file, aggregate_data = TRUE){
     leaflet::addProviderTiles("OpenStreetMap.DE") %>%
     leaflet::addAwesomeMarkers(
       icon = get_awesome_icons(),
-      clusterOptions = markerClusterOptions(),
+      clusterOptions = leaflet::markerClusterOptions(),
       label = the_labels,
-      labelOptions = labelOptions(
+      labelOptions = leaflet::labelOptions(
         style = list("font-weight" = "normal",
                      padding = "3px 8px"),
         textsize = "15px",

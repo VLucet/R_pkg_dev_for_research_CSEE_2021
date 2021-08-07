@@ -471,22 +471,26 @@ class: inverse center middle
 ## The 4 pillars of R package dev
 <!-- Describe the 4 packages -->
 
-1. `devtools`
+1. `devtools` 
+  - The R developper swiss-army knife: install packages from github, check and test packages, build documentation, etc...
 
-2. `usethis`
+2. `usethis` 
+  - Automates many steps in the development workflow
 
-3. `roxygen2`
+3. `roxygen2` 
+  - The backend of devtools's documentation routine. Generates html documentation from a specific markdowm format.
 
-4. `testthat`
+4. `testthat` 
+  - The backend of devtools's testing routine. Functions to help with writing test and finding errors in the code.
 
 ---
 ## Let's make a package: `myebirdmap`
 
 We are going to code a small package called `myebirdmap` which will produce an interactive map of an eBird data profile. 
 
-The package is heavily inspired from an existing package that already allows you explore eBird data profile: the [`myebird`](https://github.com/sebpardo/myebird) package. Outside of a teaching context, our "ebird map" is a good example of a new feature that could be contributed to `myebird` instead of being the focus of another package. 
+The package is heavily inspired from an existing package that already allows you explore eBird data profile: the [`myebird`](https://github.com/sebpardo/myebird) package. Outside of a teaching context, our "ebird map" is a good example of a new feature that could be contributed to `myebird` instead of being the focus of another package (which allows me to give you an example of that).
 
-The process we are going to go throught touches on some aspect of RSE in eco evo:
+The process we are going to go through touches on some aspect of RSE in eco evo:
 
 1. loading and cleaning data 
 2. Manipulating data into a form that we are interesting in 
@@ -495,16 +499,84 @@ The process we are going to go throught touches on some aspect of RSE in eco evo
 Due to time constraints, things like OOP will be outside the scope of this example.
 
 ---
+## `myebirdmap` demo
+
+```{r, fig.dim=c(5, 6), eval = FALSE}
+library(myebirdmap)
+my_ebird_map("data/raw_ebird_data.csv")
+```
+
+---
 ## Starting a new package with {usethis}
 <!-- Show how to start a package and get the basics done -->
 
+Open Rstudio and make sure that no projects are activated.
+
 ```{r, eval = FALSE}
-devtools::create("~/ebirdstats")
+usethis::create_package("~/myebirdmap")
+```
+
+```{}
+✓ Creating '/home/vlucet/myebirdmap/'
+✓ Setting active project to '/home/vlucet/myebirdmap'
+✓ Creating 'R/'
+✓ Writing 'DESCRIPTION'
+Package: myebirdmap
+Title: What the Package Does (One Line, Title Case)
+Version: 0.0.0.9000
+Authors@R (parsed):
+    * First Last <first.last@example.com> [aut, cre] (YOUR-ORCID-ID)
+Description: What the package does (one paragraph).
+License: `use_mit_license()`, `use_gpl3_license()` or friends to
+    pick a license
+Encoding: UTF-8
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.1.1
 ```
 
 ---
 ## The Package anatomy
 <!-- The anatomy of a package -->
+
+Let's take a look at the pacakge anatomy...
+
+.center[
+![screenshot of a package folder](images/anatomy.png)
+]
+
+---
+## Choosing a license
+
+We are going to use the MIT license. It is important to get familair with licensing.
+
+```{r, eval = FALSE}
+usethis::use_mit_license()
+```
+
+```{}
+✓ Setting License field in DESCRIPTION to 'MIT + file LICENSE'
+✓ Writing 'LICENSE'
+✓ Writing 'LICENSE.md'
+✓ Adding '^LICENSE\\.md$' to '.Rbuildignore'
+```
+
+---
+## Adding a readme
+
+```{r, eval = FALSE}
+usethis::use_readme_rmd()
+```
+
+- Adds a readme
+- Creates commit hook so that changes to readme cant be commited before its re-knitted.
+
+```{}
+✓ Setting active project to '/home/vlucet/myebirdmap'
+✓ Writing 'README.Rmd'
+✓ Adding '^README\\.Rmd$' to '.Rbuildignore'
+• Modify 'README.Rmd'
+✓ Writing '.git/hooks/pre-commit'
+```
 
 ---
 ## Checking your package
