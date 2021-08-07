@@ -31,6 +31,25 @@
     <script src="index_files/xaringanExtra_fit-screen/fit-screen.js"></script>
     <script src="index_files/xaringanExtra-webcam/webcam.js"></script>
     <script id="xaringanExtra-webcam-options" type="application/json">{"width":"200","height":"200","margin":"1em"}</script>
+    <script src="index_files/htmlwidgets/htmlwidgets.js"></script>
+    <script src="index_files/jquery/jquery.min.js"></script>
+    <link href="index_files/leaflet/leaflet.css" rel="stylesheet" />
+    <script src="index_files/leaflet/leaflet.js"></script>
+    <link href="index_files/leafletfix/leafletfix.css" rel="stylesheet" />
+    <script src="index_files/proj4/proj4.min.js"></script>
+    <script src="index_files/Proj4Leaflet/proj4leaflet.js"></script>
+    <link href="index_files/rstudio_leaflet/rstudio_leaflet.css" rel="stylesheet" />
+    <script src="index_files/leaflet-binding/leaflet.js"></script>
+    <script src="index_files/leaflet-providers/leaflet-providers_1.9.0.js"></script>
+    <script src="index_files/leaflet-providers-plugin/leaflet-providers-plugin.js"></script>
+    <link href="index_files/leaflet-awesomemarkers/leaflet.awesome-markers.css" rel="stylesheet" />
+    <script src="index_files/leaflet-awesomemarkers/leaflet.awesome-markers.min.js"></script>
+    <link href="index_files/fontawesome/font-awesome.min.css" rel="stylesheet" />
+    <link href="index_files/leaflet-markercluster/MarkerCluster.css" rel="stylesheet" />
+    <link href="index_files/leaflet-markercluster/MarkerCluster.Default.css" rel="stylesheet" />
+    <script src="index_files/leaflet-markercluster/leaflet.markercluster.js"></script>
+    <script src="index_files/leaflet-markercluster/leaflet.markercluster.freezable.js"></script>
+    <script src="index_files/leaflet-markercluster/leaflet.markercluster.layersupport.js"></script>
     <link rel="stylesheet" href="xaringan-themer.css" type="text/css" />
   </head>
   <body>
@@ -76,28 +95,26 @@ name: plan 1
 &lt;!-- 9:30 - 9:35 : let people trickle in --&gt;
 &lt;!-- 9:35 - 9:40 : personal introduction --&gt;
 
-1. __Research software in Eco-Evo__ (__~ 10 minutes__) &lt;!-- 9:40 - 9:50 --&gt;
+1. __Research software in Eco-Evo__ (__~ 20 minutes__) &lt;!-- 9:40 - 10:00 --&gt;
   * What is research software?
   * To Package or not to Package: what are the alternatives?
-    
-2. __Design patterns: the "tooling" vs "workflow" paradigms__ (__~ 10 minutes__) &lt;!-- 9:50 - 10:00 --&gt;
   * General vs workflow oriented packaging.
-  * Object-oriented designs and functional programming.
   
-3. __From "spaghetti code" to "packaged" code__ (__~ 20 minutes__) &lt;!-- 10:00 - 10:20 --&gt;
+2. __From "spaghetti code" to "packaged" code__ (__~ 20 minutes__) &lt;!-- 10:00 - 10:20 --&gt;
   * Tips and tricks to modularize your research code.
   * How to write clean code.
+  * Object-oriented designs and functional programming.
   * (__Break: 10 minutes__) &lt;!-- 10:20 - 10:30 --&gt;
 
 ---
 name: plan 2
 ## Workshop: Parts 2 &amp; 3 (10:30 -&gt; 12:30)
 
-4. __Your personal assistants: `usethis` and `devtools`__ (__~ 50 minutes__) &lt;!-- 10:30 - 11:20 --&gt;
+3. __A package step by step with `usethis` and `devtools`__ (__~ 50 minutes__) &lt;!-- 10:30 - 11:20 --&gt;
   * Let's create an example package step by step.
   * (__Break: 10 minutes__) &lt;!-- 11:20 - 11:30 --&gt;
   
-5. __Package testing, maintenance and distribution: best practices__ (__~ 50 minutes__) &lt;!-- 11:30 - 12:20 --&gt;
+4. __Package testing, maintenance and distribution: best practices__ (__~ 50 minutes__) &lt;!-- 11:30 - 12:20 --&gt;
   * How to test, maintain, and distribute your package.
 
 __Q &amp; A__: If time allows, __~ 10 minutes__ (or on the conference app at any time) 
@@ -318,11 +335,6 @@ __Naming things is hard__. but here are a few advice&lt;sup&gt;1&lt;/sup&gt; :
 .footnote[[1] [M. Simon's blog post](https://masalmon.eu/2017/12/11/goodrpackages/)]
 
 ---
-class: inverse center middle
-
-## Design patterns: "tooling" vs "workflow"
-
----
 ## Research packages fall into 3 broad categories
 
 From the widest to the narrowest user base, on a continuum from generality to specificity:
@@ -333,7 +345,7 @@ From the widest to the narrowest user base, on a continuum from generality to sp
 
 2. To make a certain __workflow__ reproducible and adaptable.
 
-The first 2 are exampless of __tooling__ packages: general purpose, no object structure (or very light). One function does one thing.
+The first 2 are examples of __tooling__ packages: general purpose, no object structure (or very light). One function does one thing.
 
 The last is an example of a __workflow__ package: can have a strong object structure (but beware!). In the back, may be built with simpler "tooling" elements.
 
@@ -503,6 +515,16 @@ library(myebirdmap)
 my_ebird_map("data/raw_ebird_data.csv")
 ```
 
+<div id="htmlwidget-c9083dbce6781662ff39" style="width:100%;height:432px;" class="leaflet html-widget"></div>
+<script type="application/json" data-for="htmlwidget-c9083dbce6781662ff39">{"x":{"options":{"crs":{"crsClass":"L.CRS.EPSG3857","code":null,"proj4def":null,"projectedBounds":null,"options":{}}},"calls":[{"method":"addProviderTiles","args":["OpenStreetMap.DE",null,null,{"errorTileUrl":"","noWrap":false,"detectRetina":false}]},{"method":"addAwesomeMarkers","args":[[48.271834,47.0673707,45.4952284,45.4581138,45.4952284,48.3504256,48.2634811,48.2588651,48.2588651,45.4917128,45.4917128,45.5049279,45.4952284,45.5049279,45.5049279,45.5049279,45.5049279,45.594218,45.5049279,45.4952284,45.5049279,45.5049279,45.3914585,45.4917128,50.2206197,45.5049279,45.5049279,45.5049279,45.4917128,45.5049279,45.5049279,45.5049279,45.477373,45.428871,45.428871,45.4403271,45.5049279,45.5049279,45.4277985,45.5049279,45.5049279,45.5049279,45.4917128,45.5049279,45.5049279,45.5049279,45.4917128,45.4917128,45.5049279,45.5049279,45.4088164,45.3914585,45.5049279,45.5049279,45.5049279,45.4917128,45.5049279,45.5049279,45.5055593,45.4127794,45.9279223,45.9943727,45.9033998,45.9072857,45.7906693,45.5967913,45.5049279,45.5055593,45.5049279,45.5049279,45.4917128,45.474413,45.4917128,45.474413,45.7161383,45.4917128,45.718765,45.5049279,45.3914585,45.5049279,45.4277985,45.474413,45.5951224,45.5049279,45.4645346,45.4044792,45.474413,45.4917128,45.474413,45.5049279,45.5049279,45.5049279,45.0428165,45.5049279,45.5049279,45.3914585,45.5049279,45.474413,45.5049279,45.4929101,45.4917128,45.5049279,45.5049279,45.5100537,45.4917128,45.5049279,45.4277985,45.474413,45.9279223,45.477373],[-69.469619,-70.7955237,-73.6096818,-73.6402845,-73.6096818,-69.3967052,-69.9446309,-70.1979992,-70.1979992,-73.6071465,-73.6071465,-73.6039953,-73.6096818,-73.6039953,-73.6039953,-73.6039953,-73.6039953,-73.4755858,-73.6039953,-73.6096818,-73.6039953,-73.6039953,-73.7611771,-73.6071465,-64.2061186,-73.6039953,-73.6039953,-73.6039953,-73.6071465,-73.6039953,-73.6039953,-73.6039953,-73.758144,-73.9520833,-73.9520833,-73.9273771,-73.6039953,-73.6039953,-73.5921872,-73.6039953,-73.6039953,-73.6039953,-73.6071465,-73.6039953,-73.6039953,-73.6039953,-73.6071465,-73.6071465,-73.6039953,-73.6039953,-73.5745737,-73.7611771,-73.6039953,-73.6039953,-73.6039953,-73.6071465,-73.6039953,-73.6039953,-73.5882289,-73.9336276,-75.0667161,-75.1154395,-75.0820108,-75.0923896,-75.09718,-75.0927215,-73.6039953,-73.5882289,-73.6039953,-73.6039953,-73.6071465,-73.763488,-73.6071465,-73.763488,-73.9735121,-73.6071465,-73.9975548,-73.6039953,-73.7611771,-73.6039953,-73.5921872,-73.763488,-75.0866175,-73.6039953,-73.9315517,-73.9559848,-73.763488,-73.6071465,-73.763488,-73.6039953,-73.6039953,-73.6039953,-74.4659194,-73.6039953,-73.6039953,-73.7611771,-73.6039953,-73.763488,-73.6039953,-73.6160913,-73.6071465,-73.6039953,-73.6039953,-73.8786578,-73.6071465,-73.6039953,-73.5921872,-73.763488,-75.0667161,-73.758144],{"icon":"fa-check","markerColor":"green","iconColor":"black","spin":false,"squareMarker":false,"iconRotate":0,"font":"monospace","prefix":"fa"},null,null,{"interactive":true,"draggable":false,"keyboard":true,"title":"","alt":"","zIndexOffset":0,"opacity":1,"riseOnHover":false,"riseOffset":250},null,null,{"showCoverageOnHover":true,"zoomToBoundsOnClick":true,"spiderfyOnMaxZoom":true,"removeOutsideVisibleBounds":true,"spiderLegPolylineOptions":{"weight":1.5,"color":"#222","opacity":0.5},"freezeAtZoom":false},null,["<strong> Centre d’int. et d’obs. de Cap-de-Bon-Désir <br/> 8 species <br/> <\/strong> 2020-09-24, 58 minutes","<strong> RNF du cap Tourmente--secteur La Petite Ferme <br/> 7 species <br/> <\/strong> 2020-09-26, 64 minutes","<strong> 3250 Avenue Ridgewood, Montréal, Québec, CA (45.495, -73.61) <br/> 1 species <br/> <\/strong> 2020-09-27, NA minutes","<strong> Campus Loyola, Université Concordia <br/> 7 species <br/> <\/strong> 2020-09-28, 79 minutes","<strong> 3250 Avenue Ridgewood, Montréal, Québec, CA (45.495, -73.61) <br/> 5 species <br/> <\/strong> 2020-09-30, 20 minutes","<strong> Pointe de la Croix <br/> 5 species <br/> <\/strong> 2020-09-23, 40 minutes","<strong> PN du Fjord-du-Saguenay--embouchure Rivière Ste-Marguerite <br/> 4 species <br/> <\/strong> 2020-09-21, NA minutes","<strong> Rivière-Éternité, Québec, CA (48.259, -70.198) <br/> 1 species <br/> <\/strong> 2020-09-25, NA minutes","<strong> Rivière-Éternité, Québec, CA (48.259, -70.198) <br/> 1 species <br/> <\/strong> 2020-09-26, NA minutes","<strong> Parc Summit <br/> 10 species <br/> <\/strong> 2020-10-04, 89 minutes","<strong> Parc Summit <br/> 5 species <br/> <\/strong> 2020-10-05, 55 minutes","<strong> Cimetières Mt-Royal & Notre-Dame-des-Neiges <br/> 12 species <br/> <\/strong> 2020-10-06, 165 minutes","<strong> 3250 Avenue Ridgewood, Montréal, Québec, CA (45.495, -73.61) <br/> 1 species <br/> <\/strong> 2020-10-06, NA minutes","<strong> Cimetières Mt-Royal & Notre-Dame-des-Neiges <br/> 8 species <br/> <\/strong> 2020-10-08, NA minutes","<strong> Cimetières Mt-Royal & Notre-Dame-des-Neiges <br/> 15 species <br/> <\/strong> 2020-10-11, 168 minutes","<strong> Cimetières Mt-Royal & Notre-Dame-des-Neiges <br/> 11 species <br/> <\/strong> 2020-10-14, 77 minutes","<strong> Cimetières Mt-Royal & Notre-Dame-des-Neiges <br/> 5 species <br/> <\/strong> 2020-10-14, NA minutes","<strong> PN des Îles-de-Boucherville (incluant Île Charron) <br/> 27 species <br/> <\/strong> 2020-10-17, 340 minutes","<strong> Cimetières Mt-Royal & Notre-Dame-des-Neiges <br/> 9 species <br/> <\/strong> 2020-10-18, 69 minutes","<strong> 3250 Avenue Ridgewood, Montréal, Québec, CA (45.495, -73.61) <br/> 2 species <br/> <\/strong> 2020-10-18, NA minutes","<strong> Cimetières Mt-Royal & Notre-Dame-des-Neiges <br/> 11 species <br/> <\/strong> 2020-10-22, 95 minutes","<strong> Cimetières Mt-Royal & Notre-Dame-des-Neiges <br/> 11 species <br/> <\/strong> 2020-10-23, 128 minutes","<strong> RF Marguerite-D'Youville <br/> 25 species <br/> <\/strong> 2020-10-24, 255 minutes","<strong> Parc Summit <br/> 1 species <br/> <\/strong> 2020-10-25, NA minutes","<strong> PN Archipel-de-Mingan--Île aux Perroquets <br/> 4 species <br/> <\/strong> 2019-08-04, NA minutes","<strong> Cimetières Mt-Royal & Notre-Dame-des-Neiges <br/> 8 species <br/> <\/strong> 2020-10-29, 38 minutes","<strong> Cimetières Mt-Royal & Notre-Dame-des-Neiges <br/> 12 species <br/> <\/strong> 2020-10-31, 161 minutes","<strong> Cimetières Mt-Royal & Notre-Dame-des-Neiges <br/> 4 species <br/> <\/strong> 2020-11-02, 33 minutes","<strong> Parc Summit <br/> 5 species <br/> <\/strong> 2020-11-04, 56 minutes","<strong> Cimetières Mt-Royal & Notre-Dame-des-Neiges <br/> 14 species <br/> <\/strong> 2020-11-05, 104 minutes","<strong> Cimetières Mt-Royal & Notre-Dame-des-Neiges <br/> 11 species <br/> <\/strong> 2020-11-05, 93 minutes","<strong> Cimetières Mt-Royal & Notre-Dame-des-Neiges <br/> 2 species <br/> <\/strong> 2020-11-07, 240 minutes","<strong> Technoparc Mtl--Éco-Campus <br/> 12 species <br/> <\/strong> 2020-11-08, 161 minutes","<strong> Arboretum Morgan <br/> 5 species <br/> <\/strong> 2020-11-08, 22 minutes","<strong> Arboretum Morgan <br/> 13 species <br/> <\/strong> 2020-11-08, 92 minutes","<strong> 306 Rue Aumais, Sainte-Anne-de-Bellevue, Québec, CA (45.44, -73.927) <br/> 1 species <br/> <\/strong> 2020-11-08, NA minutes","<strong> Cimetières Mt-Royal & Notre-Dame-des-Neiges <br/> 18 species <br/> <\/strong> 2020-11-09, 180 minutes","<strong> Cimetières Mt-Royal & Notre-Dame-des-Neiges <br/> 5 species <br/> <\/strong> 2020-11-09, 47 minutes","<strong> Parc des Rapides <br/> 15 species <br/> <\/strong> 2020-11-10, 126 minutes","<strong> Cimetières Mt-Royal & Notre-Dame-des-Neiges <br/> 10 species <br/> <\/strong> 2020-11-10, 97 minutes","<strong> Cimetières Mt-Royal & Notre-Dame-des-Neiges <br/> 14 species <br/> <\/strong> 2020-11-11, 138 minutes","<strong> Cimetières Mt-Royal & Notre-Dame-des-Neiges <br/> 10 species <br/> <\/strong> 2020-11-12, 128 minutes","<strong> Parc Summit <br/> 3 species <br/> <\/strong> 2020-11-13, 32 minutes","<strong> Cimetières Mt-Royal & Notre-Dame-des-Neiges <br/> 7 species <br/> <\/strong> 2020-11-15, 80 minutes","<strong> Cimetières Mt-Royal & Notre-Dame-des-Neiges <br/> 2 species <br/> <\/strong> 2020-11-14, 25 minutes","<strong> Cimetières Mt-Royal & Notre-Dame-des-Neiges <br/> 8 species <br/> <\/strong> 2020-11-16, 92 minutes","<strong> Parc Summit <br/> 5 species <br/> <\/strong> 2020-11-17, 37 minutes","<strong> Parc Summit <br/> 2 species <br/> <\/strong> 2020-11-18, 19 minutes","<strong> Cimetières Mt-Royal & Notre-Dame-des-Neiges <br/> 4 species <br/> <\/strong> 2020-11-19, 76 minutes","<strong> Cimetières Mt-Royal & Notre-Dame-des-Neiges <br/> 12 species <br/> <\/strong> 2020-11-20, 160 minutes","<strong> RécréoParc (Côte-Ste-Catherine) <br/> 6 species <br/> <\/strong> 2020-11-21, 40 minutes","<strong> RF Marguerite-D'Youville <br/> 17 species <br/> <\/strong> 2020-11-21, 217 minutes","<strong> Cimetières Mt-Royal & Notre-Dame-des-Neiges <br/> 13 species <br/> <\/strong> 2020-11-22, 187 minutes","<strong> Cimetières Mt-Royal & Notre-Dame-des-Neiges <br/> 8 species <br/> <\/strong> 2020-11-23, 46 minutes","<strong> Cimetières Mt-Royal & Notre-Dame-des-Neiges <br/> 15 species <br/> <\/strong> 2020-11-24, 141 minutes","<strong> Parc Summit <br/> 4 species <br/> <\/strong> 2020-11-25, 39 minutes","<strong> Cimetières Mt-Royal & Notre-Dame-des-Neiges <br/> 7 species <br/> <\/strong> 2020-11-24, 75 minutes","<strong> Cimetières Mt-Royal & Notre-Dame-des-Neiges <br/> 6 species <br/> <\/strong> 2020-11-26, 52 minutes","<strong> Parc du Mt-Royal <br/> 2 species <br/> <\/strong> 2020-11-26, 13 minutes","<strong> Autoroute du Souvenir, Baie-D'Urfe, Quebec, CA (45.413, -73.934) <br/> 1 species <br/> <\/strong> 2020-11-27, NA minutes","<strong> Lac-Simon - Rue Fanny <br/> 6 species <br/> <\/strong> 2020-11-28, 58 minutes","<strong> Sentier national Iroquois <br/> 3 species <br/> <\/strong> 2020-11-28, 12 minutes","<strong> Lac Simon - Baie Blais <br/> 5 species <br/> <\/strong> 2020-11-28, 10 minutes","<strong> Marina, Lac Simon <br/> 3 species <br/> <\/strong> 2020-11-28, 20 minutes","<strong> Halte, Chutes de Ripon <br/> 4 species <br/> <\/strong> 2020-11-29, 10 minutes","<strong> PN de Plaisance--Presqu'îles (Grande & Petite) <br/> 12 species <br/> <\/strong> 2020-11-29, 122 minutes","<strong> Cimetières Mt-Royal & Notre-Dame-des-Neiges <br/> 13 species <br/> <\/strong> 2020-11-30, 132 minutes","<strong> Parc du Mt-Royal <br/> 7 species <br/> <\/strong> 2020-12-01, 57 minutes","<strong> Cimetières Mt-Royal & Notre-Dame-des-Neiges <br/> 4 species <br/> <\/strong> 2020-12-01, 37 minutes","<strong> Cimetières Mt-Royal & Notre-Dame-des-Neiges <br/> 10 species <br/> <\/strong> 2020-12-05, 56 minutes","<strong> Parc Summit <br/> 2 species <br/> <\/strong> 2020-12-06, 25 minutes","<strong> Parc écologique des Sources <br/> 14 species <br/> <\/strong> 2021-01-01, 138 minutes","<strong> Parc Summit <br/> 2 species <br/> <\/strong> 2021-01-06, 23 minutes","<strong> Parc écologique des Sources <br/> 11 species <br/> <\/strong> 2021-01-10, 85 minutes","<strong> Trans-Canada Highway, Sainte-Anne-des-Plaines, Quebec, CA (45.716, -73.974) <br/> 1 species <br/> <\/strong> 2021-01-31, NA minutes","<strong> Parc Summit <br/> 2 species <br/> <\/strong> 2021-02-10, 15 minutes","<strong> Rgs Ste-Marie & Ste-Dominique, Mirabel <br/> 3 species <br/> <\/strong> 2021-03-01, 36 minutes","<strong> Cimetières Mt-Royal & Notre-Dame-des-Neiges <br/> 9 species <br/> <\/strong> 2021-03-07, 84 minutes","<strong> RF Marguerite-D'Youville <br/> 26 species <br/> <\/strong> 2021-03-21, 172 minutes","<strong> Cimetières Mt-Royal & Notre-Dame-des-Neiges <br/> 10 species <br/> <\/strong> 2021-03-30, 65 minutes","<strong> Parc des Rapides <br/> 11 species <br/> <\/strong> 2021-04-02, 65 minutes","<strong> Parc écologique des Sources <br/> 13 species <br/> <\/strong> 2021-04-03, 131 minutes","<strong> PN de Plaisance--Marais aux rubaniers <br/> 18 species <br/> <\/strong> 2021-04-04, 155 minutes","<strong> Cimetières Mt-Royal & Notre-Dame-des-Neiges <br/> 12 species <br/> <\/strong> 2021-04-06, 114 minutes","<strong> PN du Cap-St-Jacques <br/> 13 species <br/> <\/strong> 2021-04-10, 139 minutes","<strong> Canal de Ste-Anne-de-Bellevue <br/> 4 species <br/> <\/strong> 2021-04-10, 32 minutes","<strong> Parc écologique des Sources <br/> 22 species <br/> <\/strong> 2021-04-11, 104 minutes","<strong> Parc Summit <br/> 1 species <br/> <\/strong> 2021-04-12, 60 minutes","<strong> Parc écologique des Sources <br/> 19 species <br/> <\/strong> 2021-04-14, 124 minutes","<strong> Cimetières Mt-Royal & Notre-Dame-des-Neiges <br/> 27 species <br/> <\/strong> 2021-04-24, 262 minutes","<strong> Cimetières Mt-Royal & Notre-Dame-des-Neiges <br/> 14 species <br/> <\/strong> 2021-04-26, 87 minutes","<strong> Cimetières Mt-Royal & Notre-Dame-des-Neiges <br/> 15 species <br/> <\/strong> 2021-05-01, 109 minutes","<strong> RNF du Lac-St-François <br/> 25 species <br/> <\/strong> 2021-05-02, 161 minutes","<strong> Cimetières Mt-Royal & Notre-Dame-des-Neiges <br/> 7 species <br/> <\/strong> 2021-05-05, 78 minutes","<strong> Cimetières Mt-Royal & Notre-Dame-des-Neiges <br/> 26 species <br/> <\/strong> 2021-05-08, 180 minutes","<strong> RF Marguerite-D'Youville <br/> 49 species <br/> <\/strong> 2021-05-09, 352 minutes","<strong> Cimetières Mt-Royal & Notre-Dame-des-Neiges <br/> 20 species <br/> <\/strong> 2021-05-10, 117 minutes","<strong> Parc écologique des Sources <br/> 32 species <br/> <\/strong> 2021-05-15, 193 minutes","<strong> Cimetières Mt-Royal & Notre-Dame-des-Neiges <br/> 10 species <br/> <\/strong> 2021-05-17, 58 minutes","<strong> Jardin du Chemin de la Croix <br/> 7 species <br/> <\/strong> 2021-05-16, 83 minutes","<strong> Parc Summit <br/> 15 species <br/> <\/strong> 2021-05-20, 86 minutes","<strong> Cimetières Mt-Royal & Notre-Dame-des-Neiges <br/> 5 species <br/> <\/strong> 2021-05-19, 102 minutes","<strong> Cimetières Mt-Royal & Notre-Dame-des-Neiges <br/> 10 species <br/> <\/strong> 2021-05-23, 62 minutes","<strong> PN du Bois-de-l'île-Bizard <br/> 39 species <br/> <\/strong> 2021-05-24, 347 minutes","<strong> Parc Summit <br/> 14 species <br/> <\/strong> 2021-05-27, 78 minutes","<strong> Cimetières Mt-Royal & Notre-Dame-des-Neiges <br/> 21 species <br/> <\/strong> 2021-05-29, 154 minutes","<strong> Parc des Rapides <br/> 22 species <br/> <\/strong> 2021-05-30, 104 minutes","<strong> Parc écologique des Sources <br/> 27 species <br/> <\/strong> 2021-06-05, 128 minutes","<strong> Lac-Simon, Quebec, CA (45.928, -75.067) <br/> 12 species <br/> <\/strong> 2021-06-20, 38 minutes","<strong> Technoparc Mtl--Éco-Campus <br/> 8 species <br/> <\/strong> 2021-06-12, 82 minutes"],{"interactive":false,"permanent":false,"direction":"auto","opacity":1,"offset":[0,0],"textsize":"15px","textOnly":false,"style":{"font-weight":"normal","padding":"3px 8px"},"className":"","sticky":true},null]}],"limits":{"lat":[45.0428165,50.2206197],"lng":[-75.1154395,-64.2061186]}},"evals":[],"jsHooks":[]}</script>
+
+---
+## The `myebirdmap` base script
+
+---
+## Translating code into functions
+
+
 ---
 ## Starting a new package with {usethis}
 &lt;!-- Show how to start a package and get the basics done --&gt;
@@ -579,15 +601,36 @@ usethis::use_readme_rmd()
 ```
 
 ---
+## Adding code
+
+
+```r
+usethis::use_r("my_ebird_map")
+```
+
+```{}
+• Modify 'R/my_ebird_map.R'
+• Call `use_test()` to create a matching test file
+```
+
+
+```r
+usethis::use_r("process_ebird_data")
+usethis::use_r("helper_functions.R")
+```
+
+---
+## Adding dependencies
+
+---
+## Documenting functions 
+
+---
 ## Checking your package
 &lt;!-- Show how a basic package with pass checks --&gt;
 
 ---
-##  Workflow
-
-
----
-## Translating the worlflow into functions
+##  The development workflow
 
 ---
 class: inverse center middle

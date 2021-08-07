@@ -81,28 +81,26 @@ name: plan 1
 <!-- 9:30 - 9:35 : let people trickle in -->
 <!-- 9:35 - 9:40 : personal introduction -->
 
-1. __Research software in Eco-Evo__ (__~ 10 minutes__) <!-- 9:40 - 9:50 -->
+1. __Research software in Eco-Evo__ (__~ 20 minutes__) <!-- 9:40 - 10:00 -->
   * What is research software?
   * To Package or not to Package: what are the alternatives?
-    
-2. __Design patterns: the "tooling" vs "workflow" paradigms__ (__~ 10 minutes__) <!-- 9:50 - 10:00 -->
   * General vs workflow oriented packaging.
-  * Object-oriented designs and functional programming.
   
-3. __From "spaghetti code" to "packaged" code__ (__~ 20 minutes__) <!-- 10:00 - 10:20 -->
+2. __From "spaghetti code" to "packaged" code__ (__~ 20 minutes__) <!-- 10:00 - 10:20 -->
   * Tips and tricks to modularize your research code.
   * How to write clean code.
+  * Object-oriented designs and functional programming.
   * (__Break: 10 minutes__) <!-- 10:20 - 10:30 -->
 
 ---
 name: plan 2
 ## Workshop: Parts 2 & 3 (10:30 -> 12:30)
 
-4. __Your personal assistants: `usethis` and `devtools`__ (__~ 50 minutes__) <!-- 10:30 - 11:20 -->
+3. __A package step by step with `usethis` and `devtools`__ (__~ 50 minutes__) <!-- 10:30 - 11:20 -->
   * Let's create an example package step by step.
   * (__Break: 10 minutes__) <!-- 11:20 - 11:30 -->
   
-5. __Package testing, maintenance and distribution: best practices__ (__~ 50 minutes__) <!-- 11:30 - 12:20 -->
+4. __Package testing, maintenance and distribution: best practices__ (__~ 50 minutes__) <!-- 11:30 - 12:20 -->
   * How to test, maintain, and distribute your package.
 
 __Q & A__: If time allows, __~ 10 minutes__ (or on the conference app at any time) 
@@ -322,11 +320,6 @@ __Naming things is hard__. but here are a few advice<sup>1</sup> :
 .footnote[[1] [M. Simon's blog post](https://masalmon.eu/2017/12/11/goodrpackages/)]
 
 ---
-class: inverse center middle
-
-## Design patterns: "tooling" vs "workflow"
-
----
 ## Research packages fall into 3 broad categories
 
 From the widest to the narrowest user base, on a continuum from generality to specificity:
@@ -337,7 +330,7 @@ From the widest to the narrowest user base, on a continuum from generality to sp
 
 2. To make a certain __workflow__ reproducible and adaptable.
 
-The first 2 are exampless of __tooling__ packages: general purpose, no object structure (or very light). One function does one thing.
+The first 2 are examples of __tooling__ packages: general purpose, no object structure (or very light). One function does one thing.
 
 The last is an example of a __workflow__ package: can have a strong object structure (but beware!). In the back, may be built with simpler "tooling" elements.
 
@@ -501,10 +494,17 @@ Due to time constraints, things like OOP will be outside the scope of this examp
 ---
 ## `myebirdmap` demo
 
-```{r, fig.dim=c(5, 6), eval = FALSE}
+```{r, fig.dim=c(5, 6), eval = TRUE}
 library(myebirdmap)
 my_ebird_map("data/raw_ebird_data.csv")
 ```
+
+---
+## The `myebirdmap` base script
+
+---
+## Translating code into functions
+
 
 ---
 ## Starting a new package with {usethis}
@@ -579,15 +579,34 @@ usethis::use_readme_rmd()
 ```
 
 ---
+## Adding code
+
+```{r, eval = FALSE}
+usethis::use_r("my_ebird_map")
+```
+
+```{}
+• Modify 'R/my_ebird_map.R'
+• Call `use_test()` to create a matching test file
+```
+
+```{r, eval = FALSE}
+usethis::use_r("process_ebird_data")
+usethis::use_r("helper_functions.R")
+```
+
+---
+## Adding dependencies
+
+---
+## Documenting functions 
+
+---
 ## Checking your package
 <!-- Show how a basic package with pass checks -->
 
 ---
-##  Workflow
-
-
----
-## Translating the worlflow into functions
+##  The development workflow
 
 ---
 class: inverse center middle
