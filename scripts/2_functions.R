@@ -1,122 +1,97 @@
+# My eBird map
 # Turning script into functions
 
-# 1. Plot the track with starting/ending points ---------------------------
+# 1. Clean data -----------------------------------------------------------
 
-plot_track <- function(track, pts = NULL){
+clean_ebird_data <- function(file){
   
-  # Make base map
-  track_map <- leaflet::leaflet(track) %>% 
-    leaflet::addTiles() %>% 
-    leaflet::addPolylines()
+  data_clean <- read.csv(file) %>%
+    janitor::clean_names() %>%
+    dplyr::mutate(date = lubridate::ymd(date)) %>%
+    dplyr::select(-observation_details, -checklist_comments)
   
-  # If points are given, plot them as well
-  if(!is.null(pts)){
-    track_map <- track_map  %>% 
-      leaflet::addMarkers(data = pts)
-  }
-  
-  return(track_map)
+  return(data_clean)
 }
 
-# 2. Subset points based on interval --------------------------------------
+# 2. Turn into a spatial object -------------------------------------------
 
-sample_track_regularly <- function(track, size){
+aggregate_ebird_data <- function(ebird_data){
   
-  pts_sample <- sf::st_sample(track, size = size, type = "regular") 
+  ebird_data_ag <- ebird_data %>%
+    dplyr::group_by(submission_id, latitude, longitude, location,
+                    date, duration_min, distance_traveled_km) %>%
+    dplyr::summarise(num_species = n(), .groups = "drop")
   
-  return(pts_sample)
+  return(ebird_data_ag)
 }
 
-# 3. Get observations at hotspots near the road ---------------------------
-
-get_obs_near_itinerary <- function(track, pts = NULL, size = 50, dist = 5, 
-                                   speciesCode = NULL,
-                                   key = Sys.getenv("EBIRD_KEY")){
+spatialize_ebird_data <- function(ebird_data){
   
-  # If points are absent, sample the track
-  if(is.null(pts)){
-    pts <- sample_track_regularly(track, size)
-  }
+  ebird_data_spatial <- ebird_data %>%
+    sf::st_as_sf(coords = c("longitude", "latitude"), crs = 4326)
   
-  # Get the coordinates
-  coords <- as.data.frame(sf::st_coordinates(pts))
-  
-  # For all points, get the nearest observations
-  nearest_obs <- 
-    mapply(rebird::nearestobs, 
-           lng = coords$X, lat = coords$Y, 
-           MoreArgs = list(dist = dist, speciesCode = speciesCode, 
-                           key = key), SIMPLIFY = FALSE) %>% 
-    dplyr::bind_rows() %>% 
-    dplyr::distinct()
-  
-  return(nearest_obs)
+  return(ebird_data_spatial)
 }
 
-# 4. Cross reference with my data and produce final plot ------------------
+# 4. Produce the map ------------------------------------------------------
 
-plan_roadtrip <- function(track, ebird_data, ...){
+# Get the check icon
+get_awesome_icons <- function(){
   
-  nearest_obs <- get_obs_near_itinerary(track, ...)
-  all_species <- unique(nearest_obs$sciName)
+  icons <- leaflet::awesomeIcons(
+    icon = 'fa-check',
+    iconColor = 'black',
+    markerColor = "green",
+    library = 'fa')
   
-  all_my_species <- unique(ebird_data$sciName)
-  ids_of_unmatched <- which(!(all_species %in% all_my_species))
-  all_unmatches_species <- all_species[ids_of_unmatched]
+  return(icons)
+}
+
+# Format the labels
+format_marker_labels <- function(ebird_data){
   
-  nearest_obs_unmatches_species <- nearest_obs %>% 
-    dplyr::filter(.data$sciName %in% all_unmatches_species)
-  
-  nearest_obs_unmatches_species_summary <- nearest_obs_unmatches_species %>% 
-    dplyr::group_by(.data$locId, .data$locName, .data$lat, .data$lng) %>% 
-    dplyr::group_map(~format_species_names(.), .keep = TRUE) %>% 
-    dplyr::bind_rows() %>% 
-    dplyr::group_by(.data$locId, .data$locName, .data$lat, .data$lng, .data$all_species) %>% 
-    dplyr::summarise(nb_species = length(unique(.data$speciesCode))) %>% 
-    sf::st_as_sf(coords = c("lng", "lat"))
-  
-  # Make a palette
-  the_pal <- colorNumeric(palette = "Purples", 
-                          domain = nearest_obs_unmatches_species_summary$nb_species)
-  
-  # Make the labels
-  labels <- paste0(sprintf(
-    "<strong>%s<br/>%g unseen species <br/></strong>",
-    nearest_obs_unmatches_species_summary$locName,
-    nearest_obs_unmatches_species_summary$nb_species
-  ), nearest_obs_unmatches_species_summary$all_species) %>% 
+  marker_labels <- sprintf(
+    "<strong> %s <br/> %d species <br/> </strong> %s, %s minutes",
+    ebird_data$location, ebird_data$num_species,
+    ebird_data$date, ebird_data$duration_min) %>%
     lapply(htmltools::HTML)
   
-  # Plot it
-  plan <- 
-    plot_track(track) %>% 
-    addCircleMarkers(
-      data = nearest_obs_unmatches_species_summary,
-      radius = 5,
-      color = ~the_pal(nb_species),
-      stroke = FALSE, 
-      fillOpacity = 0.9,
-      label = labels,
+  return(marker_labels)
+}
+
+# Plot the map
+my_ebird_map <- function(file, aggregate_data = TRUE){
+  
+  clean_data <- clean_ebird_data(file)
+  
+  if(aggregate_data){
+    
+    spatial_data <- clean_data %>%
+      aggregate_ebird_data() %>%
+      spatialize_ebird_data()
+    
+    the_labels <- format_marker_labels(spatial_data)
+    
+  } else {
+    
+    spatial_data <- clean_data %>%
+      spatialize_ebird_data()
+    
+    the_labels <- NULL
+    
+  }
+  
+  the_map <- leaflet::leaflet(data = spatial_data) %>%
+    leaflet::addProviderTiles("OpenStreetMap.DE") %>%
+    leaflet::addAwesomeMarkers(
+      icon = get_awesome_icons(),
+      clusterOptions = markerClusterOptions(),
+      label = the_labels,
       labelOptions = labelOptions(
-        style = list("font-weight" = "normal", padding = "3px 8px"),
+        style = list("font-weight" = "normal",
+                     padding = "3px 8px"),
         textsize = "15px",
-        direction = "auto")) %>% 
-    addLegend(pal = the_pal, 
-              title = "Unseen<br/> species",
-              values = ~nearest_obs_unmatches_species_summary$nb_species, 
-              opacity = 0.7,
-              position = "topright")
+        direction = "auto"))
   
-  
-  return(plan)
+  return(the_map)
 }
-
-# Helpers -----------------------------------------------------------------
-
-format_species_names <- function(df) {
-  the_species <- unique(df$comName)
-  df$all_species <-  paste0(the_species, collapse = " <br/>")
-  return(df)
-}
-
-# -------------------------------------------------------------------------

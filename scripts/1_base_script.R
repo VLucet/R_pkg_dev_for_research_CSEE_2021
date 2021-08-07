@@ -1,124 +1,66 @@
-# EBIRD road trip planner script
+# My eBird map
+# Base script
 
 # Load packages
-library(readr)   # To import data
-library(dplyr)   # To manipulate data
+library(dplyr)     # To manipulate data
+library(janitor)   # To clean data
+library(lubridate) # To clean date
+library(sf)        # To handle vector data
+library(leaflet)   # To make nice maps
+library(htmltools) # To make nice map marker labels
 
-library(rebird)  # To access eBird data
-library(myebird) # To process personal eBird data
+# 0. Load eBird data ------------------------------------------------------
 
-library(sf)      # To handle vector data
-library(leaflet) # To make nice maps
+my_data <- read.csv("data/raw_ebird_data.csv")
 
-# 0. Load data ------------------------------------------------------------
+# 1. Clean data -----------------------------------------------------------
 
-# Load road trip data
-track <- st_read("data/Itinerary.gpx", layer = "tracks")
+my_data_clean <- my_data %>% 
+  clean_names() %>% 
+  mutate(date = ymd(date)) %>%
+  select(-observation_details, -checklist_comments)
 
-# Load my eBird data
-my_data <- ebirdclean("data/MyEBirdData.csv")
+# 2. Turn into a spatial object -------------------------------------------
 
-# Get my API key (sorted in my .Renviron file in my home folder)
-my_key <- Sys.getenv("EBIRD_KEY")
+# Let's aggregate by checklist (submission_id)
+my_data_clean_ag <- my_data_clean %>% 
+  group_by(submission_id, latitude, longitude, county, location,
+           date, duration_min, distance_traveled_km) %>% 
+  summarise(num_species = n(), .groups = "drop")
 
-# 1. Plot the track with starting/ending points ---------------------------
+my_data_clean_ag_spatial <- my_data_clean_ag %>% 
+  st_as_sf(coords = c("longitude", "latitude"), crs = 4326)
 
-# Make a simple map
-track_map <- leaflet(track) %>% 
-  addTiles() %>% 
-  addPolylines()
-track_map
+# 4. Produce the map ------------------------------------------------------
 
-# 2. Subset points based on interval --------------------------------------
+# Get the check icon
+icons <- awesomeIcons(
+  icon = 'fa-check',
+  iconColor = 'black',
+  markerColor = "green",
+  library = 'fa')
 
-# Subset 50 points
-pts_sub <- st_sample(track, 50, type = "regular") %>% 
-  st_as_sf() %>% 
-  st_cast("POINT")
+# Format the labels
+marker_labels <- sprintf(
+  "<strong> %s <br/> 
+  %d species <br/> </strong> 
+  %s, %s minutes <br/>
+  %s km travelled",
+  my_data_clean_ag_spatial$location,
+  my_data_clean_ag_spatial$num_species, 
+  my_data_clean_ag_spatial$date, 
+  my_data_clean_ag_spatial$duration_min, 
+  my_data_clean_ag_spatial$distance_traveled_km) %>% 
+  lapply(HTML)
 
-# Plot the subset points
-track_map_with_points <- leaflet(track) %>% 
-  addTiles() %>% 
-  addPolylines() %>% 
-  addMarkers(data = pts_sub)
-track_map_with_points
-
-# 3. Get observations at hotspots near the road ---------------------------
-
-# Get the coordinates of these points
-coords <- as.data.frame(st_coordinates(pts_sub))
-head(coords)
-
-# Sample nearest observations
-all_obs <- list()
-
-for(coord_id in seq_len(nrow(coords))){
-  the_row <- coords[coord_id, ]
-  all_obs[[coord_id]] <- 
-    nearestobs(lng = the_row$X, lat = the_row$Y, dist = 5,
-               speciesCode = NULL, key = my_key)
-}
-
-# remove duplicates and find the list of species observed
-all_obs_df <- bind_rows(all_obs) %>% 
-  unique()
-all_species <- unique(all_obs_df$sciName)
-
-# 4. Cross reference with my data and produce final plot ------------------
-
-# Cross reference with my species list
-all_my_species <- unique(my_data$sciName)
-ids_of_unmatched <- which(!(all_species %in% all_my_species))
-all_unmatches_species <- all_species[ids_of_unmatched]
-
-all_obs_df_unmatches_species <- all_obs_df %>% 
-  filter(sciName %in% all_unmatches_species)
-
-# Prepare the dataset for plotting the final map
-format_species_names <- function(df) {
-  # browser()
-  the_species <- unique(df$comName)
-  df$all_species <-  paste0(the_species, collapse = " <br/>")
-  return(df)
-}
-
-all_obs_df_unmatches_species_summary <- all_obs_df_unmatches_species %>% 
-  group_by(locId, locName, lat, lng) %>% 
-  group_map(~format_species_names(.), .keep = TRUE) %>% 
-  bind_rows() %>% 
-  group_by(locId, locName, lat, lng, all_species) %>% 
-  summarise(nb_species=length(unique(speciesCode))) %>% 
-  st_as_sf(coords = c("lng", "lat"))
-
-# Make a palette
-the_pal <- colorNumeric(palette = "Purples", 
-                        domain = all_obs_df_unmatches_species_summary$nb_species)
-
-# Make the labels
-labels <- paste0(sprintf(
-  "<strong>%s<br/>%g unseen species <br/></strong>",
-  all_obs_df_unmatches_species_summary$locName,
-  all_obs_df_unmatches_species_summary$nb_species
-), all_obs_df_unmatches_species_summary$all_species) %>% 
-  lapply(htmltools::HTML)
-
-# Plot it
-track_map %>% 
-  addCircleMarkers(
-    data = all_obs_df_unmatches_species_summary,
-    radius = 5,
-    color = ~the_pal(nb_species),
-    stroke = FALSE, 
-    fillOpacity = 0.9,
-    label = labels,
+# Plot the map
+leaflet(data = my_data_clean_ag_spatial) %>% 
+  addProviderTiles("OpenStreetMap.DE") %>% 
+  addAwesomeMarkers(
+    icon = icons, 
+    clusterOptions = markerClusterOptions(), 
+    label = marker_labels,
     labelOptions = labelOptions(
       style = list("font-weight" = "normal", padding = "3px 8px"),
       textsize = "15px",
-      direction = "auto")) %>% 
-  addLegend(pal = the_pal, 
-            title = "Unseen<br/> species",
-            values = ~all_obs_df_unmatches_species_summary$nb_species, 
-            opacity = 0.7,
-            position = "topright")
-
-# -------------------------------------------------------------------------
+      direction = "auto"))

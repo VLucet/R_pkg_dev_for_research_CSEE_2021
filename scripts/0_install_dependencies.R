@@ -1,5 +1,9 @@
 # Short script to install all dependencies
 
-packages <- c("readr", "dplyr", "sf", "leaflet", "rebird")
+packages <- c("dplyr", 
+              "janitor", 
+              "lubridate", 
+              "sf", 
+              "leaflet", 
+              "htmltools")
 install.packages(packages)
-devtools::install_github("sebpardo/myebird")

@@ -471,9 +471,36 @@ class: inverse center middle
 ## The 4 pillars of R package dev
 <!-- Describe the 4 packages -->
 
+1. `devtools`
+
+2. `usethis`
+
+3. `roxygen2`
+
+4. `testthat`
+
+---
+## Let's make a package: `myebirdmap`
+
+We are going to code a small package called `myebirdmap` which will produce an interactive map of an eBird data profile. 
+
+The package is heavily inspired from an existing package that already allows you explore eBird data profile: the [`myebird`](https://github.com/sebpardo/myebird) package. Outside of a teaching context, our "ebird map" is a good example of a new feature that could be contributed to `myebird` instead of being the focus of another package. 
+
+The process we are going to go throught touches on some aspect of RSE in eco evo:
+
+1. loading and cleaning data 
+2. Manipulating data into a form that we are interesting in 
+3. Producing a visualization of such data
+
+Due to time constraints, things like OOP will be outside the scope of this example.
+
 ---
 ## Starting a new package with {usethis}
 <!-- Show how to start a package and get the basics done -->
+
+```{r, eval = FALSE}
+devtools::create("~/ebirdstats")
+```
 
 ---
 ## The Package anatomy
@@ -484,22 +511,11 @@ class: inverse center middle
 <!-- Show how a basic package with pass checks -->
 
 ---
-## Packaging use case: the `roadrunner` package
-<!-- emphasis on the shape of code not what all lines do -->
+##  Workflow
 
-There are 2 things I love: __birding__ and __road-tripping__.
 
-_Which eBird hotspots along my itinerary have the best chance to be harboring species I have never seen?_
-
-The solution to this question has a lot of relevant steps to RSE in eco-evo:
-
-1. Querying online data sources using an API key (eBird)
-
-2. Dealing with spatial data
-
-3. Repeating operations (for loop)
-
-4. Visualizing data
+---
+## Translating the worlflow into functions
 
 ---
 class: inverse center middle

@@ -1,25 +1,14 @@
-# EBIRD road trip planner script (functionnal)
+# My eBird map
+# functionnal script
 
 # Load packages
-library(readr)   # To import data
-library(dplyr)   # To manipulate data
-
-library(rebird)  # To access eBird data
-library(myebird) # To process personal eBird data
-
-library(sf)      # To handle vector data
-library(leaflet) # To make nice maps
-
-# 0. Load data ------------------------------------------------------------
-
-# Load road trip data
-track <- st_read("data/Itinerary.gpx", layer = "tracks")
-
-# Load my eBird data
-my_data <- ebirdclean("data/MyEBirdData.csv")
-
-# Plan the trip with a distance of 10 km ----------------------------------
+library(dplyr)     # To manipulate data
+library(janitor)   # To clean data
+library(lubridate) # To clean date
+library(sf)        # To handle vector data
+library(leaflet)   # To make nice maps
+library(htmltools) # To make nice map marker labels
 
 source("scripts/2_functions.R")
 
-plan_roadtrip(track = track, ebird_data = my_data, dist = 15)
+my_ebird_map("data/raw_ebird_data.csv")
