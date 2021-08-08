@@ -519,9 +519,9 @@ names(co2_data) <- c("year", "month", "day", "year_decimal",
                      "co2_ppm", "nb_days", "1_year_ago", 
                      "10_years_ago", "increase_since_1980")
 
-co2_data_clean <- co2_data %>% 
-  mutate(date = ymd(paste(year, month, day, sep = "-"))) %>% 
-  select(-year, -month, -day) %>% 
+co2_data_clean <- co2_data |> 
+  mutate(date = ymd(paste(year, month, day, sep = "-"))) |> 
+  select(-year, -month, -day) |> 
   relocate(date)
 ```
 
@@ -533,10 +533,10 @@ Step 2: getting the closest ppm from a given date
 ```r
 birthday <- ymd("1996-10-29")
 
-ppm_from_date <- co2_data_clean %>% 
-  mutate(diff = abs(date - birthday)) %>% 
-  arrange(diff) %>% 
-  slice(1) %>% 
+ppm_from_date <- co2_data_clean |> 
+  mutate(diff = abs(date - birthday)) |> 
+  arrange(diff) |> 
+  slice(1) |> 
   pull(co2_ppm)
 ```
 
@@ -557,10 +557,10 @@ get_weekly_data <- function(clean = TRUE) {
                        "10_years_ago", "increase_since_1980")
   
   if (clean) {
-    co2_data <- co2_data %>% 
+    co2_data <- co2_data |> 
       dplyr::mutate(date = lubridate::ymd(paste(year, month, day, 
-                                                sep = "-"))) %>% 
-      dplyr::select(-year, -month, -day) %>% 
+                                                sep = "-"))) |> 
+      dplyr::select(-year, -month, -day) |> 
       dplyr::relocate(date)
   } 
   
@@ -580,10 +580,10 @@ ppm_from_date <- function(date) {
   
   co2_data_clean <- get_weekly_data(clean = TRUE)
   
-  ppm <- co2_data_clean %>% 
-    dplyr::mutate(diff = abs(date - date_formatted)) %>% 
-    dplyr::arrange(diff) %>% 
-    dplyr::slice(1) %>% 
+  ppm <- co2_data_clean |> 
+    dplyr::mutate(diff = abs(date - date_formatted)) |> 
+    dplyr::arrange(diff) |> 
+    dplyr::slice(1) |> 
     dplyr::pull(co2_ppm)
   
   return(ppm)
@@ -627,40 +627,6 @@ Let's take a look at the pacakge anatomy...
 .center[
 ![screenshot of a package folder](images/anatomy.png)
 ]
-
----
-## Choosing a license
-
-To choose a license, let's head to [choosealicense.com](https://choosealicense.com/).
-
-We are going to go with GPL-3.
-
-```r
-usethis::use_gpl3_license()
-```
-
-```
-✓ Setting active project to '/home/vlucet/carbon'
-✓ Setting License field in DESCRIPTION to 'GPL (>= 3)'
-✓ Writing 'LICENSE.md'
-✓ Adding '^LICENSE\\.md$' to '.Rbuildignore'
-```
-
----
-## Adding a readme
-
-```r
-usethis::use_readme_rmd()
-```
-
-- Adds a readme
-- Creates commit hook so that changes to readme cant be commited before its re-knitted.
-
-```
-✓ Writing 'README.Rmd'
-✓ Adding '^README\\.Rmd$' to '.Rbuildignore'
-• Modify 'README.Rmd'
-```
 
 ---
 ## Adding code
@@ -715,7 +681,7 @@ The function `ppm_from_date` is now exported for users.
 ---
 ## Dealing with dependencies
 
-We have almost arrived at an installed package
+We have almost arrived at an installed package. We need to make sure that the dependencies of our package are properly specified. 
 
 ---
 ## Building and installing
@@ -724,6 +690,40 @@ We have placed code in the package and set up the function for exportation. We n
 
 ---
 ## Documenting functions
+
+---
+## Choosing a license
+
+To choose a license, let's head to [choosealicense.com](https://choosealicense.com/).
+
+We are going to go with GPL-3.
+
+```r
+usethis::use_gpl3_license()
+```
+
+```
+✓ Setting active project to '/home/vlucet/carbon'
+✓ Setting License field in DESCRIPTION to 'GPL (>= 3)'
+✓ Writing 'LICENSE.md'
+✓ Adding '^LICENSE\\.md$' to '.Rbuildignore'
+```
+
+---
+## Adding a readme
+
+```r
+usethis::use_readme_rmd()
+```
+
+- Adds a readme
+- Creates commit hook so that changes to readme cant be commited before its re-knitted.
+
+```
+✓ Writing 'README.Rmd'
+✓ Adding '^README\\.Rmd$' to '.Rbuildignore'
+• Modify 'README.Rmd'
+```
 
 ---
 ## Checking your package
