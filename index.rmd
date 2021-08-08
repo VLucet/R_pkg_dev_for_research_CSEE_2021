@@ -118,7 +118,7 @@ For today, it is recommended that you are already pretty well acquainted with __
 
 Knowledge of Git/Github is also welcome as I won't have the time to explain version control software.
 
-```{r, eval = FALSE}
+```r
 # Run this in R before we start. 
 pkgs <- c("devtools", "roxygen2", "usethis")
 install.packages(pkgs)
@@ -491,8 +491,9 @@ Therefore, the process we are going to go through touches on 2 aspects of RSE:
 ---
 ## `carbon` demo
 
-```{r, fig.dim=c(5, 6), eval = TRUE}
-# library(carbon)
+```r
+library(carbon)
+# TODO 
 ```
 
 ---
@@ -507,11 +508,11 @@ Therefore, the process we are going to go through touches on 2 aspects of RSE:
 
 Open Rstudio and make sure that no projects are activated.
 
-```{r, eval = FALSE}
+```r
 usethis::create_package("~/carbon", open = TRUE)
 ```
 
-```{}
+```
 ✓ Creating '/home/vlucet/carbon/'
 ✓ Setting active project to '/home/vlucet/carbon'
 ✓ Creating 'R/'
@@ -546,11 +547,11 @@ To choose a license, let's head to [choosealicense.com](https://choosealicense.c
 
 We are going to go with GPL-3.
 
-```{r, eval = FALSE}
+```r
 usethis::use_gpl3_license()
 ```
 
-```{}
+```
 ✓ Setting active project to '/home/vlucet/carbon'
 ✓ Setting License field in DESCRIPTION to 'GPL (>= 3)'
 ✓ Writing 'LICENSE.md'
@@ -560,14 +561,14 @@ usethis::use_gpl3_license()
 ---
 ## Adding a readme
 
-```{r, eval = FALSE}
+```r
 usethis::use_readme_rmd()
 ```
 
 - Adds a readme
 - Creates commit hook so that changes to readme cant be commited before its re-knitted.
 
-```{}
+```
 ✓ Writing 'README.Rmd'
 ✓ Adding '^README\\.Rmd$' to '.Rbuildignore'
 • Modify 'README.Rmd'
@@ -578,15 +579,15 @@ usethis::use_readme_rmd()
 
 Let's now create all code files and copy the functions in the right place.
 
-```{r, eval = FALSE}
+```r
 
 ```
 
-```{}
+```
 
 ```
 
-```{r, eval = FALSE}
+```r
 
 ```
 
@@ -611,6 +612,13 @@ class: inverse center middle
 
 ## Package testing, maintenance and distribution: best practices
 <!-- Include licensing in there -->
+
+---
+## Github Badges
+
+```r
+usethis::use_badge(badge_name = "License: GPL v3", src = "https://img.shields.io/badge/License-GPL%20v3-blue.svg", href = "http://www.gnu.org/licenses/gpl-3.0")
+```
 
 ---
 class: center, middle
