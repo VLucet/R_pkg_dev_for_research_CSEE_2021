@@ -501,8 +501,8 @@ install.packages(packages)
 Let's take a look at the main function:
 
 ```{r}
-# library(carbon)
-# ppm_from_date("1996-10-29)
+library(carbon)
+ppm_from_date("1996-10-29")
 ```
 
 ---
@@ -711,6 +711,11 @@ export(ppm_from_date)
 ```
 
 The function `ppm_from_date` is now exported for users.
+
+---
+## Dealing with dependencies
+
+We have almost arrived at an installed package
 
 ---
 ## Building and installing
