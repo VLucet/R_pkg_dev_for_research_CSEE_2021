@@ -1,6 +1,6 @@
 ## [R Package Development for Research: an Introduction](https://vlucet.github.io/R_pkg_dev_for_research_CSEE_2021/)
 
-[Link to the example package `myebirdmap` for this workshop,](https://github.com/VLucet/myebirdmap)
+[Link to the example package `carbon` for this workshop,](https://github.com/VLucet/carbon)
 
 ### CSEE 2021 Workshop
 
