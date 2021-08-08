@@ -4,7 +4,7 @@
     <title>R Package Development for Research</title>
     <meta charset="utf-8" />
     <meta name="author" content="Valentin Lucet" />
-    <meta name="date" content="2021-08-07" />
+    <meta name="date" content="2021-08-08" />
     <script src="index_files/header-attrs/header-attrs.js"></script>
     <link href="index_files/tile-view/tile-view.css" rel="stylesheet" />
     <script src="index_files/tile-view/tile-view.js"></script>
@@ -31,25 +31,6 @@
     <script src="index_files/xaringanExtra_fit-screen/fit-screen.js"></script>
     <script src="index_files/xaringanExtra-webcam/webcam.js"></script>
     <script id="xaringanExtra-webcam-options" type="application/json">{"width":"200","height":"200","margin":"1em"}</script>
-    <script src="index_files/htmlwidgets/htmlwidgets.js"></script>
-    <script src="index_files/jquery/jquery.min.js"></script>
-    <link href="index_files/leaflet/leaflet.css" rel="stylesheet" />
-    <script src="index_files/leaflet/leaflet.js"></script>
-    <link href="index_files/leafletfix/leafletfix.css" rel="stylesheet" />
-    <script src="index_files/proj4/proj4.min.js"></script>
-    <script src="index_files/Proj4Leaflet/proj4leaflet.js"></script>
-    <link href="index_files/rstudio_leaflet/rstudio_leaflet.css" rel="stylesheet" />
-    <script src="index_files/leaflet-binding/leaflet.js"></script>
-    <script src="index_files/leaflet-providers/leaflet-providers_1.9.0.js"></script>
-    <script src="index_files/leaflet-providers-plugin/leaflet-providers-plugin.js"></script>
-    <link href="index_files/leaflet-awesomemarkers/leaflet.awesome-markers.css" rel="stylesheet" />
-    <script src="index_files/leaflet-awesomemarkers/leaflet.awesome-markers.min.js"></script>
-    <link href="index_files/fontawesome/font-awesome.min.css" rel="stylesheet" />
-    <link href="index_files/leaflet-markercluster/MarkerCluster.css" rel="stylesheet" />
-    <link href="index_files/leaflet-markercluster/MarkerCluster.Default.css" rel="stylesheet" />
-    <script src="index_files/leaflet-markercluster/leaflet.markercluster.js"></script>
-    <script src="index_files/leaflet-markercluster/leaflet.markercluster.freezable.js"></script>
-    <script src="index_files/leaflet-markercluster/leaflet.markercluster.layersupport.js"></script>
     <link rel="stylesheet" href="xaringan-themer.css" type="text/css" />
   </head>
   <body>
@@ -59,7 +40,7 @@ class: top, left, title-slide
 # R Package Development for Research
 ## <em>An Introduction</em>
 ### Valentin Lucet
-### 2021-08-07
+### 2021-08-08
 
 ---
 
@@ -492,38 +473,30 @@ class: inverse center middle
   - The backend of devtools's testing routine. Functions to help with writing test and finding errors in the code.
 
 ---
-## Let's make a package: `myebirdmap`
+## Let's make a package: `carbon`
 
-We are going to code a small package called `myebirdmap` which will produce an interactive map of an eBird data profile. 
+We are going to code a small package called `carbon` which will retrieve the data from the Mauna Loa observatory on carbon concentration in the atmosphere.
 
-The package is heavily inspired from an existing package that already allows you explore eBird data profile: the [`myebird`](https://github.com/sebpardo/myebird) package. Outside of a teaching context, our "ebird map" is a good example of a new feature that could be contributed to `myebird` instead of being the focus of another package (which allows me to give you an example of that).
+We will package 2 functions: (1) to retrieve the data, and (2) tells you the carbon concentration around a given date.
 
-The process we are going to go through touches on some aspect of RSE in eco evo:
+Therefore, the process we are going to go through touches on 2 aspects of RSE:
 
-1. loading and cleaning data 
-2. Manipulating data into a form that we are interesting in 
-3. Producing a visualization of such data
-
-Due to time constraints, things like OOP will be outside the scope of this example.
+1. Obtaining and parsing data from an online source
+2. Manipulating data 
 
 ---
-## `myebirdmap` demo
+## `carbon` demo
 
 
 ```r
-library(myebirdmap)
-my_ebird_map("data/raw_ebird_data.csv")
+# library(carbon)
 ```
 
-<div id="htmlwidget-c9083dbce6781662ff39" style="width:100%;height:432px;" class="leaflet html-widget"></div>
-<script type="application/json" data-for="htmlwidget-c9083dbce6781662ff39">{"x":{"options":{"crs":{"crsClass":"L.CRS.EPSG3857","code":null,"proj4def":null,"projectedBounds":null,"options":{}}},"calls":[{"method":"addProviderTiles","args":["OpenStreetMap.DE",null,null,{"errorTileUrl":"","noWrap":false,"detectRetina":false}]},{"method":"addAwesomeMarkers","args":[[48.271834,47.0673707,45.4952284,45.4581138,45.4952284,48.3504256,48.2634811,48.2588651,48.2588651,45.4917128,45.4917128,45.5049279,45.4952284,45.5049279,45.5049279,45.5049279,45.5049279,45.594218,45.5049279,45.4952284,45.5049279,45.5049279,45.3914585,45.4917128,50.2206197,45.5049279,45.5049279,45.5049279,45.4917128,45.5049279,45.5049279,45.5049279,45.477373,45.428871,45.428871,45.4403271,45.5049279,45.5049279,45.4277985,45.5049279,45.5049279,45.5049279,45.4917128,45.5049279,45.5049279,45.5049279,45.4917128,45.4917128,45.5049279,45.5049279,45.4088164,45.3914585,45.5049279,45.5049279,45.5049279,45.4917128,45.5049279,45.5049279,45.5055593,45.4127794,45.9279223,45.9943727,45.9033998,45.9072857,45.7906693,45.5967913,45.5049279,45.5055593,45.5049279,45.5049279,45.4917128,45.474413,45.4917128,45.474413,45.7161383,45.4917128,45.718765,45.5049279,45.3914585,45.5049279,45.4277985,45.474413,45.5951224,45.5049279,45.4645346,45.4044792,45.474413,45.4917128,45.474413,45.5049279,45.5049279,45.5049279,45.0428165,45.5049279,45.5049279,45.3914585,45.5049279,45.474413,45.5049279,45.4929101,45.4917128,45.5049279,45.5049279,45.5100537,45.4917128,45.5049279,45.4277985,45.474413,45.9279223,45.477373],[-69.469619,-70.7955237,-73.6096818,-73.6402845,-73.6096818,-69.3967052,-69.9446309,-70.1979992,-70.1979992,-73.6071465,-73.6071465,-73.6039953,-73.6096818,-73.6039953,-73.6039953,-73.6039953,-73.6039953,-73.4755858,-73.6039953,-73.6096818,-73.6039953,-73.6039953,-73.7611771,-73.6071465,-64.2061186,-73.6039953,-73.6039953,-73.6039953,-73.6071465,-73.6039953,-73.6039953,-73.6039953,-73.758144,-73.9520833,-73.9520833,-73.9273771,-73.6039953,-73.6039953,-73.5921872,-73.6039953,-73.6039953,-73.6039953,-73.6071465,-73.6039953,-73.6039953,-73.6039953,-73.6071465,-73.6071465,-73.6039953,-73.6039953,-73.5745737,-73.7611771,-73.6039953,-73.6039953,-73.6039953,-73.6071465,-73.6039953,-73.6039953,-73.5882289,-73.9336276,-75.0667161,-75.1154395,-75.0820108,-75.0923896,-75.09718,-75.0927215,-73.6039953,-73.5882289,-73.6039953,-73.6039953,-73.6071465,-73.763488,-73.6071465,-73.763488,-73.9735121,-73.6071465,-73.9975548,-73.6039953,-73.7611771,-73.6039953,-73.5921872,-73.763488,-75.0866175,-73.6039953,-73.9315517,-73.9559848,-73.763488,-73.6071465,-73.763488,-73.6039953,-73.6039953,-73.6039953,-74.4659194,-73.6039953,-73.6039953,-73.7611771,-73.6039953,-73.763488,-73.6039953,-73.6160913,-73.6071465,-73.6039953,-73.6039953,-73.8786578,-73.6071465,-73.6039953,-73.5921872,-73.763488,-75.0667161,-73.758144],{"icon":"fa-check","markerColor":"green","iconColor":"black","spin":false,"squareMarker":false,"iconRotate":0,"font":"monospace","prefix":"fa"},null,null,{"interactive":true,"draggable":false,"keyboard":true,"title":"","alt":"","zIndexOffset":0,"opacity":1,"riseOnHover":false,"riseOffset":250},null,null,{"showCoverageOnHover":true,"zoomToBoundsOnClick":true,"spiderfyOnMaxZoom":true,"removeOutsideVisibleBounds":true,"spiderLegPolylineOptions":{"weight":1.5,"color":"#222","opacity":0.5},"freezeAtZoom":false},null,["<strong> Centre d’int. et d’obs. de Cap-de-Bon-Désir <br/> 8 species <br/> <\/strong> 2020-09-24, 58 minutes","<strong> RNF du cap Tourmente--secteur La Petite Ferme <br/> 7 species <br/> <\/strong> 2020-09-26, 64 minutes","<strong> 3250 Avenue Ridgewood, Montréal, Québec, CA (45.495, -73.61) <br/> 1 species <br/> <\/strong> 2020-09-27, NA minutes","<strong> Campus Loyola, Université Concordia <br/> 7 species <br/> <\/strong> 2020-09-28, 79 minutes","<strong> 3250 Avenue Ridgewood, Montréal, Québec, CA (45.495, -73.61) <br/> 5 species <br/> <\/strong> 2020-09-30, 20 minutes","<strong> Pointe de la Croix <br/> 5 species <br/> <\/strong> 2020-09-23, 40 minutes","<strong> PN du Fjord-du-Saguenay--embouchure Rivière Ste-Marguerite <br/> 4 species <br/> <\/strong> 2020-09-21, NA minutes","<strong> Rivière-Éternité, Québec, CA (48.259, -70.198) <br/> 1 species <br/> <\/strong> 2020-09-25, NA minutes","<strong> Rivière-Éternité, Québec, CA (48.259, -70.198) <br/> 1 species <br/> <\/strong> 2020-09-26, NA minutes","<strong> Parc Summit <br/> 10 species <br/> <\/strong> 2020-10-04, 89 minutes","<strong> Parc Summit <br/> 5 species <br/> <\/strong> 2020-10-05, 55 minutes","<strong> Cimetières Mt-Royal & Notre-Dame-des-Neiges <br/> 12 species <br/> <\/strong> 2020-10-06, 165 minutes","<strong> 3250 Avenue Ridgewood, Montréal, Québec, CA (45.495, -73.61) <br/> 1 species <br/> <\/strong> 2020-10-06, NA minutes","<strong> Cimetières Mt-Royal & Notre-Dame-des-Neiges <br/> 8 species <br/> <\/strong> 2020-10-08, NA minutes","<strong> Cimetières Mt-Royal & Notre-Dame-des-Neiges <br/> 15 species <br/> <\/strong> 2020-10-11, 168 minutes","<strong> Cimetières Mt-Royal & Notre-Dame-des-Neiges <br/> 11 species <br/> <\/strong> 2020-10-14, 77 minutes","<strong> Cimetières Mt-Royal & Notre-Dame-des-Neiges <br/> 5 species <br/> <\/strong> 2020-10-14, NA minutes","<strong> PN des Îles-de-Boucherville (incluant Île Charron) <br/> 27 species <br/> <\/strong> 2020-10-17, 340 minutes","<strong> Cimetières Mt-Royal & Notre-Dame-des-Neiges <br/> 9 species <br/> <\/strong> 2020-10-18, 69 minutes","<strong> 3250 Avenue Ridgewood, Montréal, Québec, CA (45.495, -73.61) <br/> 2 species <br/> <\/strong> 2020-10-18, NA minutes","<strong> Cimetières Mt-Royal & Notre-Dame-des-Neiges <br/> 11 species <br/> <\/strong> 2020-10-22, 95 minutes","<strong> Cimetières Mt-Royal & Notre-Dame-des-Neiges <br/> 11 species <br/> <\/strong> 2020-10-23, 128 minutes","<strong> RF Marguerite-D'Youville <br/> 25 species <br/> <\/strong> 2020-10-24, 255 minutes","<strong> Parc Summit <br/> 1 species <br/> <\/strong> 2020-10-25, NA minutes","<strong> PN Archipel-de-Mingan--Île aux Perroquets <br/> 4 species <br/> <\/strong> 2019-08-04, NA minutes","<strong> Cimetières Mt-Royal & Notre-Dame-des-Neiges <br/> 8 species <br/> <\/strong> 2020-10-29, 38 minutes","<strong> Cimetières Mt-Royal & Notre-Dame-des-Neiges <br/> 12 species <br/> <\/strong> 2020-10-31, 161 minutes","<strong> Cimetières Mt-Royal & Notre-Dame-des-Neiges <br/> 4 species <br/> <\/strong> 2020-11-02, 33 minutes","<strong> Parc Summit <br/> 5 species <br/> <\/strong> 2020-11-04, 56 minutes","<strong> Cimetières Mt-Royal & Notre-Dame-des-Neiges <br/> 14 species <br/> <\/strong> 2020-11-05, 104 minutes","<strong> Cimetières Mt-Royal & Notre-Dame-des-Neiges <br/> 11 species <br/> <\/strong> 2020-11-05, 93 minutes","<strong> Cimetières Mt-Royal & Notre-Dame-des-Neiges <br/> 2 species <br/> <\/strong> 2020-11-07, 240 minutes","<strong> Technoparc Mtl--Éco-Campus <br/> 12 species <br/> <\/strong> 2020-11-08, 161 minutes","<strong> Arboretum Morgan <br/> 5 species <br/> <\/strong> 2020-11-08, 22 minutes","<strong> Arboretum Morgan <br/> 13 species <br/> <\/strong> 2020-11-08, 92 minutes","<strong> 306 Rue Aumais, Sainte-Anne-de-Bellevue, Québec, CA (45.44, -73.927) <br/> 1 species <br/> <\/strong> 2020-11-08, NA minutes","<strong> Cimetières Mt-Royal & Notre-Dame-des-Neiges <br/> 18 species <br/> <\/strong> 2020-11-09, 180 minutes","<strong> Cimetières Mt-Royal & Notre-Dame-des-Neiges <br/> 5 species <br/> <\/strong> 2020-11-09, 47 minutes","<strong> Parc des Rapides <br/> 15 species <br/> <\/strong> 2020-11-10, 126 minutes","<strong> Cimetières Mt-Royal & Notre-Dame-des-Neiges <br/> 10 species <br/> <\/strong> 2020-11-10, 97 minutes","<strong> Cimetières Mt-Royal & Notre-Dame-des-Neiges <br/> 14 species <br/> <\/strong> 2020-11-11, 138 minutes","<strong> Cimetières Mt-Royal & Notre-Dame-des-Neiges <br/> 10 species <br/> <\/strong> 2020-11-12, 128 minutes","<strong> Parc Summit <br/> 3 species <br/> <\/strong> 2020-11-13, 32 minutes","<strong> Cimetières Mt-Royal & Notre-Dame-des-Neiges <br/> 7 species <br/> <\/strong> 2020-11-15, 80 minutes","<strong> Cimetières Mt-Royal & Notre-Dame-des-Neiges <br/> 2 species <br/> <\/strong> 2020-11-14, 25 minutes","<strong> Cimetières Mt-Royal & Notre-Dame-des-Neiges <br/> 8 species <br/> <\/strong> 2020-11-16, 92 minutes","<strong> Parc Summit <br/> 5 species <br/> <\/strong> 2020-11-17, 37 minutes","<strong> Parc Summit <br/> 2 species <br/> <\/strong> 2020-11-18, 19 minutes","<strong> Cimetières Mt-Royal & Notre-Dame-des-Neiges <br/> 4 species <br/> <\/strong> 2020-11-19, 76 minutes","<strong> Cimetières Mt-Royal & Notre-Dame-des-Neiges <br/> 12 species <br/> <\/strong> 2020-11-20, 160 minutes","<strong> RécréoParc (Côte-Ste-Catherine) <br/> 6 species <br/> <\/strong> 2020-11-21, 40 minutes","<strong> RF Marguerite-D'Youville <br/> 17 species <br/> <\/strong> 2020-11-21, 217 minutes","<strong> Cimetières Mt-Royal & Notre-Dame-des-Neiges <br/> 13 species <br/> <\/strong> 2020-11-22, 187 minutes","<strong> Cimetières Mt-Royal & Notre-Dame-des-Neiges <br/> 8 species <br/> <\/strong> 2020-11-23, 46 minutes","<strong> Cimetières Mt-Royal & Notre-Dame-des-Neiges <br/> 15 species <br/> <\/strong> 2020-11-24, 141 minutes","<strong> Parc Summit <br/> 4 species <br/> <\/strong> 2020-11-25, 39 minutes","<strong> Cimetières Mt-Royal & Notre-Dame-des-Neiges <br/> 7 species <br/> <\/strong> 2020-11-24, 75 minutes","<strong> Cimetières Mt-Royal & Notre-Dame-des-Neiges <br/> 6 species <br/> <\/strong> 2020-11-26, 52 minutes","<strong> Parc du Mt-Royal <br/> 2 species <br/> <\/strong> 2020-11-26, 13 minutes","<strong> Autoroute du Souvenir, Baie-D'Urfe, Quebec, CA (45.413, -73.934) <br/> 1 species <br/> <\/strong> 2020-11-27, NA minutes","<strong> Lac-Simon - Rue Fanny <br/> 6 species <br/> <\/strong> 2020-11-28, 58 minutes","<strong> Sentier national Iroquois <br/> 3 species <br/> <\/strong> 2020-11-28, 12 minutes","<strong> Lac Simon - Baie Blais <br/> 5 species <br/> <\/strong> 2020-11-28, 10 minutes","<strong> Marina, Lac Simon <br/> 3 species <br/> <\/strong> 2020-11-28, 20 minutes","<strong> Halte, Chutes de Ripon <br/> 4 species <br/> <\/strong> 2020-11-29, 10 minutes","<strong> PN de Plaisance--Presqu'îles (Grande & Petite) <br/> 12 species <br/> <\/strong> 2020-11-29, 122 minutes","<strong> Cimetières Mt-Royal & Notre-Dame-des-Neiges <br/> 13 species <br/> <\/strong> 2020-11-30, 132 minutes","<strong> Parc du Mt-Royal <br/> 7 species <br/> <\/strong> 2020-12-01, 57 minutes","<strong> Cimetières Mt-Royal & Notre-Dame-des-Neiges <br/> 4 species <br/> <\/strong> 2020-12-01, 37 minutes","<strong> Cimetières Mt-Royal & Notre-Dame-des-Neiges <br/> 10 species <br/> <\/strong> 2020-12-05, 56 minutes","<strong> Parc Summit <br/> 2 species <br/> <\/strong> 2020-12-06, 25 minutes","<strong> Parc écologique des Sources <br/> 14 species <br/> <\/strong> 2021-01-01, 138 minutes","<strong> Parc Summit <br/> 2 species <br/> <\/strong> 2021-01-06, 23 minutes","<strong> Parc écologique des Sources <br/> 11 species <br/> <\/strong> 2021-01-10, 85 minutes","<strong> Trans-Canada Highway, Sainte-Anne-des-Plaines, Quebec, CA (45.716, -73.974) <br/> 1 species <br/> <\/strong> 2021-01-31, NA minutes","<strong> Parc Summit <br/> 2 species <br/> <\/strong> 2021-02-10, 15 minutes","<strong> Rgs Ste-Marie & Ste-Dominique, Mirabel <br/> 3 species <br/> <\/strong> 2021-03-01, 36 minutes","<strong> Cimetières Mt-Royal & Notre-Dame-des-Neiges <br/> 9 species <br/> <\/strong> 2021-03-07, 84 minutes","<strong> RF Marguerite-D'Youville <br/> 26 species <br/> <\/strong> 2021-03-21, 172 minutes","<strong> Cimetières Mt-Royal & Notre-Dame-des-Neiges <br/> 10 species <br/> <\/strong> 2021-03-30, 65 minutes","<strong> Parc des Rapides <br/> 11 species <br/> <\/strong> 2021-04-02, 65 minutes","<strong> Parc écologique des Sources <br/> 13 species <br/> <\/strong> 2021-04-03, 131 minutes","<strong> PN de Plaisance--Marais aux rubaniers <br/> 18 species <br/> <\/strong> 2021-04-04, 155 minutes","<strong> Cimetières Mt-Royal & Notre-Dame-des-Neiges <br/> 12 species <br/> <\/strong> 2021-04-06, 114 minutes","<strong> PN du Cap-St-Jacques <br/> 13 species <br/> <\/strong> 2021-04-10, 139 minutes","<strong> Canal de Ste-Anne-de-Bellevue <br/> 4 species <br/> <\/strong> 2021-04-10, 32 minutes","<strong> Parc écologique des Sources <br/> 22 species <br/> <\/strong> 2021-04-11, 104 minutes","<strong> Parc Summit <br/> 1 species <br/> <\/strong> 2021-04-12, 60 minutes","<strong> Parc écologique des Sources <br/> 19 species <br/> <\/strong> 2021-04-14, 124 minutes","<strong> Cimetières Mt-Royal & Notre-Dame-des-Neiges <br/> 27 species <br/> <\/strong> 2021-04-24, 262 minutes","<strong> Cimetières Mt-Royal & Notre-Dame-des-Neiges <br/> 14 species <br/> <\/strong> 2021-04-26, 87 minutes","<strong> Cimetières Mt-Royal & Notre-Dame-des-Neiges <br/> 15 species <br/> <\/strong> 2021-05-01, 109 minutes","<strong> RNF du Lac-St-François <br/> 25 species <br/> <\/strong> 2021-05-02, 161 minutes","<strong> Cimetières Mt-Royal & Notre-Dame-des-Neiges <br/> 7 species <br/> <\/strong> 2021-05-05, 78 minutes","<strong> Cimetières Mt-Royal & Notre-Dame-des-Neiges <br/> 26 species <br/> <\/strong> 2021-05-08, 180 minutes","<strong> RF Marguerite-D'Youville <br/> 49 species <br/> <\/strong> 2021-05-09, 352 minutes","<strong> Cimetières Mt-Royal & Notre-Dame-des-Neiges <br/> 20 species <br/> <\/strong> 2021-05-10, 117 minutes","<strong> Parc écologique des Sources <br/> 32 species <br/> <\/strong> 2021-05-15, 193 minutes","<strong> Cimetières Mt-Royal & Notre-Dame-des-Neiges <br/> 10 species <br/> <\/strong> 2021-05-17, 58 minutes","<strong> Jardin du Chemin de la Croix <br/> 7 species <br/> <\/strong> 2021-05-16, 83 minutes","<strong> Parc Summit <br/> 15 species <br/> <\/strong> 2021-05-20, 86 minutes","<strong> Cimetières Mt-Royal & Notre-Dame-des-Neiges <br/> 5 species <br/> <\/strong> 2021-05-19, 102 minutes","<strong> Cimetières Mt-Royal & Notre-Dame-des-Neiges <br/> 10 species <br/> <\/strong> 2021-05-23, 62 minutes","<strong> PN du Bois-de-l'île-Bizard <br/> 39 species <br/> <\/strong> 2021-05-24, 347 minutes","<strong> Parc Summit <br/> 14 species <br/> <\/strong> 2021-05-27, 78 minutes","<strong> Cimetières Mt-Royal & Notre-Dame-des-Neiges <br/> 21 species <br/> <\/strong> 2021-05-29, 154 minutes","<strong> Parc des Rapides <br/> 22 species <br/> <\/strong> 2021-05-30, 104 minutes","<strong> Parc écologique des Sources <br/> 27 species <br/> <\/strong> 2021-06-05, 128 minutes","<strong> Lac-Simon, Quebec, CA (45.928, -75.067) <br/> 12 species <br/> <\/strong> 2021-06-20, 38 minutes","<strong> Technoparc Mtl--Éco-Campus <br/> 8 species <br/> <\/strong> 2021-06-12, 82 minutes"],{"interactive":false,"permanent":false,"direction":"auto","opacity":1,"offset":[0,0],"textsize":"15px","textOnly":false,"style":{"font-weight":"normal","padding":"3px 8px"},"className":"","sticky":true},null]}],"limits":{"lat":[45.0428165,50.2206197],"lng":[-75.1154395,-64.2061186]}},"evals":[],"jsHooks":[]}</script>
-
 ---
-## The `myebirdmap` base script
+## The `carbon` base script
 
 ---
 ## Translating code into functions
-
 
 ---
 ## Starting a new package with {usethis}
@@ -533,15 +506,15 @@ Open Rstudio and make sure that no projects are activated.
 
 
 ```r
-usethis::create_package("~/myebirdmap")
+usethis::create_package("~/carbon", open = TRUE)
 ```
 
 ```{}
-✓ Creating '/home/vlucet/myebirdmap/'
-✓ Setting active project to '/home/vlucet/myebirdmap'
+✓ Creating '/home/vlucet/carbon/'
+✓ Setting active project to '/home/vlucet/carbon'
 ✓ Creating 'R/'
 ✓ Writing 'DESCRIPTION'
-Package: myebirdmap
+Package: carbon
 Title: What the Package Does (One Line, Title Case)
 Version: 0.0.0.9000
 Authors@R (parsed):
@@ -567,16 +540,18 @@ Let's take a look at the pacakge anatomy...
 ---
 ## Choosing a license
 
-We are going to use the MIT license. It is important to get familair with licensing.
+To choose a license, let's head to [choosealicense.com](https://choosealicense.com/).
+
+We are going to go with GPL-3.
 
 
 ```r
-usethis::use_mit_license()
+usethis::use_gpl3_license()
 ```
 
 ```{}
-✓ Setting License field in DESCRIPTION to 'MIT + file LICENSE'
-✓ Writing 'LICENSE'
+✓ Setting active project to '/home/vlucet/carbon'
+✓ Setting License field in DESCRIPTION to 'GPL (&gt;= 3)'
 ✓ Writing 'LICENSE.md'
 ✓ Adding '^LICENSE\\.md$' to '.Rbuildignore'
 ```
@@ -593,37 +568,32 @@ usethis::use_readme_rmd()
 - Creates commit hook so that changes to readme cant be commited before its re-knitted.
 
 ```{}
-✓ Setting active project to '/home/vlucet/myebirdmap'
 ✓ Writing 'README.Rmd'
 ✓ Adding '^README\\.Rmd$' to '.Rbuildignore'
 • Modify 'README.Rmd'
-✓ Writing '.git/hooks/pre-commit'
 ```
 
 ---
 ## Adding code
 
+Let's now create all code files and copy the functions in the right place.
 
-```r
-usethis::use_r("my_ebird_map")
-```
+
 
 ```{}
-• Modify 'R/my_ebird_map.R'
-• Call `use_test()` to create a matching test file
+
 ```
 
 
-```r
-usethis::use_r("process_ebird_data")
-usethis::use_r("helper_functions.R")
-```
 
 ---
-## Adding dependencies
+## Deciding which functions to "export"
 
 ---
-## Documenting functions 
+## Dealing with dependencies
+
+---
+## Documenting functions
 
 ---
 ## Checking your package

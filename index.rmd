@@ -477,34 +477,29 @@ class: inverse center middle
   - The backend of devtools's testing routine. Functions to help with writing test and finding errors in the code.
 
 ---
-## Let's make a package: `myebirdmap`
+## Let's make a package: `carbon`
 
-We are going to code a small package called `myebirdmap` which will produce an interactive map of an eBird data profile. 
+We are going to code a small package called `carbon` which will retrieve the data from the Mauna Loa observatory on carbon concentration in the atmosphere.
 
-The package is heavily inspired from an existing package that already allows you explore eBird data profile: the [`myebird`](https://github.com/sebpardo/myebird) package. Outside of a teaching context, our "ebird map" is a good example of a new feature that could be contributed to `myebird` instead of being the focus of another package (which allows me to give you an example of that).
+We will package 2 functions: (1) to retrieve the data, and (2) tells you the carbon concentration around a given date.
 
-The process we are going to go through touches on some aspect of RSE in eco evo:
+Therefore, the process we are going to go through touches on 2 aspects of RSE:
 
-1. loading and cleaning data 
-2. Manipulating data into a form that we are interesting in 
-3. Producing a visualization of such data
-
-Due to time constraints, things like OOP will be outside the scope of this example.
+1. Obtaining and parsing data from an online source
+2. Manipulating data 
 
 ---
-## `myebirdmap` demo
+## `carbon` demo
 
 ```{r, fig.dim=c(5, 6), eval = TRUE}
-library(myebirdmap)
-my_ebird_map("data/raw_ebird_data.csv")
+# library(carbon)
 ```
 
 ---
-## The `myebirdmap` base script
+## The `carbon` base script
 
 ---
 ## Translating code into functions
-
 
 ---
 ## Starting a new package with {usethis}
@@ -513,15 +508,15 @@ my_ebird_map("data/raw_ebird_data.csv")
 Open Rstudio and make sure that no projects are activated.
 
 ```{r, eval = FALSE}
-usethis::create_package("~/myebirdmap")
+usethis::create_package("~/carbon", open = TRUE)
 ```
 
 ```{}
-✓ Creating '/home/vlucet/myebirdmap/'
-✓ Setting active project to '/home/vlucet/myebirdmap'
+✓ Creating '/home/vlucet/carbon/'
+✓ Setting active project to '/home/vlucet/carbon'
 ✓ Creating 'R/'
 ✓ Writing 'DESCRIPTION'
-Package: myebirdmap
+Package: carbon
 Title: What the Package Does (One Line, Title Case)
 Version: 0.0.0.9000
 Authors@R (parsed):
@@ -547,15 +542,17 @@ Let's take a look at the pacakge anatomy...
 ---
 ## Choosing a license
 
-We are going to use the MIT license. It is important to get familair with licensing.
+To choose a license, let's head to [choosealicense.com](https://choosealicense.com/).
+
+We are going to go with GPL-3.
 
 ```{r, eval = FALSE}
-usethis::use_mit_license()
+usethis::use_gpl3_license()
 ```
 
 ```{}
-✓ Setting License field in DESCRIPTION to 'MIT + file LICENSE'
-✓ Writing 'LICENSE'
+✓ Setting active project to '/home/vlucet/carbon'
+✓ Setting License field in DESCRIPTION to 'GPL (>= 3)'
 ✓ Writing 'LICENSE.md'
 ✓ Adding '^LICENSE\\.md$' to '.Rbuildignore'
 ```
@@ -571,35 +568,36 @@ usethis::use_readme_rmd()
 - Creates commit hook so that changes to readme cant be commited before its re-knitted.
 
 ```{}
-✓ Setting active project to '/home/vlucet/myebirdmap'
 ✓ Writing 'README.Rmd'
 ✓ Adding '^README\\.Rmd$' to '.Rbuildignore'
 • Modify 'README.Rmd'
-✓ Writing '.git/hooks/pre-commit'
 ```
 
 ---
 ## Adding code
 
+Let's now create all code files and copy the functions in the right place.
+
 ```{r, eval = FALSE}
-usethis::use_r("my_ebird_map")
+
 ```
 
 ```{}
-• Modify 'R/my_ebird_map.R'
-• Call `use_test()` to create a matching test file
+
 ```
 
 ```{r, eval = FALSE}
-usethis::use_r("process_ebird_data")
-usethis::use_r("helper_functions.R")
+
 ```
 
 ---
-## Adding dependencies
+## Deciding which functions to "export"
 
 ---
-## Documenting functions 
+## Dealing with dependencies
+
+---
+## Documenting functions
 
 ---
 ## Checking your package
