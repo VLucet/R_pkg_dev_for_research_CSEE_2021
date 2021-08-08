@@ -14,10 +14,10 @@ get_weekly_data <- function(clean = TRUE) {
                        "10_years_ago", "increase_since_1980")
   
   if (clean) {
-    co2_data <- co2_data %>% 
+    co2_data <- co2_data |> 
       dplyr::mutate(date = lubridate::ymd(paste(year, month, day, 
-                                                sep = "-"))) %>% 
-      dplyr::select(-year, -month, -day) %>% 
+                                                sep = "-"))) |> 
+      dplyr::select(-year, -month, -day) |> 
       dplyr::relocate(date)
   } 
   
@@ -32,10 +32,10 @@ ppm_from_date <- function(date) {
   
   co2_data_clean <- get_weekly_data(clean = TRUE)
   
-  ppm <- co2_data_clean %>% 
-    dplyr::mutate(diff = abs(date - date_formatted)) %>% 
-    dplyr::arrange(diff) %>% 
-    dplyr::slice(1) %>% 
+  ppm <- co2_data_clean |> 
+    dplyr::mutate(diff = abs(date - date_formatted)) |> 
+    dplyr::arrange(diff) |> 
+    dplyr::slice(1) |> 
     dplyr::pull(co2_ppm)
   
   return(ppm)
