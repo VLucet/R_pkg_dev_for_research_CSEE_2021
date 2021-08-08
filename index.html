@@ -114,8 +114,9 @@ For today, it is recommended that you are already pretty well acquainted with __
 Knowledge of Git/Github is also welcome as I won't have the time to explain version control software.
 
 ```r
-# Run this in R before we start. 
-pkgs &lt;- c("devtools", "roxygen2", "usethis")
+# Run this in R while we start. 
+pkgs &lt;- c("devtools", "roxygen2", "usethis", "testthat", 
+          "lubridate", "dplyr")
 install.packages(pkgs)
 ```
 
@@ -472,7 +473,7 @@ class: inverse center middle
   - The backend of devtools's testing routine. Functions to help with writing test and finding errors in the code.
 
 ---
-## Let's make a package: `carbon`
+## Let's make a simple R package
 
 We are going to code a small package called `carbon` which will retrieve the data from the Mauna Loa observatory on carbon concentration in the atmosphere.
 
@@ -484,14 +485,7 @@ Therefore, the process we are going to go through touches on 2 aspects of RSE:
 2. Manipulating data 
 
 ---
-## `carbon` demo
-
-The `carbon` package has 2 dependencies
-```r
-packages &lt;- c("lubridate", 
-              "dplyr")
-install.packages(packages)
-```
+## Let's make a simple R package
 
 Let's take a look at the main function:
 
@@ -591,6 +585,17 @@ ppm_from_date &lt;- function(date) {
 ```
 
 ---
+## A note about dependencies
+
+Packages can rely on other packages (and sometimes other software) as long as those dependencies are correctly specified (we will come back to that).
+
+For now, it is important to note that the functions we just wrote are always explicit about using other functions by using the double dot notations to access functions that are contained in otehr packages.
+
+```r
+dplyr::mutate
+```
+
+---
 ## Starting a new package with {usethis}
 &lt;!-- Show how to start a package and get the basics done --&gt;
 
@@ -630,6 +635,26 @@ Let's take a look at the pacakge anatomy...
 
 ---
 ## Editing the DESCRIPTION file
+
+```r
+Package: carbon
+Title: Get the CO2 ppm Value Closest to a Given Date
+Version: 0.0.0.9000
+Authors@R: 
+    person(given = "Valentin",
+           family = "Lucey",
+           role = c("aut", "cre"),
+           email = "valentin.lucet@gmail.com")
+Description: Retrieves weekly CO2 ppm from the Mauna Loa 
+    observatory data hub, and provides a simple function that 
+    retrieves the ppm value closest to a given date.
+Encoding: UTF-8
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.1.1
+Imports: 
+    lubridate,
+    dplyr
+```
 
 ---
 ## Adding code
@@ -679,20 +704,58 @@ This will edit the package NAMESPACE file which now looks like:
 export(ppm_from_date)
 ```
 
-The function `ppm_from_date` is now exported for users.
+The function `ppm_from_date` is now set up for exportation.
 
 ---
-## Dealing with dependencies
+## Trying out functions
 
-We have almost arrived at an installed package. We need to make sure that the dependencies of our package are properly specified. 
+While you develop the package, it is important to know about `devtools::load_all`. This will make ALL functions in the package available to you to test things interactively.
+
+You can also try out non-exported functions that way:
+
+```r
+devtools::load_all()
+get_weekly_data(clean = FALSE)
+```
 
 ---
 ## Building and installing
 
-We have placed code in the package and set up the function for exportation. We need to build and install the package to see if everything works well.
+We are now ready to build and install the package. You can either:
+
+- Run `devtools::install()`
+- Use `CTRL+SHIFT+B` (or on mac `CMD+SHIFT+B`)
 
 ---
 ## Documenting functions
+
+```
+#' Get the CO2 ppm value closest to a given date
+#'
+#' Given a date, retrieves the atmospheric CO2 concentration value the closest
+#' to that date, using the data from the Mauna Loa observatory
+#'
+#' @param date A character string of the format "yyyy-mm-dd"
+#'
+#' @return
+#' A floating point value, the closest data point to the input date
+#'
+#' @references
+#' NOAA's [Global Monitoring Laboratory data hub](https://gml.noaa.gov/ccgg/trends/data.html).
+#'
+#' @examples
+#' ppm_from_date("1978-06-05")
+#'
+#' @export
+ppm_from_date &lt;- function(date) {
+```
+
+---
+## Documenting functions
+
+.center[
+![screenshot of the ducntion documentation](images/doc.png)
+]
 
 ---
 ## Choosing a license
