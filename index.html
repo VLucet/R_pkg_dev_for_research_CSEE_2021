@@ -672,7 +672,7 @@ usethis::use_r("ppm_from_date")
 ```
 
 ---
-## Deciding which functions to "export"
+## Exporting functions
 
 Once packaged, not all functions might be available to the user. This is by design: you might want to write helper functions and sub routines that your users have no use for. You need to explicitly decide which functions to "export" for the user. 
 
@@ -688,7 +688,7 @@ ppm_from_date &lt;- function(date) {
 ```
 
 ---
-## Deciding which functions to "export"
+## Exporting functions
 
 We now need to run `roxygen` to confirm the function export.
 
@@ -705,26 +705,6 @@ export(ppm_from_date)
 ```
 
 The function `ppm_from_date` is now set up for exportation.
-
----
-## Trying out functions
-
-While you develop the package, it is important to know about `devtools::load_all`. This will make ALL functions in the package available to you to test things interactively.
-
-You can also try out non-exported functions that way:
-
-```r
-devtools::load_all()
-get_weekly_data(clean = FALSE)
-```
-
----
-## Building and installing
-
-We are now ready to build and install the package. You can either:
-
-- Run `devtools::install()`
-- Use `CTRL+SHIFT+B` (or on mac `CMD+SHIFT+B`)
 
 ---
 ## Documenting functions
@@ -753,9 +733,44 @@ ppm_from_date &lt;- function(date) {
 ---
 ## Documenting functions
 
+```r
+devtools::document()
+?ppm_from_date
+```
+
 .center[
-![screenshot of the ducntion documentation](images/doc.png)
+![screenshot of the function documentation](images/doc.png)
 ]
+
+---
+## The documentation workflow
+
+&lt;a href="https://forwards.github.io/workshops/package-dev-modules/"&gt; &lt;img src="https://image.slidesharecdn.com/rpackagedevelopmentcreatepackagedocumentation-isabellagollini-181126113617/95/r-package-development-create-package-documentation-isabella-gollini-23-638.jpg?cb=1543232899" align="center" width="700" alt='Initial documentation workflow'/&gt; &lt;/a&gt;
+
+---
+## Trying out functions
+
+While you develop the package, it is important to know about `devtools::load_all`. This will make ALL functions in the package available to you to test things interactively.
+
+You can also try out non-exported functions that way:
+
+```r
+devtools::load_all()
+get_weekly_data(clean = FALSE)
+```
+
+---
+## The development workflow
+
+&lt;a href="https://forwards.github.io/workshops/package-dev-modules/"&gt; &lt;img src="https://forwards.github.io/workshops/package-dev-modules/slides/03-your-first-package/images/dev_cycle_before_testing.png" align="center" width="700" alt='Initial development workflow'/&gt; &lt;/a&gt;
+
+---
+## Building and installing
+
+We are now ready to build and install the package. You can either:
+
+- Run `devtools::install()`
+- Use `CTRL+SHIFT+B` (or on mac `CMD+SHIFT+B`)
 
 ---
 ## Choosing a license
@@ -793,10 +808,44 @@ usethis::use_readme_rmd()
 
 ---
 ## Checking your package
-&lt;!-- Show how a basic package with pass checks --&gt;
+
+R has a built-in system for checking that packages are properly written. You can run it with 
+
+```r
+devtools::check()
+```
+
+The results of the check:
+
+```r
+── R CMD check results ──────────────── carbon 0.0.0.9000 ────
+Duration: 8.4s
+
+&gt; checking R code for possible problems ... NOTE
+  get_weekly_data: no visible global function definition for ‘read.table’
+  get_weekly_data: no visible binding for global variable ‘year’
+  get_weekly_data: no visible binding for global variable ‘month’
+  get_weekly_data: no visible binding for global variable ‘day’
+  ppm_from_date: no visible binding for global variable ‘co2_ppm’
+  Undefined global functions or variables:
+    co2_ppm day month read.table year
+  Consider adding
+    importFrom("utils", "read.table")
+  to your NAMESPACE file.
+```
 
 ---
 ##  The development workflow
+
+In summary:
+
+1. Modify code =&gt; `load_all()` =&gt; try out code
+
+2. Modify documentation =&gt; `document()` =&gt; `install` =&gt; very doc
+
+4. `install` + `check()`
+
+5. Repeat!
 
 ---
 class: inverse center middle
