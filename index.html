@@ -539,6 +539,53 @@ ppm_from_date &lt;- co2_data_clean %&gt;%
 ---
 ## Translating code into functions
 
+We now translate each step into a function. The function `get_weekly_data` reads in the data...
+
+```r
+get_weekly_data &lt;- function(clean = TRUE) {
+  
+  weekly_data_url &lt;- 
+    "https://gml.noaa.gov/webdata/ccgg/trends/co2/co2_weekly_mlo.txt"
+  
+  co2_data &lt;- read.table(weekly_data_url, skip = 49)
+  names(co2_data) &lt;- c("year", "month", "day", "year_decimal", 
+                       "co2_ppm", "nb_days", "1_year_ago", 
+                       "10_years_ago", "increase_since_1980")
+  
+  if (clean) {
+    co2_data &lt;- co2_data %&gt;% 
+      dplyr::mutate(date = lubridate::ymd(paste(year, month, day, 
+                                                sep = "-"))) %&gt;% 
+      dplyr::select(-year, -month, -day) %&gt;% 
+      dplyr::relocate(date)
+  } 
+  
+  return(co2_data)
+}
+```
+
+---
+## Translating code into functions
+
+...and `ppm_from_date` takes in a date, calls `get_weekly_data` and figrues out the closest ppm from a given date.
+
+```r
+ppm_from_date &lt;- function(date) {
+  
+  date_formatted &lt;- lubridate::ymd("1996-10-29")
+  
+  co2_data_clean &lt;- get_weekly_data(clean = TRUE)
+  
+  ppm &lt;- co2_data_clean %&gt;% 
+    dplyr::mutate(diff = abs(date - date_formatted)) %&gt;% 
+    dplyr::arrange(diff) %&gt;% 
+    dplyr::slice(1) %&gt;% 
+    dplyr::pull(co2_ppm)
+  
+  return(ppm)
+}
+```
+
 ---
 ## Starting a new package with {usethis}
 &lt;!-- Show how to start a package and get the basics done --&gt;
@@ -614,18 +661,16 @@ usethis::use_readme_rmd()
 ---
 ## Adding code
 
-Let's now create all code files and copy the functions in the right place.
+It is good practice to organize code in __R/__ under different files. 
+
+Usually each file is a different function or set of functions that work together. For simplicity's sake, let's put our functions in different files.
+
+We can use `use_r` to create code files.
 
 ```r
+usethis::use_r("get_weekly_data")
 
-```
-
-```
-
-```
-
-```r
-
+usethis::use_r("ppm_from_date")
 ```
 
 ---
