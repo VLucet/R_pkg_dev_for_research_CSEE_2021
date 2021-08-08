@@ -1,9 +1,5 @@
 # Short script to install all dependencies
 
-packages <- c("dplyr", 
-              "janitor", 
-              "lubridate", 
-              "sf", 
-              "leaflet", 
-              "htmltools")
+packages <- c("lubridate", 
+              "dplyr")
 install.packages(packages)
