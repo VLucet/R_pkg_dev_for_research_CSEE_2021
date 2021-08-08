@@ -491,13 +491,54 @@ Therefore, the process we are going to go through touches on 2 aspects of RSE:
 ---
 ## `carbon` demo
 
+The `carbon` package has 2 dependencies
 ```r
-library(carbon)
-# TODO 
+packages <- c("lubridate", 
+              "dplyr")
+install.packages(packages)
+```
+
+Let's take a look at the main function:
+
+```{r}
+# library(carbon)
+# ppm_from_date("1996-10-29)
 ```
 
 ---
 ## The `carbon` base script
+
+Step 1: getting the data
+
+```r
+weekly_data_url <- 
+  "https://gml.noaa.gov/webdata/ccgg/trends/co2/co2_weekly_mlo.txt"
+co2_data <- read.table(weekly_data_url, skip = 49)
+
+names(co2_data) <- c("year", "month", "day", "year_decimal", 
+                     "co2_ppm", "nb_days", "1_year_ago", 
+                     "10_years_ago", "increase_since_1980")
+
+co2_data_clean <- co2_data %>% 
+  mutate(date = ymd(paste(year, month, day, sep = "-"))) %>% 
+  select(-year, -month, -day) %>% 
+  relocate(date)
+```
+
+---
+## The `carbon` base script
+
+Step 2: getting the closest ppm from a given date
+
+```r
+birthday <- ymd("1996-10-29")
+
+ppm_from_date <- co2_data_clean %>% 
+  mutate(diff = abs(date - birthday)) %>% 
+  arrange(diff) %>% 
+  slice(1) %>% 
+  pull(co2_ppm)
+```
 
 ---
 ## Translating code into functions
