@@ -4,7 +4,7 @@
     <title>R Package Development for Research</title>
     <meta charset="utf-8" />
     <meta name="author" content="Valentin Lucet" />
-    <meta name="date" content="2021-08-08" />
+    <meta name="date" content="2021-08-09" />
     <script src="index_files/header-attrs/header-attrs.js"></script>
     <link href="index_files/tile-view/tile-view.css" rel="stylesheet" />
     <script src="index_files/tile-view/tile-view.js"></script>
@@ -40,7 +40,7 @@ class: top, left, title-slide
 # R Package Development for Research
 ## <em>An Introduction</em>
 ### Valentin Lucet
-### 2021-08-08
+### 2021-08-09
 
 ---
 
@@ -189,7 +189,7 @@ __Software &amp; Code literacy__, i.e. the ability to write, test and deliver re
 ---
 ## Open source software
 
-&lt;img src="https://imgs.xkcd.com/comics/dependency_2x.png" align="right" width="350" alt='XKCD comic, where "all modern digital infrastructure" is represented as a jenga tower whose stability completely relies on "a project some rabdom person has been thanklessly maintaining since 2003"'/&gt;
+&lt;img src="https://imgs.xkcd.com/comics/dependency_2x.png" align="right" width="350" alt='XKCD comic, where "all modern digital infrastructure" is represented as a jenga tower whose stability completely relies on "a project some random person has been thanklessly maintaining since 2003"'/&gt;
 
 _Open source software is software with source code that anyone can inspect, modify, and enhance._&lt;sup&gt;1&lt;/sup&gt;
 
@@ -330,21 +330,6 @@ The first 2 are examples of __tooling__ packages: general purpose, no object str
 
 The last is an example of a __workflow__ package: can have a strong object structure (but beware!). In the back, may be built with simpler "tooling" elements.
 
-&lt;!--
-## "tooling" packages
-&lt;!-- Characteristics: general, no object structure (or very light). One function does one thing. Lab package, personal package 
---&gt;
- 
-&lt;!--
-## "workflow" packages 
-&lt;!-- Makes a specific research workflow available, can have a strong object structure (but beware!). In the back, may be built with simpler "tooling" elements 
---&gt;
-
-&lt;!--
-## A research package decision chart
-&lt;!-- Make a decision chart that sums up all we talked about and if we have time ask if there are any questions 
---&gt;
-
 ---
 class: inverse center middle
 
@@ -457,11 +442,48 @@ class: inverse center middle
 ## A package step by step with {usethis} and {devtools}
 
 ---
+## Get to know your R installation&lt;sup&gt;1&lt;/sup&gt;
+
+Packages live in your __library__
+
+
+```r
+R.home()
+```
+
+```
+## [1] "/usr/lib/R"
+```
+
+
+```r
+list.files(R.home())
+```
+
+```
+## [1] "bin"          "COPYING"      "etc"          "lib"          "library"      "modules"     
+## [7] "site-library" "SVN-REVISION"
+```
+
+.footnote[[1] [forwards workshops](https://librarycarpentry.org/Top-10-FAIR/2018/12/01/research-software/)]
+
+---
+## Startup files
+
+__.Rprofile__
+- Code that runs at startup
+ - Load packages, set options, use with moderation!
+
+__.Renviron__
+- Settings for R
+ - Set library paths and environment variables
+
+---
 ## The 4 pillars of R package dev
 &lt;!-- Describe the 4 packages --&gt;
 
 1. `devtools` 
-  - The R developper swiss-army knife: install packages from github, check and test packages, build documentation, etc...
+  - The R developer swiss army knife: install packages from github, check and test packages, build documentation, etc...
 
 2. `usethis` 
   - Automates many steps in the development workflow
@@ -854,6 +876,13 @@ class: inverse center middle
 &lt;!-- Include licensing in there --&gt;
 
 ---
+## A note on package states
+
+Packages have different __states__ at different stages of development.
+
+&lt;a href="https://r-pkgs.org/"&gt; &lt;img src="https://github.com/hadley/r-pkgs/blob/master/diagrams/installation.png?raw=true" align="center" alt='package states workflow'/&gt; &lt;/a&gt;
+
+---
 ## Github Badges
 
 ```r
@@ -875,7 +904,19 @@ name: sources
 
 # Sources
 
+* Hadley Wickham's [R packages](https://r-pkgs.org/)
 * Maelle Simon's [How to develop good R packages (for open science)](https://masalmon.eu/2017/12/11/goodrpackages/)
+* [Forwards Workshops](https://forwards.github.io/workshops/), [#1](https://forwards.github.io/workshops/package-dev-modules/slides/01-packages-in-a-nutshell/packages-in-a-nutshell.html#1), [#2](https://forwards.github.io/workshops/package-dev-modules/slides/02-setting-up-system/setting-up-system.html#1) and [#3](https://forwards.github.io/workshops/package-dev-modules/slides/03-your-first-package/your-first-package.html#1)
+* Hilary Parker's [Writing an R Package from Scratch](https://hilaryparker.com/2014/04/29/writing-an-r-package-from-scratch/)
+* [rrtools](https://github.com/benmarwick/rrtools) and [accompanying book](https://annakrystalli.me/rrresearch/10_compendium.html) &amp; [research compendium reference](https://research-compendium.science/)
+* [Writing clean code in R blog post](https://www.r-bloggers.com/2019/03/writing-clean-and-readable-r-code-the-easy-way/)
+* [Uncle Bob's Clean Code Lectures](https://www.youtube.com/watch?v=7EmboKQH8lM)
+* [IGI Global](https://www.igi-global.com/dictionary/knowledge-visualization-for-research-design/69111)
+* [RSE Society](https://society-rse.org/about/)
+* [opensource.com](https://opensource.com/resources/what-open-source)
+* [library carpentry](https://librarycarpentry.org/Top-10-FAIR/2018/12/01/research-software/)
+* [Mastering Software Development in R](https://bookdown.org/rdpeng/RProgDA/object-oriented-programming.html)
+* [Advanced R Book](https://adv-r.hadley.nz/oo.html)
     </textarea>
 <style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
 <script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
