@@ -2,7 +2,9 @@
 
 <a href="https://csee-scee2021.ca/"> <img src="images/csee_logo.png" align="right" width="300" alt='CSEE logo'/> </a>
 
-[Link to the example package `carbon` for this workshop,](https://github.com/VLucet/carbon)
+[Link to the slides.](https://vlucet.github.io/R_pkg_dev_for_research_CSEE_2021/)
+
+[Link to the example package `carbon` for this workshop.](https://github.com/VLucet/carbon)
 
 ### CSEE 2021 Workshop
 
