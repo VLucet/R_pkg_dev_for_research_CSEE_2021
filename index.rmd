@@ -600,7 +600,7 @@ ppm_from_date <- function(date) {
 
 Packages can rely on other packages (and sometimes other software) as long as those dependencies are correctly specified (we will come back to that).
 
-For now, it is important to note that the functions we just wrote are always explicit about using other functions by using the double dot notations to access functions that are contained in otehr packages.
+For now, it is important to note that the functions we just wrote are always explicit about using other functions by using the double dot notations to access functions that are contained in other packages.
 
 ```r
 dplyr::mutate
@@ -662,6 +662,21 @@ Description: Retrieves weekly CO2 ppm from the Mauna Loa
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.1.1
+```
+
+---
+## Adding dependencies
+
+All dependency packages that we accessed earlier with `::` need to be added to the DESCRIPTION file:
+
+```r
+usethis::use_package("lubridate")
+usethis::use_package("dplyr")
+```
+
+Which adds a new section to DESCRIPTION:
+
+```r
 Imports: 
     lubridate,
     dplyr
@@ -808,7 +823,7 @@ usethis::use_gpl3_license()
 usethis::use_readme_rmd()
 ```
 
-- Adds a readme
+- Adds a readme.
 - Creates commit hook so that changes to readme cant be commited before its re-knitted.
 
 ```
@@ -870,6 +885,15 @@ class: inverse center middle
 Packages have different __states__ at different stages of development.
 
 <a href="https://r-pkgs.org/"> <img src="https://github.com/hadley/r-pkgs/blob/master/diagrams/installation.png?raw=true" align="center" alt='package states workflow'/> </a>
+
+---
+## Testing: the basics
+
+---
+## Test-Driven Development
+
+---
+## Test coverage
 
 ---
 ## Github Badges
