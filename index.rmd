@@ -9,7 +9,7 @@ output:
     css: xaringan-themer.css
     nature:
       titleSlideClass: [top, left]
-      slideNumberFormat: "%current%"
+      slideNumberFormat: "%current%/%total%"
       highlightStyle: github
       highlightLines: true
       ratio: 4:3
