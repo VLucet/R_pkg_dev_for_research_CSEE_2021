@@ -1,4 +1,4 @@
-## [R Package Development for Research: an Introduction](https://vlucet.github.io/R_pkg_dev_for_research_CSEE_2021/)
+## [R Package Development for Research: an Introduction](https://github.com/VLucet/R_pkg_dev_for_research_CSEE_2021)
 
 <a href="https://csee-scee2021.ca/"> <img src="images/csee_logo.png" align="right" width="300" alt='CSEE logo'/> </a>
 
