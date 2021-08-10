@@ -83,14 +83,13 @@ name: plan 1
 
 1. __Research software in Eco-Evo__ (__~ 20 minutes__) <!-- 9:40 - 10:00 -->
   * What is research software?
-  * To Package or not to Package: what are the alternatives?
-  * General vs workflow oriented packaging.
+  * To Package or not to Package, and alternatives to packaging
   
 2. __From "spaghetti code" to "packaged" code__ (__~ 20 minutes__) <!-- 10:00 - 10:20 -->
   * Tips and tricks to modularize your research code.
   * How to write clean code.
-  * Object-oriented designs and functional programming.
-  * (__Break: 10 minutes__) <!-- 10:20 - 10:30 -->
+
+=> __Break: 10 minutes__ <!-- 10:20 - 10:30 -->
 
 ---
 name: plan 2
@@ -98,7 +97,8 @@ name: plan 2
 
 3. __A package step by step with `usethis` and `devtools`__ (__~ 50 minutes__) <!-- 10:30 - 11:20 -->
   * Let's create an example package step by step.
-  * (__Break: 10 minutes__) <!-- 11:20 - 11:30 -->
+
+=> (__Break: 10 minutes__) <!-- 11:20 - 11:30 -->
   
 4. __Package testing, maintenance and distribution: best practices__ (__~ 50 minutes__) <!-- 11:30 - 12:20 -->
   * How to test, maintain, and distribute your package.
@@ -110,7 +110,7 @@ name: prereqs
 
 ## Before we get started...
 
-For today, it is recommended that you are already pretty well acquainted with __R__ and __Rstudio__. But, if at least you...
+For today, it is recommendeded that you are already pretty well acquainted with __R__ and __Rstudio__. But, if at least you...
   * Have written a few __functions with multiple arguments__ in R 
   * Know about "__project oriented workflow__" (for instance you use RStudio projects) 
   
@@ -125,16 +125,14 @@ pkgs <- c("devtools", "roxygen2", "usethis", "testthat",
 install.packages(pkgs)
 ```
 
-_Note: the first part of the workshop is relevant to users of any level._
-
 ---
 name: refs
 
 ## On not reinventing the wheel...
 
-There exists a __plethora of great resources on R package making__, resources from which I have learned myself. 
+There exists a __plethora of great resources on R package making__.
 
-This workshop has been devised by attempting to __synthesize many freely available resources__ put together by a whole bunch of excellent people. 
+I have tried to __synthesize many freely available resources__.
 
 _A full list of resources is included at the end of this workshop._
 
@@ -152,16 +150,17 @@ class: inverse center middle
 __Research software__ can be defined as any computer-based application that directly or indirectly supports users in a research task<sup>1</sup>.
 
 For example: 
-- Any software packages used to conduct research, but also
-- Any script that employ these packages, and
+- Any software packages used to conduct research
+- Any script that employ these packages
 - Any code or program used to manage and process data
-
-Can also include:
-- Proprietary software (Matlab, ArcGIS, etc...)
 - Any program that runs on data collection hardware
  - Camera traps
  - Temperature sensors
  - etc.
+
+Can include:
+- Open source software
+- Proprietary software (Matlab, ArcGIS, etc...)
 
 .footnote[[1] [IGI Global](https://www.igi-global.com/dictionary/knowledge-visualization-for-research-design/69111)]
 
@@ -172,7 +171,7 @@ __Research software__ is written by __Research software engineers__
 
 _A Research Software Engineer (RSE) combines professional software engineering expertise with an intimate understanding of research._<sup>1</sup>
 
-A wider definition would also include, independently of whether they have received formal training in software engineering:
+A wider definition would also include, independently of whether they have received any formal training in software engineering:
 - Any __HQP__ (Highly Trained Personnel) who writes code in a research context (grad student, post-doc, etc.)
 - Research assistant, lab managers, undergraduate students involved in producing code
 
@@ -183,13 +182,13 @@ The RSE hat is often shared and worn by different people in a lab, and increasin
 ---
 ## RSE & code "openness"
 
+__Software & Code literacy__, i.e. the ability to write, test and deliver reproducible code, is an essential skill to solve the reproducibility crisis in Eco-Evo.
+
 <a href="https://journals.plos.org/plosbiology/article?id=10.1371/journal.pbio.3000763"> <img src="images/low_avail.png" align="left" width="400" alt='Low availability of code in ecology: A call for urgent action (screenshot of a research paper)'/> </a>
 
 <a href="https://www.cell.com/trends/ecology-evolution/fulltext/S0169-5347(15)00290-6?_returnURL=https%3A%2F%2Flinkinghub.elsevier.com%2Fretrieve%2Fpii%2FS0169534715002906%3Fshowall%3Dtrue"> <img src="images/elevating.png" width="250" alt='Elevating the status of code in ecology (screenshot of a research paper)'/> </a>
 
 <a href="https://www.nature.com/articles/467753a"> <img src="images/publish_your_code.png" align="center" width="500" alt='Publish your computer code, it is good enough'/>  </a>
-
-__Software & Code literacy__, i.e. the ability to write, test and deliver reproducible code, is an essential skill to solve the reproducibility crisis in Eco-Evo.
 
 ---
 ## Open source software
@@ -198,9 +197,9 @@ __Software & Code literacy__, i.e. the ability to write, test and deliver reprod
 
 _Open source software is software with source code that anyone can inspect, modify, and enhance._<sup>1</sup>
 
-Like most research, research in eco-evo could not take place without OSS (think of the R language and the all the add-on packages).
+Like most research, research in eco-evo __could not take place__ without OSS (think of the R language and all the add-on packages).
 
-Good RSE is therefore guided by OSS principles, paradigms, and tools, the width of it being too large to cover today.
+Good RSE is therefore guided by OSS principles, paradigms, and tools, the width of it is too large to cover today.
 
 .footnote[[1] [opensource.com](https://opensource.com/resources/what-open-source)]
 
@@ -211,7 +210,7 @@ Good RSE is therefore guided by OSS principles, paradigms, and tools, the width 
   - rich metadata + unique, persistent, identifier.
 
 2. __Accessible__
-  - metadata is both  machine AND human readable.
+  - metadata is both machine AND human readable.
   - deposited in trusted community approved repository.
 
 3. __Interoperable__
@@ -233,6 +232,7 @@ Research software is often __not recognized__ as a scientific contribution in it
 Recognizing RS as a scientific contribution is not a vanity for RS developers: __code should under better scrutiny, and should be submitted to peer review__.
 
 Who is reviewing code?
+- Journals & reviewers (sometimes)
 - [ROpenSci software peer review](https://ropensci.org/).
 - [JOSS](https://joss.theoj.org/) and other software journals.
 
@@ -242,19 +242,17 @@ class: inverse center middle
 # To Package or not to Package?
 
 ---
-## Should your package exists?
+## Should your package exists?<sup>1</sup>
 
-A few questions to ask yourself<sup>1</sup> :
-
-1. Will this piece of software really be useful to someone else than you? 
+1. Will this piece of software really be useful to someone else than you (or to you in the future)? 
 
 2. Is your idea really new, or is there already a package out there performing the exact same task?
 
-3. If there is one, would your implementation bring something to the market, e.g. an user-friendlier implementation? 
+3. If there is one, would your implementation bring something to the market, e.g. an user-friendlier implementation? (and is this improvement worth introducing a divide in user base)
 
 4. If there is already a similar package, should you work on your own or collaborate with the author(s) of the original package?
 
-5. As a grad student or PI, is the time spent in development worth the effort?
+5. As a researcher, are you ready to commit to maintaining the package (fix bugs, provide continuous support) after release/publication. (re: contributing instead)
 
 .footnote[[1] [M. Simon's blog post](https://masalmon.eu/2017/12/11/goodrpackages/)]
 
@@ -263,32 +261,27 @@ A few questions to ask yourself<sup>1</sup> :
 
 _"Packaging doesn't have to be about sharing the code, it can just be to save yourself time."_<sup>1</sup>
 
-Packages do not have to be written for someone else than yourself. Consider writing a personal package. For example, consider packaging Scripts that:
+Packages do not have to be written for someone else than yourself. Consider writing a personal package. For example, consider packaging scripts that:
 - You have re-used more than once
 - You have shared with students and/or collaborators
-- Produces this a specific analysis or figure that is often re-used within your lab
+- Produces a specific analysis or figure that is often re-used within your lab
 
-Consider starting a __lab package project__ where students are encourage to contribute functions and document them, therefore ensuring that the coding knowledge accumulated through often tedious trial and error is curated and can serve you and your students in the future.
+Consider starting a __lab package project__ where students are encouraged to contribute functions and document them, therefore ensuring that the coding knowledge accumulated through often tedious trial and error is curated and can serve you and your students in the future.
 
 .footnote[[1] [H. Parker's blog post](https://hilaryparker.com/2014/04/29/writing-an-r-package-from-scratch/)]
 
 ---
-## What other forms does research software take?
+## Research compendiums
 
-A __Package__ is only one way to distribute research code. I want to mention __research compendiums__ as the best alternative to writing and releasing a package.
+I want to mention __research compendiums__ as an alternative to writing and releasing a full package.
 
-_The goal of a research compendium is to provide a standard and easily recognizable way for organizing the digital materials of a project to enable others to inspect, reproduce, and extend the research._<sup>1</sup>
+Compendiums are actually simplified R packages (with or without documented functions) with an extra `analysis/` folder and does not require you to go through all the steps of packaging.
+
+_The goal of a research compendium is to provide a standard and easily recognizable way for organizing the digital materials of a project to enable others to inspect, reproduce, and extend the research._<sup>1</sup> (re: OSS principles)
 
 <a href="https://github.com/benmarwick/rrtools"> <img src="images/rrtools.png" align="center" alt='rrtools: Tools for Writing Reproducible Research in R'/>  </a>
 
-Note: sometimes compendiums are actually R packages bundled in a specific way.
-
 .footnote[[1] [R for Reproducible Research course](https://annakrystalli.me/rrresearch/10_compendium.html)]
-
-<!--
-## To Package or not to Package? (cont'd)
-<!-- Discuss the effort at different stages of research. 
--->
 
 ---
 ## What should a package contain?
@@ -301,7 +294,7 @@ Two principles<sup>1</sup> :
 
 I would add, consider principles of the [Unix philosophy](https://en.wikipedia.org/wiki/Unix_philosophy):
 
-1. Small building blocks (small functions for example)
+1. Small building blocks (small functions)
 
 2. "Do One Thing and Do It Well"
 
@@ -319,21 +312,6 @@ __Naming things is hard__. but here are a few advice<sup>1</sup> :
 3. If your package revolves around a __central function__ or interfaces with __another program__, consider using these as the name.
 
 .footnote[[1] [M. Simon's blog post](https://masalmon.eu/2017/12/11/goodrpackages/)]
-
----
-## Research packages fall into 3 broad categories
-
-From the widest to the narrowest user base, on a continuum from generality to specificity:
-
-1. To provide a __general research tool__ in R.
-
-2. To implement a __method__.
-
-2. To make a certain __workflow__ reproducible and adaptable.
-
-The first 2 are examples of __tooling__ packages: general purpose, no object structure (or very light). One function does one thing.
-
-The last is an example of a __workflow__ package: can have a strong object structure (but beware!). In the back, may be built with simpler "tooling" elements.
 
 ---
 class: inverse center middle
@@ -360,7 +338,7 @@ Cleaning up research code should be considered an integral part of the research 
 
 Two aspects of code "cleanliness":
 
-1. The way __it looks__ (spaces, number of lines, etc.)
+1. The way __it is organized__ (files, modules, but also spaces, number of lines, etc.)
 
 2. The way __it reads__ (measured in "WTFs per minute"<sup>1</sup> as you read it)
 
@@ -377,21 +355,23 @@ Two aspects of code "cleanliness":
 
 - Name things well (re: naming is hard). Don't be afraid to use long, informative function and variable names.
 
-- Write __functional__ code, i.e. code made with functions, each function accomplishing one thing (recall the Unix's Do One Thing Well).
-
----
-## How to write clean (R) code
+- Write __functional__ code blocks, i.e. code that employs reusable functions, each function accomplishing one thing (recall the Unix's Do One Thing Well).
 
 - Write useful comments: do not comment everything in the code, just the parts that actually need explaining.
 
+---
+## How to write clean (R) code (ct'd)
+
 - Use tools to identify and fix style issues in code. The packages [`lintr`](https://github.com/jimhester/lintr) and [`goodpractice`](https://github.com/MangoTheCat/goodpractice) are a good way to start.
 
-- Engage in code review: the best way to know if your code is clean to have someone else take a look at it. Consider setting up code review sessions between students and/or collaborators. GitHub makes it easy to get started with reviewing code.
+- Engage in code review: 
+ - The best way to know if your code is clean to have someone else take a look at it. 
+ - Consider setting up code review sessions between students and/or collaborators. GitHub makes it easy to get started with reviewing code.
 
 ---
 ## Packaging your messy code
 
-A simple (recursive) recipe for packaging research scripts into a __proto-package__: 
+A simple recipe for packaging research scripts into a __proto-package__: 
 
 1. Identify __modules__. Modules are pieces of codes that stands on their own and that either:
  - Achieve a specific task. 
@@ -405,41 +385,20 @@ A simple (recursive) recipe for packaging research scripts into a __proto-packag
 
 4. Repeat the process __within__ each function.
 
-5. Consider your code _modularized_ when each function Only Does One Thing (yes, this is subjective).
+5. Consider your code _modularized_ when each function Only Does One Thing (yes, this is subjective). Sometimes, using a max number of lines per function can be useful.
 
 ---
 ## Object-Oriented Programming
 
-Once you have a working proto-package, you can start thinking about whether your package is suited to an object-oriented design.
+OOP is an approach to writing code where information is organized into __objects__. 
 
-There a several key principles in object oriented programming<sup>1</sup> : 
+In R, using objects will allow you to make the most of functions like `plot()` or `print()`. Pretty much everything you manipulate in R are in fact objects for which methods (versions of `plot` for example) have been written for these specific objects.
 
-1. The first are the ideas of a __class__ and an __object__. 
- - An object is a way to represent data with some constraints (for example, a `data.frame` object organises vectors into columns). 
- - A class is a blueprint for an object: it describes the parts of an object, how to make an object, and what the object is able to do.
+If your package requires you to organize and manipulate information with specific constraints, it might be relevant to use OOP design.
 
-2. Functions that operates onto an object of a given class is called a __method__ of this class.
-
-If your package requires you to organize and manipulate information with specific constraints, it might be rekevant to use OOP design.
-
-.footnote[[1] [Mastering Software Development in R](https://bookdown.org/rdpeng/RProgDA/object-oriented-programming.html)]
-
----
-## OOP in R
-
-The 3 most popular types of OOP frameworks in R<sup>1</sup> :
-
-1. __S3__ is R’s first OOP system, and is a rather informal implementation, relying on relies on conventions rather than "ironclad guarantees". __Easiest to start with, low cost way to solve many simple problems__.
-
-2. __S4__ is a formal and rigorous rewrite of S3, with more guarantees and greater encapsulation.
-
-3. __R6__ is provided by a package and implements __mutable__ S4 objects.
-
-Which one to choose? Many trade-offs exists. 
-
-In a nutshell: __choose S3 for simplicity, S4 for rigor and R6 if you need mutability__.
-
-.footnote[[1] [Advanced R Book](https://adv-r.hadley.nz/oo.html)]
+To learn more about OOP I would suggest reading:
+- [Mastering Software Development in R](https://bookdown.org/rdpeng/RProgDA/object-oriented-programming.html)
+- [Advanced R Book](https://adv-r.hadley.nz/oo.html)
 
 ---
 class: inverse center middle
@@ -967,3 +926,25 @@ name: sources
 * [library carpentry](https://librarycarpentry.org/Top-10-FAIR/2018/12/01/research-software/)
 * [Mastering Software Development in R](https://bookdown.org/rdpeng/RProgDA/object-oriented-programming.html)
 * [Advanced R Book](https://adv-r.hadley.nz/oo.html)
+
+
+<!-- Retired slides
+
+---
+## OOP in R
+
+The 3 most popular types of OOP frameworks in R<sup>1</sup> :
+
+1. __S3__ is R’s first OOP system, and is a rather informal implementation, relying on relies on conventions rather than "ironclad guarantees". __Easiest to start with, low cost way to solve many simple problems__.
+
+2. __S4__ is a formal and rigorous rewrite of S3, with more guarantees and greater encapsulation.
+
+3. __R6__ is provided by a package and implements __mutable__ S4 objects.
+
+Which one to choose? Many trade-offs exists. 
+
+In a nutshell: __choose S3 for simplicity, S4 for rigor and R6 if you need mutability__.
+
+.footnote[[1] [Advanced R Book](https://adv-r.hadley.nz/oo.html)]
+
+-->
