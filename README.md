@@ -20,7 +20,7 @@ Software tools such as R packages are essential to research efforts in ecology a
 Although the workshop is designed to meet participants at any skill level, it is recommended to be well acquainted with using R, Rstudio and version control software (such as Git and GitHub). Participants are welcome to contact me at valentin.lucet@mail.mcgill.ca if they are worried they do not have an appropriate level and wish to discuss it.
 
 ### Preparation
-Please follow the instruction of this [forwards workshop](https://forwards.github.io/workshops/package-dev-modules/slides/02-setting-up-system/setting-up-system.html#54). __Note__: you can ignore the steps that involves Git and GitHub as we won't have the time to cover version control software during this workshop.
+Please follow the instruction of this [forwards workshop](https://forwards.github.io/workshops/package-dev-modules/slides/02-setting-up-system/setting-up-system.html#1). __Note__: you can ignore the steps that involves Git and GitHub as we won't have the time to cover version control software during this workshop.
 
 ### About Valentin
 Valentin Lucet is a landscape ecologist and research software developer, specializing in ecological modeling and open source software skills. He holds an M.Sc. in Biology from McGill University, and provides expertise and training in research software to academia and government. His project experience includes landscape connectivity conservation and participatory methods.
