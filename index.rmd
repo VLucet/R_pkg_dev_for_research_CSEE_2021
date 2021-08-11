@@ -121,7 +121,7 @@ Knowledge of Git/Github is also welcome as I won't have the time to explain vers
 ```r
 # Run this in R while we start. 
 pkgs <- c("devtools", "roxygen2", "usethis", "testthat", 
-          "lubridate", "dplyr")
+          "covr", "lubridate", "dplyr")
 install.packages(pkgs)
 ```
 
@@ -771,8 +771,9 @@ The function `ppm_from_date` is now set up for exportation.
 ```
 #' Get the CO2 ppm value closest to a given date
 #'
-#' Given a date, retrieves the atmospheric CO2 concentration value the closest
-#' to that date, using the data from the Mauna Loa observatory
+#' Given a date, retrieves the atmospheric CO2 concentration value 
+#' the closest to that date, using the data from the Mauna Loa 
+#' observatory.
 #'
 #' @param date A character string of the format "yyyy-mm-dd"
 #'
@@ -915,14 +916,86 @@ class: inverse center middle
 ---
 ## Using GitHub
 
+Using version control and depositing your package on GitHub is very important: it allows anyone (as long as the repository is public) to install your package
+
+```r
+devtools::install_github("vlucet/carbon")
+```
+
 ---
 ## Testing: the basics
+
+Tests served 2 main purposes:
+- Document the expected behavior of functions
+- A way to detect bugs as you add features
+
+How big should a test be? Principles of __unit testing__ dictate that a test should check for the __behavior of a single function for a single combination of inputs__.
+
+This is debated and sometimes difficult to achieve (for example with package that replicate a complex workflow). 
+
+The smaller / simpler your functions, the easier it is to write tests for them. It is common that testing code equals or exceed the amount of tested code!
+
+---
+## Testing: an example
+
+We use usethis to set up the `testthat` framework.
+
+```r
+usethis::use_testthat()
+```
+
+And then to create a test file. It is good practice to name each test file after the function or functionality it is meant to test. 
+
+```r
+usethis::use_test("ppm_from_date")
+```
+
+---
+## Testing: an example
+
+The more specific you can be, the better the test
+
+```r
+test_that("returned ppm value is correct",{
+
+  expect_equal(ppm_from_date("1996-10-29"), 360.13)
+
+})
+```
 
 ---
 ## Test-Driven Development
 
+One way to develop software is called __test-driven development__. 
+
+_In a nutshell:_ Write the test first and then write the code necessary for the test to pass. 
+
+
+```r
+test_that("get_last_ppm returns the latest ppm", {
+  ...
+})
+
+```
+
+This requires to have a very good idea of the end product (avoid issue with over-scoping of "feature creep") but can be difficult to achieve in a research context.
+
 ---
 ## Test coverage
+
+Test coverage refers to the __% of lines of code that are "reached" by the tests__ i.e the lines of code in the package that are ran by the tests.
+
+We can set run a coverage test
+```r
+covr::package_coverage()
+```
+We only wrote one test but this test hits all the lines in our package. However we will still want to write additional tests to test sub sections of the code independently from each other.
+
+```
+carbon Coverage: 100.00%
+R/get_weekly_data.R: 100.00%
+R/ppm_from_date.R: 100.00%
+```
 
 ---
 ## Github Badges
@@ -938,14 +1011,49 @@ usethis::use_badge(
   href = "http://www.gnu.org/licenses/gpl-3.0"
 )
 ```
+
 ---
 ## Vignettes
+
+__Vignettes__ are an example of __long form documentation__. They are sued to introduce users to a package. 
+
+It is usually recommended (but not required) to have a vignette written when you submit to CRAN.
+
+Our small package does not really need a vignette, a few examples in the documentation would be enough.
+
+To see all the vignettes for a package: 
+```r
+vignette("package_name")
+```
 
 ---
 ## Continuous integration
 
+An important concept in package maintenance is making sure that your software continues to work on all platforms every time you implement a new feature: this is called __continuous integration__ (CI).
+
+How can you make sure your package runs fine on MacOS, Linux, Windows, when you probably only have access to one of the 3?
+
 ---
 ## GitHub actions
+
+GA is a free (up to certain time limit for OS project) service from github. 
+
+You can run any script on any platform for free and output the results programmatically. The process is setup with __workflow files__.
+
+`usethis` can set this all up for us (it also sets up a badge):
+
+```r
+usethis::use_github_action_check_standard()
+## Make sure to re-knit readme
+```
+
+---
+## GA: code coverage
+
+You can also set up as GA to monitor code coverage continuously. 
+
+We won't cover it here in detail but see [this workflow file](https://github.com/r-lib/actions/blob/master/.github/workflows/test-coverage.yaml) for reference. 
+
 
 ---
 ## A website for your package
@@ -964,6 +1072,17 @@ usethis::use_badge(
 
 ---
 ## Publishing in a journal
+
+---
+## Things we have not covered
+
+- including C++ code
+
+- in depth OOP
+
+- testing for performance
+
+- etc...
 
 ---
 class: center, middle
