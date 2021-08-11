@@ -4,7 +4,7 @@
     <title>R Package Development for Research</title>
     <meta charset="utf-8" />
     <meta name="author" content="Valentin Lucet" />
-    <meta name="date" content="2021-08-10" />
+    <meta name="date" content="2021-08-11" />
     <script src="index_files/header-attrs/header-attrs.js"></script>
     <link href="index_files/tile-view/tile-view.css" rel="stylesheet" />
     <script src="index_files/tile-view/tile-view.js"></script>
@@ -40,7 +40,7 @@ class: top, left, title-slide
 # R Package Development for Research
 ## <em>An Introduction</em>
 ### Valentin Lucet
-### 2021-08-10
+### 2021-08-11
 
 ---
 
@@ -162,7 +162,7 @@ Can include:
 ---
 ## Who writes research software?
 
-__Research software__ is written by __Research software engineers__
+__Research software__ is written by __research software engineers__
 
 _A Research Software Engineer (RSE) combines professional software engineering expertise with an intimate understanding of research._&lt;sup&gt;1&lt;/sup&gt;
 
@@ -298,7 +298,7 @@ I would add, consider principles of the [Unix philosophy](https://en.wikipedia.o
 ---
 ## How to name your package
 
-__Naming things is hard__. but here are a few advice&lt;sup&gt;1&lt;/sup&gt; :
+__Naming things is hard__. but here are a few pieces of advice&lt;sup&gt;1&lt;/sup&gt; :
 
 1. Use __lower cases__, this way your user doesn’t need to remember where the capital letters are and  full capital letter name looks like screaming.
 
@@ -331,10 +331,10 @@ __Messy code = Unfinished code__
 
 Cleaning up research code should be considered an integral part of the research process. It is often the first step in any packaging endeavor.
 
-Two aspects of code "cleanliness":
+Three aspects of code "cleanliness":
 
-1. The way __it is organized__ (files, modules, but also spaces, number of lines, etc.)
-
+1. The way __it is organized__ (files)
+2. The way __it looks__ (spaces, number of lines, etc.)
 2. The way __it reads__ (measured in "WTFs per minute"&lt;sup&gt;1&lt;/sup&gt; as you read it)
 
 .footnote[[1] [Uncle Bob's Clean Code Lectures](https://www.youtube.com/watch?v=7EmboKQH8lM)]
@@ -360,7 +360,7 @@ Two aspects of code "cleanliness":
 - Use tools to identify and fix style issues in code. The packages [`lintr`](https://github.com/jimhester/lintr) and [`goodpractice`](https://github.com/MangoTheCat/goodpractice) are a good way to start.
 
 - Engage in code review: 
- - The best way to know if your code is clean to have someone else take a look at it. 
+ - The best way to know if your code is clean is to have someone else take a look at it. 
  - Consider setting up code review sessions between students and/or collaborators. GitHub makes it easy to get started with reviewing code.
 
 ---
@@ -387,7 +387,7 @@ A simple recipe for packaging research scripts into a __proto-package__:
 
 OOP is an approach to writing code where information is organized into __objects__. 
 
-In R, using objects will allow you to make the most of functions like `plot()` or `print()`. Pretty much everything you manipulate in R are in fact objects for which methods (versions of `plot` for example) have been written for these specific objects.
+In R, using objects will allow you to make the most of functions like `plot()` or `print()`. Pretty much everything you manipulate in R are in fact objects for which methods (i.e. _versions of a function written to operate on a given object_) have been written for these specific objects.
 
 If your package requires you to organize and manipulate information with specific constraints, it might be relevant to use OOP design.
 
@@ -420,8 +420,8 @@ list.files(R.home())
 ```
 
 ```
-## [1] "bin"          "COPYING"      "etc"          "lib"          "library"      "modules"     
-## [7] "site-library" "SVN-REVISION"
+## [1] "bin"          "COPYING"      "etc"          "lib"          "library"     
+## [6] "modules"      "site-library" "SVN-REVISION"
 ```
 
 .footnote[[1] [forwards workshops](https://librarycarpentry.org/Top-10-FAIR/2018/12/01/research-software/)]
@@ -476,23 +476,33 @@ ppm_from_date("1996-10-29")
 ## [1] 360.13
 ```
 
+Let's look at 
+
+1. The base script I wrote to achieve this.
+2. The functions I wrote to modularize the analysis.
+3. The packaging process.
+
 ---
 ## The `carbon` base script
 
 Step 1: getting the data
 
 ```r
+library(lubridate)
+library(dplyr)
+
 weekly_data_url &lt;- 
   "https://gml.noaa.gov/webdata/ccgg/trends/co2/co2_weekly_mlo.txt"
+  
 co2_data &lt;- read.table(weekly_data_url, skip = 49)
 
 names(co2_data) &lt;- c("year", "month", "day", "year_decimal", 
                      "co2_ppm", "nb_days", "1_year_ago", 
                      "10_years_ago", "increase_since_1980")
 
-co2_data_clean &lt;- co2_data |&gt; 
-  mutate(date = ymd(paste(year, month, day, sep = "-"))) |&gt; 
-  select(-year, -month, -day) |&gt; 
+co2_data_clean &lt;- co2_data %&gt;% 
+  mutate(date = ymd(paste(year, month, day, sep = "-"))) %&gt;% 
+  select(-year, -month, -day) %&gt;% 
   relocate(date)
 ```
 
@@ -504,10 +514,10 @@ Step 2: getting the closest ppm from a given date
 ```r
 birthday &lt;- ymd("1996-10-29")
 
-ppm_from_date &lt;- co2_data_clean |&gt; 
-  mutate(diff = abs(date - birthday)) |&gt; 
-  arrange(diff) |&gt; 
-  slice(1) |&gt; 
+ppm_from_date &lt;- co2_data_clean %&gt;% 
+  mutate(diff = abs(date - birthday)) %&gt;% 
+  arrange(diff) %&gt;% 
+  slice(1) %&gt;% 
   pull(co2_ppm)
 ```
 
@@ -528,10 +538,10 @@ get_weekly_data &lt;- function(clean = TRUE) {
                        "10_years_ago", "increase_since_1980")
   
   if (clean) {
-    co2_data &lt;- co2_data |&gt; 
+    co2_data &lt;- co2_data %&gt;% 
       dplyr::mutate(date = lubridate::ymd(paste(year, month, day, 
-                                                sep = "-"))) |&gt; 
-      dplyr::select(-year, -month, -day) |&gt; 
+                                                sep = "-"))) %&gt;% 
+      dplyr::select(-year, -month, -day) %&gt;% 
       dplyr::relocate(date)
   } 
   
@@ -551,10 +561,10 @@ ppm_from_date &lt;- function(date) {
   
   co2_data_clean &lt;- get_weekly_data(clean = TRUE)
   
-  ppm &lt;- co2_data_clean |&gt; 
-    dplyr::mutate(diff = abs(date - date_formatted)) |&gt; 
-    dplyr::arrange(diff) |&gt; 
-    dplyr::slice(1) |&gt; 
+  ppm &lt;- co2_data_clean %&gt;% 
+    dplyr::mutate(diff = abs(date - date_formatted)) %&gt;% 
+    dplyr::arrange(diff) %&gt;% 
+    dplyr::slice(1) %&gt;% 
     dplyr::pull(co2_ppm)
   
   return(ppm)
@@ -619,7 +629,7 @@ Title: Get the CO2 ppm Value Closest to a Given Date
 Version: 0.0.0.9000
 Authors@R: 
     person(given = "Valentin",
-           family = "Lucey",
+           family = "Lucet",
            role = c("aut", "cre"),
            email = "valentin.lucet@gmail.com")
 Description: Retrieves weekly CO2 ppm from the Mauna Loa 
