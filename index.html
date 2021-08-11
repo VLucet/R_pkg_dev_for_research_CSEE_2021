@@ -194,7 +194,7 @@ _Open source software is software with source code that anyone can inspect, modi
 
 Like most research, research in eco-evo __could not take place__ without OSS (think of the R language and all the add-on packages).
 
-Good RSE is therefore guided by OSS principles, paradigms, and tools, the width of it is too large to cover today.
+Good RSE is therefore guided by OSS principles, paradigms, and tools.
 
 .footnote[[1] [opensource.com](https://opensource.com/resources/what-open-source)]
 
@@ -425,17 +425,13 @@ list.files(R.home())
 ```
 
 .footnote[[1] [forwards workshops](https://librarycarpentry.org/Top-10-FAIR/2018/12/01/research-software/)]
-
+ 
 ---
-## Startup files
+## A note on package states
 
-__.Rprofile__
-- Code that runs at startup
- - Load packages, set options, use with moderation!
+Packages have different __states__ at different stages of development.
 
-__.Renviron__
-- Settings for R
- - Set library paths and environment variables
+&lt;a href="https://r-pkgs.org/"&gt; &lt;img src="https://github.com/hadley/r-pkgs/blob/master/diagrams/installation.png?raw=true" align="center" alt='package states workflow'/&gt; &lt;/a&gt;
 
 ---
 ## The 4 pillars of R package dev
@@ -850,13 +846,6 @@ class: inverse center middle
 &lt;!-- Include licensing in there --&gt;
 
 ---
-## A note on package states
-
-Packages have different __states__ at different stages of development.
-
-&lt;a href="https://r-pkgs.org/"&gt; &lt;img src="https://github.com/hadley/r-pkgs/blob/master/diagrams/installation.png?raw=true" align="center" alt='package states workflow'/&gt; &lt;/a&gt;
-
----
 ## Using GitHub
 
 ---
@@ -957,6 +946,18 @@ Which one to choose? Many trade-offs exists.
 In a nutshell: __choose S3 for simplicity, S4 for rigor and R6 if you need mutability__.
 
 .footnote[[1] [Advanced R Book](https://adv-r.hadley.nz/oo.html)]
+
+
+---
+## Startup files
+
+__.Rprofile__
+- Code that runs at startup
+ - Load packages, set options, use with moderation!
+
+__.Renviron__
+- Settings for R
+ - Set library paths and environment variables
 
 --&gt;
     </textarea>
