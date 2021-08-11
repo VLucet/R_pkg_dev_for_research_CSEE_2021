@@ -690,6 +690,60 @@ usethis::use_r("ppm_from_date")
 ```
 
 ---
+## Copy and paste code 
+
+.panelset[
+.panel[.panel-name[`get_weekly_data`]
+
+
+```r
+get_weekly_data &lt;- function(clean = TRUE) {
+  
+  weekly_data_url &lt;- 
+    "https://gml.noaa.gov/webdata/ccgg/trends/co2/co2_weekly_mlo.txt"
+  
+  co2_data &lt;- read.table(weekly_data_url, skip = 49)
+  names(co2_data) &lt;- c("year", "month", "day", "year_decimal", 
+                       "co2_ppm", "nb_days", "1_year_ago", 
+                       "10_years_ago", "increase_since_1980")
+  
+  if (clean) {
+    co2_data &lt;- co2_data %&gt;% 
+      dplyr::mutate(date = lubridate::ymd(paste(year, month, day, 
+                                                sep = "-"))) %&gt;% 
+      dplyr::select(-year, -month, -day) %&gt;% 
+      dplyr::relocate(date)
+  } 
+  
+  return(co2_data)
+}
+```
+]
+
+.panel[.panel-name[`ppm_from_date`]
+
+
+```r
+ppm_from_date &lt;- function(date) {
+  
+  date_formatted &lt;- lubridate::ymd("1996-10-29")
+  
+  co2_data_clean &lt;- get_weekly_data(clean = TRUE)
+  
+  ppm &lt;- co2_data_clean %&gt;% 
+    dplyr::mutate(diff = abs(date - date_formatted)) %&gt;% 
+    dplyr::arrange(diff) %&gt;% 
+    dplyr::slice(1) %&gt;% 
+    dplyr::pull(co2_ppm)
+  
+  return(ppm)
+}
+```
+]
+
+]
+
+---
 ## Exporting functions
 
 Once packaged, not all functions might be available to the user. This is by design: you might want to write helper functions and sub routines that your users have no use for. You need to explicitly decide which functions to "export" for the user. 
