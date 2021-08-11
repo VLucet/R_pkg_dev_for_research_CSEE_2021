@@ -420,8 +420,8 @@ list.files(R.home())
 ```
 
 ```
-## [1] "bin"          "COPYING"      "etc"          "lib"          "library"     
-## [6] "modules"      "site-library" "SVN-REVISION"
+## [1] "bin"          "COPYING"      "etc"          "lib"          "library"      "modules"     
+## [7] "site-library" "SVN-REVISION"
 ```
 
 .footnote[[1] [forwards workshops](https://librarycarpentry.org/Top-10-FAIR/2018/12/01/research-software/)]
@@ -656,6 +656,22 @@ Which adds a new section to DESCRIPTION:
 Imports: 
     lubridate,
     dplyr
+```
+
+---
+## Adding dependencies : %&gt;% !
+
+We make use of the `magrittr` pipe in our code, therefore we need to make sure our package specifies this dependency correctly.
+
+```r
+usethis::use_pipe()
+```
+
+`usethis` tells us what it did:
+
+```r
+✓ Adding 'magrittr' to Imports field in DESCRIPTION
+✓ Writing 'R/utils-pipe.R'
 ```
 
 ---

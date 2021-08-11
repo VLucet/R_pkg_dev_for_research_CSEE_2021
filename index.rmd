@@ -648,6 +648,22 @@ Imports:
 ```
 
 ---
+## Adding dependencies : %>% !
+
+We make use of the `magrittr` pipe in our code, therefore we need to make sure our package specifies this dependency correctly.
+
+```r
+usethis::use_pipe()
+```
+
+`usethis` tells us what it did:
+
+```r
+✓ Adding 'magrittr' to Imports field in DESCRIPTION
+✓ Writing 'R/utils-pipe.R'
+```
+
+---
 ## Adding code
 
 It is good practice to organize code in __R/__ under different files. 
