@@ -1058,20 +1058,83 @@ We won't cover it here in detail but see [this workflow file](https://github.com
 ---
 ## A website for your package
 
+_DEMO: this require some setup we do not have the time to get into, but I still want to demo it. _
+
+The last nice thing that GA can do for us is set up a website for the documentation of our package, deployed by Actions and hosted of GitHub Pages.
+
+```r
+usethis::use_pkgdown_github_pages()
+```
+
 ---
 ## Distributing your package
 
----
-## Submitting to CRAN or BIOCONDUCTOR
+There are a few options for distributing your package. The simplest is to have it remain on GitHub. The following are sorted from easiest/least efforts to hardest/most efforts:
+
+1. Hosting on your own `r-universe`
+
+2. Submitting to CRAN or BIOCONDUCTOR
+
+3. Publishing to journal 
+
+4.  Submitting to ROpenSci
 
 ---
 ## Hosting on r-universe
 
+__r-universe__ is a platform for hosting your packages. 
+
+[It will build the binaries for windows and MacOs](https://vlucet.r-universe.dev/ui#builds). 
+
+The only requirements is to set up a GitHub repository called universe with a JSON file that indicates which packages to build:
+
+```JSON
+[
+    {
+        "package": "rgovcan",
+        "url": "https://github.com/VLucet/rgovcan"
+    },
+    {
+        "package": "rgrassdoc",
+        "url": "https://github.com/VLucet/rgrassdoc"
+    }
+]
+```
+
 ---
-## Submitting to ROpenSci
+## Submitting to CRAN or BIOCONDUCTOR
+
+A standard in terms of distributing packages. 
+
+The requirements are extensive, but boils down to being able to run
+
+```r
+devtools::check(cran = TRUE)
+```
+
+On all platforms and and R versions (including R-devel) without trigerring any error, warnings or significant notes. 
+
+All requirements are laid out [here](https://cran.r-project.org/web/packages/policies.html).
+
+`devtools` can take care of submitting your package to CRAN auto-magically.
+
+```r
+devtools::submit_cran()
+```
 
 ---
 ## Publishing in a journal
+
+You can consider submitting: 
+
+- to JOSS
+
+- to a methods journal (MEE for example)
+
+---
+## Submitting to ROpenSci
+
+The most rigorous process an R package can go through for publication.
 
 ---
 ## Things we have not covered
