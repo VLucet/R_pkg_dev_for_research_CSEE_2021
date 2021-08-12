@@ -1,5 +1,5 @@
 # Short script to install all dependencies
 
-packages <- c("lubridate", 
-              "dplyr")
-install.packages(packages)
+pkgs <- c("devtools", "roxygen2", "usethis", "testthat", 
+          "covr", "lubridate", "dplyr")
+install.packages(pkgs)
