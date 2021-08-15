@@ -30,7 +30,7 @@ get_weekly_data <- function(clean = TRUE) {
 
 ppm_from_date <- function(date) {
   
-  date_formatted <- lubridate::ymd("1996-10-29")
+  date_formatted <- lubridate::ymd(date)
   
   co2_data_clean <- get_weekly_data(clean = TRUE)
   

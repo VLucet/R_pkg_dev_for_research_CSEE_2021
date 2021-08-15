@@ -244,7 +244,7 @@ class: inverse center middle
 # To Package or not to Package?
 
 ---
-## Should your package exists?<sup>1</sup>
+## Should your package exist?<sup>1</sup>
 
 1. Will this piece of software really be useful to someone else than you (or to you in the future)? 
 
@@ -263,12 +263,12 @@ class: inverse center middle
 
 _"Packaging doesn't have to be about sharing the code, it can just be to save yourself time."_<sup>1</sup>
 
-Packages do not have to be written for someone else than yourself. Consider writing a personal package. For example, consider packaging scripts that:
+For example, consider packaging scripts that:
 - You have re-used more than once
 - You have shared with students and/or collaborators
 - Produces a specific analysis or figure that is often re-used within your lab
 
-Consider starting a __lab package project__ where students are encouraged to contribute functions and document them, therefore ensuring that the coding knowledge accumulated through often tedious trial and error is curated and can serve you and your students in the future.
+Consider starting a __lab package project__ where students are encouraged to contribute functions and document them.
 
 .footnote[[1] [H. Parker's blog post](https://hilaryparker.com/2014/04/29/writing-an-r-package-from-scratch/)]
 
@@ -548,7 +548,7 @@ get_weekly_data <- function(clean = TRUE) {
 ```r
 ppm_from_date <- function(date) {
   
-  date_formatted <- lubridate::ymd("1996-10-29")
+  date_formatted <- lubridate::ymd(date)
   
   co2_data_clean <- get_weekly_data(clean = TRUE)
   
@@ -715,7 +715,7 @@ get_weekly_data <- function(clean = TRUE) {
 ```{r, fig.show='hide', eval=FALSE}
 ppm_from_date <- function(date) {
   
-  date_formatted <- lubridate::ymd("1996-10-29")
+  date_formatted <- lubridate::ymd(date)
   
   co2_data_clean <- get_weekly_data(clean = TRUE)
   
