@@ -767,7 +767,7 @@ ppm_from_date &lt;- function(date) {
 We now need to run `roxygen` to confirm the function export.
 
 ```r
-devtools::document
+devtools::document()
 ```
 
 This will edit the package NAMESPACE file which now looks like:
@@ -825,7 +825,7 @@ devtools::document()
 ---
 ## Trying out functions
 
-While you develop the package, it is important to know about `devtools::load_all`. This will make ALL functions in the package available to you to test things interactively.
+While you develop the package, it is important to know about `devtools::load_all()`. This will make ALL functions in the package available to you to test things interactively.
 
 You can also try out non-exported functions that way:
 
@@ -916,9 +916,9 @@ In summary:
 
 1. Modify code =&gt; `load_all()` =&gt; try out code
 
-2. Modify documentation =&gt; `document()` =&gt; `install` =&gt; very doc
+2. Modify documentation =&gt; `document()` (=&gt; `install()`) =&gt; verify doc
 
-4. `install` + `check()`
+4. `install()` + `check()`
 
 5. Repeat!
 
@@ -1194,7 +1194,6 @@ name: sources
 
 &lt;!-- Retired slides
 
----
 ## OOP in R
 
 The 3 most popular types of OOP frameworks in R&lt;sup&gt;1&lt;/sup&gt; :
@@ -1211,8 +1210,6 @@ In a nutshell: __choose S3 for simplicity, S4 for rigor and R6 if you need mutab
 
 .footnote[[1] [Advanced R Book](https://adv-r.hadley.nz/oo.html)]
 
-
----
 ## Startup files
 
 __.Rprofile__
