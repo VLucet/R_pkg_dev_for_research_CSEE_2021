@@ -256,7 +256,7 @@ class: inverse center middle
 
 5. As a researcher, are you ready to commit to maintaining the package (fix bugs, provide continuous support) after release/publication. (re: contributing instead)
 
-.footnote[[1] [M. Simon's blog post](https://masalmon.eu/2017/12/11/goodrpackages/)]
+.footnote[[1] [M. Salmon's blog post](https://masalmon.eu/2017/12/11/goodrpackages/)]
 
 ---
 ## Private packages
@@ -300,7 +300,7 @@ I would add, consider principles of the [Unix philosophy](https://en.wikipedia.o
 
 2. "Do One Thing and Do It Well"
 
-.footnote[[1] [M. Simon's blog post](https://masalmon.eu/2017/12/11/goodrpackages/)]
+.footnote[[1] [M. Salmon's blog post](https://masalmon.eu/2017/12/11/goodrpackages/)]
 
 ---
 ## How to name your package
@@ -313,7 +313,7 @@ __Naming things is hard__. but here are a few pieces of advice<sup>1</sup> :
 
 3. If your package revolves around a __central function__ or interfaces with __another program__, consider using these as the name.
 
-.footnote[[1] [M. Simon's blog post](https://masalmon.eu/2017/12/11/goodrpackages/)]
+.footnote[[1] [M. Salmon's blog post](https://masalmon.eu/2017/12/11/goodrpackages/)]
 
 ---
 class: inverse center middle
@@ -807,7 +807,7 @@ devtools::document()
 ---
 ## The documentation workflow
 
-<a href="https://forwards.github.io/workshops/package-dev-modules/"> <img src="https://image.slidesharecdn.com/rpackagedevelopmentcreatepackagedocumentation-isabellagollini-181126113617/95/r-package-development-create-package-documentation-isabella-gollini-23-638.jpg?cb=1543232899" align="center" width="700" alt='Initial documentation workflow'/> </a>
+<a href="https://fr.slideshare.net/DataFestTbilisi/r-package-development-create-package-documentation-isabella-gollini"> <img src="https://image.slidesharecdn.com/rpackagedevelopmentcreatepackagedocumentation-isabellagollini-181126113617/95/r-package-development-create-package-documentation-isabella-gollini-12-638.jpg?cb=1543232899" align="center" width="700" alt='Initial documentation workflow'/> </a>
 
 ---
 ## Trying out functions
@@ -933,7 +933,7 @@ Tests served 2 main purposes:
 
 How big should a test be? Principles of __unit testing__ dictate that a test should check for the __behavior of a single function for a single combination of inputs__.
 
-This is debated and sometimes difficult to achieve (for example with package that replicate a complex workflow). 
+This is debated and sometimes difficult to achieve (for example with packages that replicate a complex workflow). 
 
 The smaller / simpler your functions, the easier it is to write tests for them. It is common that testing code equals or exceed the amount of tested code!
 
@@ -963,6 +963,12 @@ test_that("returned ppm value is correct",{
   expect_equal(ppm_from_date("1996-10-29"), 360.13)
 
 })
+```
+
+Now lets run the test:
+
+```r
+devtools::test() # OR CMD/CTRL+SHIFT+T
 ```
 
 ---
@@ -1017,7 +1023,7 @@ usethis::use_badge(
 ---
 ## Vignettes
 
-__Vignettes__ are an example of __long form documentation__. They are sued to introduce users to a package. 
+__Vignettes__ are an example of __long form documentation__. They are used to introduce users to a package. 
 
 It is usually recommended (but not required) to have a vignette written when you submit to CRAN.
 
@@ -1035,10 +1041,12 @@ An important concept in package maintenance is making sure that your software co
 
 How can you make sure your package runs fine on MacOS, Linux, Windows, when you probably only have access to one of the 3?
 
+<a href="https://i.ytimg.com/vi/HnWuIjUw_Q8/maxresdefault.jpg"> <img src="https://i.ytimg.com/vi/HnWuIjUw_Q8/maxresdefault.jpg" align="center" width="650" alt='Diagram showing how continuous integration works'/> </a>
+
 ---
 ## GitHub actions
 
-GA is a free (up to certain time limit for OS project) service from github. 
+GA is a free (up to certain time limit for OS project) service from GitHub 
 
 You can run any script on any platform for free and output the results programmatically. The process is setup with __workflow files__.
 
@@ -1056,17 +1064,20 @@ You can also set up as GA to monitor code coverage continuously.
 
 We won't cover it here in detail but see [this workflow file](https://github.com/r-lib/actions/blob/master/.github/workflows/test-coverage.yaml) for reference. 
 
+A corresponding badge can be added to signal the level of code coverage.
 
 ---
 ## A website for your package
 
 _DEMO: this require some setup we do not have the time to get into, but I still want to demo it. _
 
-The last nice thing that GA can do for us is set up a website for the documentation of our package, deployed by Actions and hosted of GitHub Pages.
+The last nice thing that GA can do for us is set up a website for the documentation of our package, using __`pkgdown`__, deployed by GitHub Actions and hosted of GitHub Pages.
 
 ```r
 usethis::use_pkgdown_github_pages()
 ```
+
+<a href="https://pkgdown.r-lib.org"> <img src="https://pkgdown.r-lib.org/logo.png" align="center" width="150" alt='pkgdown logo'/> </a>
 
 ---
 ## Distributing your package
@@ -1077,16 +1088,16 @@ There are a few options for distributing your package. The simplest is to have i
 
 2. Submitting to CRAN or BIOCONDUCTOR
 
-3. Publishing to journal 
+3. Publishing to a journal 
 
-4.  Submitting to ROpenSci
+4. Submitting to ROpenSci
 
 ---
 ## Hosting on r-universe
 
 __r-universe__ is a platform for hosting your packages. 
 
-[It will build the binaries for windows and MacOs](https://vlucet.r-universe.dev/ui#builds). 
+[It will build the binaries for you](https://vlucet.r-universe.dev/ui#builds). 
 
 The only requirements is to set up a GitHub repository called universe with a JSON file that indicates which packages to build:
 
@@ -1114,7 +1125,7 @@ The requirements are extensive, but boils down to being able to run
 devtools::check(cran = TRUE)
 ```
 
-On all platforms and and R versions (including R-devel) without trigerring any error, warnings or significant notes. 
+On all platforms (hence why we use GitHub Actions) and and R versions (including R-devel) without triggering any error, warnings or significant notes. 
 
 All requirements are laid out [here](https://cran.r-project.org/web/packages/policies.html).
 
@@ -1129,14 +1140,28 @@ devtools::submit_cran()
 
 You can consider submitting: 
 
-- to JOSS
+- to JOSS (Journal of Open Source Software)
 
 - to a methods journal (MEE for example)
+
+- to a journal that publishes software notes (for example Ecography)
 
 ---
 ## Submitting to ROpenSci
 
-The most rigorous process an R package can go through for publication.
+<a href="https://pkgdown.r-lib.org"> <img src="https://mablab.org/post/ropensci_files/icon_lettering_color.png" align="center" width="200" alt='Initial development workflow'/> </a>
+
+- The most rigorous process an R package can go through for review and publication
+
+- Review for statistical software as well
+
+- "_packages contributed by the community undergo a transparent, constructive, non adversarial and open review process_" <sup>1</sup> 
+
+1. Get feedback
+2. Promote the package
+3. Fast track publication to JOSS
+
+.footnote[[1] [ROpenSci software peer review](https://ropensci.org/software-review/)]
 
 ---
 ## Things we have not covered
@@ -1165,7 +1190,7 @@ name: sources
 # Sources
 
 * Hadley Wickham's [R packages](https://r-pkgs.org/)
-* Maelle Simon's [How to develop good R packages (for open science)](https://masalmon.eu/2017/12/11/goodrpackages/)
+* Maelle Salmon's [How to develop good R packages (for open science)](https://masalmon.eu/2017/12/11/goodrpackages/)
 * [Forwards Workshops](https://forwards.github.io/workshops/), [#1](https://forwards.github.io/workshops/package-dev-modules/slides/01-packages-in-a-nutshell/packages-in-a-nutshell.html#1), [#2](https://forwards.github.io/workshops/package-dev-modules/slides/02-setting-up-system/setting-up-system.html#1) and [#3](https://forwards.github.io/workshops/package-dev-modules/slides/03-your-first-package/your-first-package.html#1)
 * Hilary Parker's [Writing an R Package from Scratch](https://hilaryparker.com/2014/04/29/writing-an-r-package-from-scratch/)
 * [rrtools](https://github.com/benmarwick/rrtools) and [accompanying book](https://annakrystalli.me/rrresearch/10_compendium.html) & [research compendium reference](https://research-compendium.science/)
